@@ -35,12 +35,13 @@ digraph validate {
 ### Step 2: 复制到项目
 
 ```bash
-# 对每个 skill：
+# 对每个 skill，先清除旧目录再复制，避免合并冲突：
+rm -rf skills/<skill-name>/
 cp -r <skill-dir> skills/<skill-name>/
 ```
 
 - 目标路径：`skills/<skill-name>/`（skill-name 取自 YAML frontmatter 的 `name` 字段）
-- 如果目标已存在，提示用户确认是否覆盖
+- 如果目标已存在，提示用户确认是否覆盖；确认后先 `rm -rf` 再 `cp -r`，确保完整替换而非合并
 - 清理 placeholder 文件：删除仅含模板内容的 `references/`、`scripts/`、`assets/` 文件
 
 ### Step 3: 更新 README.md
@@ -60,9 +61,7 @@ cp -r <skill-dir> skills/<skill-name>/
 
 ```bash
 git add skills/<skill-name>/ README.md
-git commit -m "feat: add <skill-name> skill
-
-<one-line description>"
+git commit -m "feat: add <skill-name> skill" -m "<one-line description>"
 ```
 
 - 多个 skill 时，每个 skill 一个 commit，或合并为一个 commit（取决于用户偏好）
