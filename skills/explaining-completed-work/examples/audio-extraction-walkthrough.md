@@ -2,7 +2,7 @@
 
 ## Scenario
 
-The user asked to extract the audio from two `.mp4` files, preserve the original audio quality as much as possible, and add the result into the macOS Music app.
+The user asked to extract the audio from two `.mp4` files, preserve the original audio quality as much as possible, and add the result to the macOS Music app.
 
 ## Example Explanation
 
