@@ -12,6 +12,7 @@ A curated collection of [Claude Code](https://docs.anthropic.com/en/docs/claude-
 | [structural-integrity-scan](skills/structural-integrity-scan/) | Use when an article compares multiple entities in parallel and you suspect the comparison may be artificial, unequal, or evidence-driven by narrative rather than fact. |
 | [two-mirror-examples](skills/two-mirror-examples/) | 双镜例证法：为文章论点寻找高洞见力的例子。产出远镜（跨越百年的组织级案例）和近镜（身边司空见惯但点破即顿悟的例子），核心是「先找机制，再找故事」。 |
 | [cdp-page-to-md](skills/cdp-page-to-md/) | Fetch authenticated or JS-rendered web pages via Chrome CDP and convert them to clean Markdown files. |
+| [zh-proofreading](skills/zh-proofreading/) | 中文校对扫描：逐段扫描中文文章的错别字、语病、标点和中英混排问题，输出分级修复清单。支持三阶段流程（初扫→二次核查→汇总）。 |
 
 ## Installation
 
@@ -31,6 +32,7 @@ cp -r yousa-skills/skills/social-strategist ~/.claude/skills/social-strategist
 cp -r yousa-skills/skills/structural-integrity-scan ~/.claude/skills/structural-integrity-scan
 cp -r yousa-skills/skills/two-mirror-examples ~/.claude/skills/two-mirror-examples
 cp -r yousa-skills/skills/cdp-page-to-md ~/.claude/skills/cdp-page-to-md
+cp -r yousa-skills/skills/zh-proofreading ~/.claude/skills/zh-proofreading
 ```
 
 After copying, the skill will be available in your Claude Code sessions automatically.
