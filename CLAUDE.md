@@ -29,7 +29,7 @@ Followed by: overview, when-to-use/triggers, core workflow (step-by-step), examp
 ### README.md Updates
 
 When adding a skill, update `README.md`:
-1. Add a row to the Skills table: `| [<name>](skills/<name>/) | <description> |`
+1. Add a row to the Skills table: `| [<name>](skills/<name>/) | <description> |` (description truncated to ~120 chars if needed)
 2. Add an installation example in the Installation section
 
 ### Git Workflow

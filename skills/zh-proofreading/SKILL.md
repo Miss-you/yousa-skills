@@ -149,7 +149,7 @@ Agent A 和 B 的初扫结果汇总后，交给 Agent C 做二次送检。Agent 
 ```python
 import re
 
-with open(filepath, 'r') as f:
+with open(filepath, 'r', encoding='utf-8') as f:
     text = f.read()
 
 # 中文后接英文/数字：加空格
@@ -157,14 +157,14 @@ text = re.sub(r'([\u4e00-\u9fff])([A-Za-z0-9])', r'\1 \2', text)
 # 英文/数字后接中文：加空格
 text = re.sub(r'([A-Za-z0-9])([\u4e00-\u9fff])', r'\1 \2', text)
 # 中文标点后不要空格
-text = re.sub(r'([，。、；：！？」）》】]) ([A-Z])', r'\1\2', text)
+text = re.sub(r'([，。、；：！？」）》】]) ', r'\1', text)
 # 「」（）内侧不要空格
 text = re.sub(r'([「『（《【]) ', r'\1', text)
 text = re.sub(r' ([」』）》】])', r'\1', text)
 # 清理双空格
 text = re.sub(r'  +', ' ', text)
 
-with open(filepath, 'w') as f:
+with open(filepath, 'w', encoding='utf-8') as f:
     f.write(text)
 ```
 
