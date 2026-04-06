@@ -14,6 +14,7 @@ A curated collection of [Claude Code](https://docs.anthropic.com/en/docs/claude-
 | [cdp-page-to-md](skills/cdp-page-to-md/) | Fetch authenticated or JS-rendered web pages via Chrome CDP and convert them to clean Markdown files. |
 | [zh-proofreading](skills/zh-proofreading/) | 中文校对扫描：逐段扫描中文文章的错别字、语病、标点和中英混排问题，输出分级修复清单。支持三阶段流程（初扫→二次核查→汇总）。 |
 | [secret-scan](skills/secret-scan/) | Use when about to git commit, git push, or create PRs. Scans staged/changed files for leaked secrets (API keys, tokens, passwords, credentials). |
+| [pr-review-autofix](skills/pr-review-autofix/) | Local cron that scans an open PR for AI code review comments (Copilot, Codex, etc.), auto-fixes them, and optionally merges when ready. |
 
 ## Installation
 
@@ -35,6 +36,7 @@ cp -r yousa-skills/skills/two-mirror-examples ~/.claude/skills/two-mirror-exampl
 cp -r yousa-skills/skills/cdp-page-to-md ~/.claude/skills/cdp-page-to-md
 cp -r yousa-skills/skills/zh-proofreading ~/.claude/skills/zh-proofreading
 cp -r yousa-skills/skills/secret-scan ~/.claude/skills/secret-scan
+cp -r yousa-skills/skills/pr-review-autofix ~/.claude/skills/pr-review-autofix
 ```
 
 After copying, the skill will be available in your Claude Code sessions automatically.
