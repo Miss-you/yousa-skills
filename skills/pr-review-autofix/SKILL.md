@@ -17,7 +17,7 @@ Create a local cron job that periodically scans an open PR for AI code review co
 
 - PR needs human review approval (not just AI suggestions)
 - User wants manual control over each fix
-- Remote/cloud scheduling needed (use RemoteTrigger instead)
+- Remote/cloud scheduling is needed; this skill only supports local cron-based automation, so use a separate remote scheduling service instead
 
 ## Input
 
@@ -26,7 +26,7 @@ User provides:
 2. **Mode** (optional, default: `fix-and-merge`)
    - `fix-and-merge`: auto-fix review comments AND merge when clean
    - `fix-only`: auto-fix review comments but do NOT merge
-3. **Interval** (optional, default: `*/10` i.e. every 10 minutes)
+3. **Interval** (optional, default: `*/10 * * * *` i.e. every 10 minutes)
 
 ## Core Workflow
 
@@ -36,31 +36,39 @@ digraph pr_autofix {
     "Parse PR info" [shape=box];
     "Create CronCreate job" [shape=box];
     "Cron fires" [shape=box, style=filled, fillcolor=lightblue];
+    "Checkout & sync branch" [shape=box];
+    "PR still open?" [shape=diamond];
+    "CronDelete self" [shape=box];
     "Fetch review comments" [shape=box];
     "Unresolved comments?" [shape=diamond];
     "Read & fix each comment" [shape=box];
+    "Has staged changes?" [shape=diamond];
     "Commit & push" [shape=box];
     "Mode = fix-and-merge?" [shape=diamond];
-    "All checks pass?" [shape=diamond];
+    "Checks pass & review approved?" [shape=diamond];
     "Merge PR" [shape=box, style=filled, fillcolor=green];
-    "CronDelete self" [shape=box];
     "Skip, wait next tick" [shape=box];
     "Done" [shape=doublecircle];
 
     "Parse PR info" -> "Create CronCreate job";
     "Create CronCreate job" -> "Cron fires";
-    "Cron fires" -> "Fetch review comments";
+    "Cron fires" -> "Checkout & sync branch";
+    "Checkout & sync branch" -> "PR still open?";
+    "PR still open?" -> "Fetch review comments" [label="yes"];
+    "PR still open?" -> "CronDelete self" [label="no"];
+    "CronDelete self" -> "Done";
     "Fetch review comments" -> "Unresolved comments?";
     "Unresolved comments?" -> "Read & fix each comment" [label="yes"];
-    "Read & fix each comment" -> "Commit & push";
+    "Read & fix each comment" -> "Has staged changes?";
+    "Has staged changes?" -> "Commit & push" [label="yes"];
+    "Has staged changes?" -> "Skip, wait next tick" [label="no"];
     "Commit & push" -> "Skip, wait next tick";
     "Unresolved comments?" -> "Mode = fix-and-merge?" [label="no"];
-    "Mode = fix-and-merge?" -> "All checks pass?" [label="yes"];
+    "Mode = fix-and-merge?" -> "Checks pass & review approved?" [label="yes"];
     "Mode = fix-and-merge?" -> "Skip, wait next tick" [label="no (fix-only)"];
-    "All checks pass?" -> "Merge PR" [label="yes"];
-    "All checks pass?" -> "Skip, wait next tick" [label="no / pending"];
+    "Checks pass & review approved?" -> "Merge PR" [label="yes"];
+    "Checks pass & review approved?" -> "Skip, wait next tick" [label="no / pending"];
     "Merge PR" -> "CronDelete self";
-    "CronDelete self" -> "Done";
     "Skip, wait next tick" -> "Cron fires" [style=dashed];
 }
 ```
@@ -98,17 +106,25 @@ Use `CronCreate` with `durable: true` so the job survives session restarts.
 You are monitoring PR #{pr_number} on {owner_repo} (branch: {branch}).
 Mode: {fix-and-merge | fix-only}
 
-## Step 1: Fetch review comments
+## Step 1: Check PR state and sync branch
+
+First, check out and sync the PR branch, then verify PR is still open:
+
+git checkout {branch}
+git fetch origin {branch}
+git rebase origin/{branch}
+gh pr view {pr_number} --json state -q '.state'
+
+If PR state is "MERGED" or "CLOSED", self-terminate by calling CronDelete with the current job ID and stop.
+
+## Step 2: Fetch review comments
 
 Run these commands to get all review data:
 
 gh api repos/{owner_repo}/pulls/{pr_number}/comments
 gh api repos/{owner_repo}/pulls/{pr_number}/reviews
-gh pr view {pr_number} --json reviews,comments,state
 
-If PR state is "MERGED" or "CLOSED", output "PR already closed/merged. Please run CronDelete to remove this job." and stop.
-
-## Step 2: Identify actionable comments
+## Step 3: Identify actionable comments
 
 Filter for comments that:
 - Have a concrete code suggestion (look for ```suggestion blocks or specific change requests)
@@ -120,7 +136,7 @@ Ignore:
 - Comments already resolved
 - Comments on files that no longer exist
 
-## Step 3: Fix each actionable comment
+## Step 4: Fix each actionable comment
 
 For each actionable comment:
 1. Read the file and line(s) referenced
@@ -128,24 +144,26 @@ For each actionable comment:
 3. Apply the fix
 4. Stage the change
 
-After all fixes:
-git checkout {branch}
-git add -A
-git commit -m "fix: address AI code review feedback"
-git push origin {branch}
+After all fixes, only commit/push if there are staged changes:
+- If `git diff --cached --quiet` returns non-zero (has changes):
+  - `git commit -m "fix: address AI code review feedback"`
+  - `git push origin {branch}`
+- If no staged changes, skip commit/push and report nothing changed.
 
-## Step 4: Merge decision (fix-and-merge mode only)
+## Step 5: Merge decision (fix-and-merge mode only)
 
-ONLY if mode is fix-and-merge AND no actionable comments were found in Step 2:
+ONLY if mode is fix-and-merge AND no actionable comments were found in Step 3:
 
+gh pr view {pr_number} --json reviewDecision,mergeable
 gh pr checks {pr_number}
 
-- If all checks pass (or no checks configured): gh pr merge {pr_number} --merge
+- If reviewDecision is "APPROVED" or review is not required, AND all checks pass (or no checks configured): `gh pr merge {pr_number} --merge`
+- If reviewDecision is "REVIEW_REQUIRED" or "CHANGES_REQUESTED": do NOT merge, report that human approval is still needed
 - If checks failing: report what's failing, do NOT merge
 
-After successful merge, output: "PR #{pr_number} merged successfully. Please run CronDelete to remove this job."
+After successful merge, self-terminate by calling CronDelete with the current job ID.
 
-## Step 5: Summary
+## Step 6: Summary
 
 Output a brief summary:
 - Comments found / fixed count
