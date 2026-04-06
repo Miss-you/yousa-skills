@@ -26,7 +26,7 @@ Check staged/changed files for these patterns:
 | AWS Key | `AKIA[0-9A-Z]{16}` | `AKIAIOSFODNN7EXAMPLE` |
 | Password in URL | `://[^:]+:[^@]+@` | `mysql://root:pass@host` |
 | Private Key | `-----BEGIN.*PRIVATE KEY-----` | PEM private keys |
-| Generic Secret | `(secret\|password\|passwd\|token\|api_key)\s*[=:]\s*["'][^"']{8,}` | `password = "abc123xyz"` |
+| Generic Secret | `(secret|password|passwd|token|api_key)\s*[=:]\s*["'][^"']{8,}` | `password = "abc123xyz"` |
 | Base64 long blob | Inline base64 > 200 chars in source code | Data URI with actual image data |
 | .env values | `^[A-Z_]+=.{20,}` in `.env` files | `DATABASE_URL=postgres://...` |
 
@@ -61,25 +61,26 @@ git status --porcelain | awk '{print $2}'
 **Step 2:** Run scan (exclude binary files, known safe patterns)
 
 ```bash
-# Core scan command
-grep -rn -E "(sk-[a-zA-Z0-9]{20,}|AKIA[0-9A-Z]{16}|-----BEGIN.*PRIVATE KEY|Bearer [a-zA-Z0-9_\-\.]{20,})" <files>
+# Core scan command (covers all documented pattern types)
+grep -rn -E "(sk-[a-zA-Z0-9]{20,}|AKIA[0-9A-Z]{16}|-----BEGIN.*PRIVATE KEY|Bearer [a-zA-Z0-9_\-\.]{20,}|://[^:]+:[^@]+@|(secret|password|passwd|token|api_key)\s*[=:]\s*[\"'][^\"']{8,})" <files>
 ```
 
 **Step 3:** Review results
-- Ignore matches inside: `token.yaml`, `.env`, `.env.*`, `*.example`, test mocks with `"sk-test-key"`
-- Flag matches in: `.py`, `.js`, `.ts`, `.yaml`, `.yml`, `.json`, `.md`, `.sh` source files
+- Ignore matches inside: `*.example`, test mocks with `"sk-test-key"`
+- Flag matches in: `.py`, `.js`, `.ts`, `.yaml`, `.yml`, `.json`, `.sh`, `.env`, `.env.*` source files
+- Flag matches in `.md` files; treat as informational if the match is an obvious placeholder or documentation example, but BLOCK if it contains a real credential
 - BLOCK if real credentials found in committed files
 
 ## Safe Patterns (Do NOT Flag)
 
 - `os.environ.get("MOONSHOT_API_KEY")` - reading env var, not a secret
 - `"sk-test-key"` or `"sk-xxx"` - obvious placeholders
-- `token.yaml` in `.gitignore` - already excluded
 - Test files with `MagicMock` / placeholder values
-- Documentation describing key formats (like this skill)
+- Documentation examples with dummy/placeholder key formats (like this skill file)
+- `.md` matches that reference key formats without real credential values
 
 ## If Secrets Found
 
 1. **Do NOT commit.** Report the file, line number, and pattern match.
-2. Move secret to environment variable or `token.yaml` (which should be in `.gitignore`).
+2. Move secret to environment variable or a local config file (ensure the file is listed in `.gitignore`).
 3. If secret was already committed: rotate the credential immediately, then `git filter-branch` or `git-filter-repo` to remove from history.

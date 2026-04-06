@@ -13,7 +13,7 @@ A curated collection of [Claude Code](https://docs.anthropic.com/en/docs/claude-
 | [two-mirror-examples](skills/two-mirror-examples/) | 双镜例证法：为文章论点寻找高洞见力的例子。产出远镜（跨越百年的组织级案例）和近镜（身边司空见惯但点破即顿悟的例子），核心是「先找机制，再找故事」。 |
 | [cdp-page-to-md](skills/cdp-page-to-md/) | Fetch authenticated or JS-rendered web pages via Chrome CDP and convert them to clean Markdown files. |
 | [zh-proofreading](skills/zh-proofreading/) | 中文校对扫描：逐段扫描中文文章的错别字、语病、标点和中英混排问题，输出分级修复清单。支持三阶段流程（初扫→二次核查→汇总）。 |
-| [secret-scan](skills/secret-scan/) | Scan staged/changed files for leaked secrets (API keys, tokens, passwords, credentials) before git commit, push, or PR creation. |
+| [secret-scan](skills/secret-scan/) | Use when about to git commit, git push, or create PRs. Scans staged/changed files for leaked secrets (API keys, tokens, passwords, credentials). |
 
 ## Installation
 
