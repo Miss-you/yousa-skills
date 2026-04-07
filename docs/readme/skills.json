@@ -1,0 +1,56 @@
+[
+  {
+    "name": "explaining-completed-work",
+    "path": "skills/explaining-completed-work",
+    "description_en": "Explain finished work with a Feynman-style walkthrough covering what changed, how it works, why it was chosen, and where the boundaries are.",
+    "description_zh": "用费曼式讲解回顾已完成的工作，说明改了什么、怎么工作的、为什么这样选、边界在哪里。"
+  },
+  {
+    "name": "tmux-dispatch",
+    "path": "skills/tmux-dispatch",
+    "description_en": "Orchestrate multiple Claude Code processes via tmux for parallel batch task processing, with work-stealing scheduling and built-in quality gates.",
+    "description_zh": "通过 tmux 编排多个 Claude Code 进程来并行批量处理任务，支持 work-stealing 调度和内建质量门禁。"
+  },
+  {
+    "name": "social-strategist",
+    "path": "skills/social-strategist",
+    "description_en": "Analyze dialogue and chat screenshots for subtext, emotion, power dynamics, and reply strategies.",
+    "description_zh": "分析对话记录或聊天截图中的潜台词、情绪和权力动态，并给出多种回复策略。"
+  },
+  {
+    "name": "structural-integrity-scan",
+    "path": "skills/structural-integrity-scan",
+    "description_en": "Scan comparison-style articles for uneven comparisons, hidden asymmetry, and narrative-driven conclusions.",
+    "description_zh": "扫描并列对比型文章中的不对称比较、隐性偏差和被叙事推动的结论。"
+  },
+  {
+    "name": "two-mirror-examples",
+    "path": "skills/two-mirror-examples",
+    "description_en": "Find persuasive examples for a thesis using distant and near mirrors that share the same underlying mechanism.",
+    "description_zh": "用远镜和近镜寻找能支撑论点的高洞见例子，重点是找同构机制而不是相似故事。"
+  },
+  {
+    "name": "cdp-page-to-md",
+    "path": "skills/cdp-page-to-md",
+    "description_en": "Fetch authenticated or JavaScript-rendered web pages via Chrome CDP and convert them into clean Markdown.",
+    "description_zh": "通过 Chrome CDP 获取需要登录或由 JavaScript 渲染的网页，并转换成干净的 Markdown。"
+  },
+  {
+    "name": "zh-proofreading",
+    "path": "skills/zh-proofreading",
+    "description_en": "Scan Chinese prose for typos, grammar issues, punctuation problems, and mixed Chinese-Latin formatting issues.",
+    "description_zh": "逐段扫描中文文章的错别字、语病、标点问题和中英混排格式问题。"
+  },
+  {
+    "name": "secret-scan",
+    "path": "skills/secret-scan",
+    "description_en": "Scan staged or changed files for leaked secrets before commit, push, or PR creation.",
+    "description_zh": "在提交、推送或创建 PR 之前扫描已暂存或已修改的文件，检查是否泄露密钥。"
+  },
+  {
+    "name": "pr-review-autofix",
+    "path": "skills/pr-review-autofix",
+    "description_en": "Watch open PRs for AI code review comments and auto-fix them from local cron.",
+    "description_zh": "通过本地定时任务盯住打开的 PR，发现 AI code review 评论后自动修复。"
+  }
+]

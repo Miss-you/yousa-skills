@@ -1,0 +1,29 @@
+# yousa-skills
+
+A curated collection of [Claude Code](https://docs.anthropic.com/en/docs/claude-code) skills for enhancing AI-assisted workflows.
+
+{{language_switcher}}
+
+## Skills
+
+| Skill | Description |
+|-------|-------------|
+{{skills_table}}
+
+## Installation
+
+Copy a skill directory into your local Claude Code skills folder:
+
+```bash
+git clone https://github.com/Miss-you/yousa-skills.git
+skills=({{skill_names}})
+for skill in "${skills[@]}"; do
+  cp -r "yousa-skills/skills/${skill}" ~/.claude/skills/"${skill}"
+done
+```
+
+{{installation_examples}}
+
+## Maintenance
+
+To update these pages, edit `docs/readme/skills.json` for skill metadata or the templates in `docs/readme/templates/`, then rerun `python3 scripts/render_readmes.py`.

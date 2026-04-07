@@ -28,9 +28,13 @@ Followed by: overview, when-to-use/triggers, core workflow (step-by-step), examp
 
 ### README.md Updates
 
-When adding a skill, update `README.md`:
-1. Add a row to the Skills table: `| [<name>](skills/<name>/) | <description> |` (description truncated to ~120 chars if needed)
-2. Add an installation example in the Installation section
+`README.md` and `README.zh-CN.md` are generated files and must not be hand-edited.
+
+When adding or updating a skill:
+1. Update `docs/readme/skills.json` for README-facing skill metadata
+2. If page copy or structure changes, update the templates under `docs/readme/templates/`
+3. Run `python3 scripts/render_readmes.py`
+4. Verify both `README.md` and `README.zh-CN.md` were regenerated cleanly
 
 ### Git Workflow
 
@@ -44,6 +48,7 @@ When adding a skill, update `README.md`:
 - [ ] Description clearly states trigger conditions
 - [ ] Workflow steps are sequential and explicit
 - [ ] Common mistakes / edge cases documented
-- [ ] README.md skills table updated
-- [ ] README.md installation example updated
+- [ ] `docs/readme/skills.json` updated for the skill
+- [ ] `README.md` regenerated from source
+- [ ] `README.zh-CN.md` regenerated from source
 - [ ] No placeholder or TODO-only files committed

@@ -1,0 +1,29 @@
+# yousa-skills
+
+这是一个面向 AI 辅助工作流的 [Claude Code](https://docs.anthropic.com/en/docs/claude-code) skills 精选集合。
+
+{{language_switcher}}
+
+## 技能
+
+| 技能 | 说明 |
+|------|------|
+{{skills_table}}
+
+## 安装
+
+把需要的 skill 目录复制到本地 Claude Code skills 目录：
+
+```bash
+git clone https://github.com/Miss-you/yousa-skills.git
+skills=({{skill_names}})
+for skill in "${skills[@]}"; do
+  cp -r "yousa-skills/skills/${skill}" ~/.claude/skills/"${skill}"
+done
+```
+
+{{installation_examples}}
+
+## 维护
+
+更新这些页面时，技能元数据请修改 `docs/readme/skills.json`，页面文案或结构请修改 `docs/readme/templates/` 下的模板，然后重新运行 `python3 scripts/render_readmes.py`。
