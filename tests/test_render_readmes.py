@@ -124,6 +124,29 @@ class RenderReadmesTest(unittest.TestCase):
         self.assertIn("示例技能的中文说明。", chinese)
         self.assertNotIn("Example skill in English.", chinese)
 
+    def test_render_readme_uses_manifest_path_for_links_and_install_commands(self):
+        manifest = [
+            {
+                "name": "display-name",
+                "path": "skills/real-skill-dir",
+                "description_en": "Example skill in English.",
+                "description_zh": "示例技能的中文说明。",
+            }
+        ]
+
+        english = render_readme(
+            language="en",
+            manifest=manifest,
+            repo_root=Path("."),
+        )
+
+        self.assertIn("[display-name](skills/real-skill-dir/)", english)
+        self.assertIn(
+            "cp -r yousa-skills/skills/real-skill-dir ~/.claude/skills/real-skill-dir",
+            english,
+        )
+        self.assertNotIn("cp -r yousa-skills/skills/display-name", english)
+
     def test_render_readmes_includes_every_skill_in_installation_examples(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             repo_root = Path(tmpdir)

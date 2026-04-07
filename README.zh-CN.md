@@ -24,9 +24,10 @@
 
 ```bash
 git clone https://github.com/Miss-you/yousa-skills.git
-skills=(explaining-completed-work tmux-dispatch social-strategist structural-integrity-scan two-mirror-examples cdp-page-to-md zh-proofreading secret-scan pr-review-autofix)
-for skill in "${skills[@]}"; do
-  cp -r "yousa-skills/skills/${skill}" ~/.claude/skills/"${skill}"
+skill_paths=(skills/explaining-completed-work skills/tmux-dispatch skills/social-strategist skills/structural-integrity-scan skills/two-mirror-examples skills/cdp-page-to-md skills/zh-proofreading skills/secret-scan skills/pr-review-autofix)
+for skill_path in "${skill_paths[@]}"; do
+  skill_dir="${skill_path##*/}"
+  cp -r "yousa-skills/${skill_path}" ~/.claude/skills/"${skill_dir}"
 done
 ```
 

@@ -88,11 +88,19 @@ def _language_switcher(language: str) -> str:
     return "[English](README.md) | [简体中文](README.zh-CN.md)"
 
 
+def _skill_source_path(entry: dict) -> str:
+    return entry["path"].rstrip("/")
+
+
+def _skill_slug(entry: dict) -> str:
+    return Path(_skill_source_path(entry)).name
+
+
 def _format_skill_rows(language: str, manifest: list[dict]) -> str:
     lines = []
     desc_key = "description_en" if language == "en" else "description_zh"
     for entry in manifest:
-        lines.append(f"| [{entry['name']}](skills/{entry['name']}/) | {entry[desc_key]} |")
+        lines.append(f"| [{entry['name']}]({_skill_source_path(entry)}/) | {entry[desc_key]} |")
     return "\n".join(lines)
 
 
@@ -100,13 +108,15 @@ def _format_installation_examples(language: str, manifest: list[dict]) -> str:
     prefix = "Install each skill with one copy command:" if language == "en" else "使用一条复制命令安装每个 skill："
     lines = [prefix, "", "```bash"]
     for entry in manifest:
-        lines.append(f"cp -r yousa-skills/skills/{entry['name']} ~/.claude/skills/{entry['name']}")
+        lines.append(
+            f"cp -r yousa-skills/{_skill_source_path(entry)} ~/.claude/skills/{_skill_slug(entry)}"
+        )
     lines.append("```")
     return "\n".join(lines)
 
 
 def _skill_names(manifest: list[dict]) -> str:
-    return " ".join(entry["name"] for entry in manifest)
+    return " ".join(_skill_source_path(entry) for entry in manifest)
 
 
 def render_readme(language: str, manifest: list[dict], repo_root: Path | None = None) -> str:

@@ -16,9 +16,10 @@
 
 ```bash
 git clone https://github.com/Miss-you/yousa-skills.git
-skills=({{skill_names}})
-for skill in "${skills[@]}"; do
-  cp -r "yousa-skills/skills/${skill}" ~/.claude/skills/"${skill}"
+skill_paths=({{skill_names}})
+for skill_path in "${skill_paths[@]}"; do
+  skill_dir="${skill_path##*/}"
+  cp -r "yousa-skills/${skill_path}" ~/.claude/skills/"${skill_dir}"
 done
 ```
 
