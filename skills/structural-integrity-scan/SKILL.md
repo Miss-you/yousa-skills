@@ -1,6 +1,13 @@
 ---
 name: structural-integrity-scan
-description: Use when an article compares multiple entities (companies, approaches, strategies) in parallel and you suspect the comparison may be artificial, unequal, or evidence-driven by narrative rather than fact. Symptoms: "A took route X, B took route Y, C took route Z" structures; one entity credited with a feature others quietly share; comparing a specific tactic against a strategic principle; conclusions that exist to make the story prettier.
+description: >-
+  Use when an article compares multiple entities (companies, approaches,
+  strategies) in parallel and you suspect the comparison may be artificial,
+  unequal, or evidence-driven by narrative rather than fact. Symptoms include
+  "A took route X, B took route Y, C took route Z" structures, one entity
+  credited with a feature others quietly share, comparing a specific tactic
+  against a strategic principle, or conclusions that exist to make the story
+  prettier.
 ---
 
 # 结构完整性扫描

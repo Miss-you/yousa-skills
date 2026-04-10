@@ -17,6 +17,7 @@ A curated collection of [Claude Code](https://docs.anthropic.com/en/docs/claude-
 | [zh-proofreading](skills/zh-proofreading/) | Scan Chinese prose for typos, grammar issues, punctuation problems, and mixed Chinese-Latin formatting issues. |
 | [secret-scan](skills/secret-scan/) | Scan staged or changed files for leaked secrets before commit, push, or PR creation. |
 | [pr-review-autofix](skills/pr-review-autofix/) | Watch open PRs for AI code review comments and auto-fix them from local cron. |
+| [monitoring-pr-ai-reviews](skills/monitoring-pr-ai-reviews/) | Monitor post-push Copilot or other AI review comments on a PR, triage valid findings, and keep the PR clean until merge. |
 
 ## Installation
 
@@ -24,7 +25,7 @@ Copy a skill directory into your local Claude Code skills folder:
 
 ```bash
 git clone https://github.com/Miss-you/yousa-skills.git
-skill_paths=(skills/explaining-completed-work skills/tmux-dispatch skills/social-strategist skills/structural-integrity-scan skills/two-mirror-examples skills/cdp-page-to-md skills/zh-proofreading skills/secret-scan skills/pr-review-autofix)
+skill_paths=(skills/explaining-completed-work skills/tmux-dispatch skills/social-strategist skills/structural-integrity-scan skills/two-mirror-examples skills/cdp-page-to-md skills/zh-proofreading skills/secret-scan skills/pr-review-autofix skills/monitoring-pr-ai-reviews)
 for skill_path in "${skill_paths[@]}"; do
   skill_dir="${skill_path##*/}"
   cp -r "yousa-skills/${skill_path}" ~/.claude/skills/"${skill_dir}"
@@ -43,6 +44,7 @@ cp -r yousa-skills/skills/cdp-page-to-md ~/.claude/skills/cdp-page-to-md
 cp -r yousa-skills/skills/zh-proofreading ~/.claude/skills/zh-proofreading
 cp -r yousa-skills/skills/secret-scan ~/.claude/skills/secret-scan
 cp -r yousa-skills/skills/pr-review-autofix ~/.claude/skills/pr-review-autofix
+cp -r yousa-skills/skills/monitoring-pr-ai-reviews ~/.claude/skills/monitoring-pr-ai-reviews
 ```
 
 ## Maintenance
