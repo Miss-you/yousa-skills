@@ -17,7 +17,7 @@ A curated collection of [Claude Code](https://docs.anthropic.com/en/docs/claude-
 | [zh-proofreading](skills/zh-proofreading/) | Scan Chinese prose for typos, grammar issues, punctuation problems, and mixed Chinese-Latin formatting issues. |
 | [secret-scan](skills/secret-scan/) | Scan staged or changed files for leaked secrets before commit, push, or PR creation. |
 | [pr-review-autofix](skills/pr-review-autofix/) | Watch open PRs for AI code review comments and auto-fix them from local cron. |
-| [monitoring-pr-ai-reviews](skills/monitoring-pr-ai-reviews/) | Monitor post-push Copilot or other AI review comments on a PR, triage valid findings, and keep the PR clean until merge. |
+| [monitoring-pr-ai-reviews](skills/monitoring-pr-ai-reviews/) | Use when implementation is already complete, a GitHub PR exists or must be opened, and follow-up work is still needed because Copilot or other AI review comments may arrive after the initial push. |
 
 ## Installation
 

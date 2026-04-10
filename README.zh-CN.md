@@ -17,6 +17,7 @@
 | [zh-proofreading](skills/zh-proofreading/) | 逐段扫描中文文章的错别字、语病、标点问题和中英混排格式问题。 |
 | [secret-scan](skills/secret-scan/) | 在提交、推送或创建 PR 之前扫描已暂存或已修改的文件，检查是否泄露密钥。 |
 | [pr-review-autofix](skills/pr-review-autofix/) | 通过本地定时任务盯住打开的 PR，发现 AI code review 评论后自动修复。 |
+| [monitoring-pr-ai-reviews](skills/monitoring-pr-ai-reviews/) | 当实现已经完成、GitHub PR 已存在或即将创建，而且还需要继续跟进 Copilot 或其他 AI review 评论时使用。 |
 
 ## 安装
 
@@ -24,7 +25,7 @@
 
 ```bash
 git clone https://github.com/Miss-you/yousa-skills.git
-skill_paths=(skills/explaining-completed-work skills/tmux-dispatch skills/social-strategist skills/structural-integrity-scan skills/two-mirror-examples skills/cdp-page-to-md skills/zh-proofreading skills/secret-scan skills/pr-review-autofix)
+skill_paths=(skills/explaining-completed-work skills/tmux-dispatch skills/social-strategist skills/structural-integrity-scan skills/two-mirror-examples skills/cdp-page-to-md skills/zh-proofreading skills/secret-scan skills/pr-review-autofix skills/monitoring-pr-ai-reviews)
 for skill_path in "${skill_paths[@]}"; do
   skill_dir="${skill_path##*/}"
   cp -r "yousa-skills/${skill_path}" ~/.claude/skills/"${skill_dir}"
@@ -43,6 +44,7 @@ cp -r yousa-skills/skills/cdp-page-to-md ~/.claude/skills/cdp-page-to-md
 cp -r yousa-skills/skills/zh-proofreading ~/.claude/skills/zh-proofreading
 cp -r yousa-skills/skills/secret-scan ~/.claude/skills/secret-scan
 cp -r yousa-skills/skills/pr-review-autofix ~/.claude/skills/pr-review-autofix
+cp -r yousa-skills/skills/monitoring-pr-ai-reviews ~/.claude/skills/monitoring-pr-ai-reviews
 ```
 
 ## 维护

@@ -14,6 +14,8 @@ from pathlib import Path
 DEFAULT_AI_REVIEW_LOGINS = {
     "copilot-pull-request-reviewer",
     "Copilot",
+    "chatgpt-codex-connector",
+    "chatgpt-codex-connector[bot]",
 }
 
 
@@ -63,17 +65,12 @@ def gh_graphql(query: str, variables: dict[str, str | int | None]) -> dict:
     return json.loads(result.stdout)
 
 
-def load_pull_requests(repo: str, pr_number: int | None) -> list[dict]:
-    owner, name = repo.split("/", 1)
-    if pr_number is not None:
-        query = """
-query($owner:String!, $name:String!, $prNumber:Int!) {
+def load_review_threads(owner: str, name: str, pr_number: int) -> list[dict]:
+    query = """
+query($owner:String!, $name:String!, $prNumber:Int!, $cursor:String) {
   repository(owner:$owner, name:$name) {
     pullRequest(number:$prNumber) {
-      number
-      title
-      url
-      reviewThreads(first:100) {
+      reviewThreads(first:100, after:$cursor) {
         nodes {
           id
           isResolved
@@ -89,14 +86,53 @@ query($owner:String!, $name:String!, $prNumber:Int!) {
             }
           }
         }
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
       }
+    }
+  }
+}
+"""
+    cursor = None
+    threads: list[dict] = []
+    while True:
+        payload = gh_graphql(
+            query,
+            {"owner": owner, "name": name, "prNumber": pr_number, "cursor": cursor},
+        )
+        pull_request = payload["data"]["repository"]["pullRequest"]
+        if not pull_request:
+            return []
+        connection = pull_request["reviewThreads"]
+        threads.extend(connection["nodes"])
+        page_info = connection["pageInfo"]
+        if not page_info["hasNextPage"]:
+            return threads
+        cursor = page_info["endCursor"]
+
+
+def load_pull_requests(repo: str, pr_number: int | None) -> list[dict]:
+    owner, name = repo.split("/", 1)
+    if pr_number is not None:
+        query = """
+query($owner:String!, $name:String!, $prNumber:Int!) {
+  repository(owner:$owner, name:$name) {
+    pullRequest(number:$prNumber) {
+      number
+      title
+      url
     }
   }
 }
 """
         payload = gh_graphql(query, {"owner": owner, "name": name, "prNumber": pr_number})
         pr = payload["data"]["repository"]["pullRequest"]
-        return [pr] if pr else []
+        if not pr:
+            return []
+        pr["reviewThreads"] = {"nodes": load_review_threads(owner, name, pr_number)}
+        return [pr]
 
     query = """
 query($owner:String!, $name:String!, $cursor:String) {
@@ -106,23 +142,6 @@ query($owner:String!, $name:String!, $cursor:String) {
         number
         title
         url
-        reviewThreads(first:100) {
-          nodes {
-            id
-            isResolved
-            isOutdated
-            path
-            line
-            comments(first:20) {
-              nodes {
-                body
-                author {
-                  login
-                }
-              }
-            }
-          }
-        }
       }
       pageInfo {
         hasNextPage
@@ -137,7 +156,9 @@ query($owner:String!, $name:String!, $cursor:String) {
     while True:
         payload = gh_graphql(query, {"owner": owner, "name": name, "cursor": cursor})
         connection = payload["data"]["repository"]["pullRequests"]
-        pull_requests.extend(connection["nodes"])
+        for pr in connection["nodes"]:
+            pr["reviewThreads"] = {"nodes": load_review_threads(owner, name, pr["number"])}
+            pull_requests.append(pr)
         page_info = connection["pageInfo"]
         if not page_info["hasNextPage"]:
             break
@@ -145,12 +166,16 @@ query($owner:String!, $name:String!, $cursor:String) {
     return pull_requests
 
 
-def is_ai_thread(thread: dict, ai_review_logins: set[str]) -> bool:
+def first_ai_comment(thread: dict, ai_review_logins: set[str]) -> dict | None:
     for comment in thread["comments"]["nodes"]:
         author = comment.get("author")
         if author and author.get("login") in ai_review_logins:
-            return True
-    return False
+            return comment
+    return None
+
+
+def is_ai_thread(thread: dict, ai_review_logins: set[str]) -> bool:
+    return first_ai_comment(thread, ai_review_logins) is not None
 
 
 def summarize_comment(body: str) -> str:
@@ -171,7 +196,9 @@ def collect_findings(pull_requests: list[dict], ai_review_logins: set[str]) -> l
                 or not is_ai_thread(thread, ai_review_logins)
             ):
                 continue
-            first_comment = thread["comments"]["nodes"][0]
+            first_comment = first_ai_comment(thread, ai_review_logins)
+            if not first_comment:
+                continue
             threads.append(
                 {
                     "id": thread["id"],
