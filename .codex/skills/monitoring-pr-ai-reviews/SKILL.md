@@ -38,7 +38,7 @@ Do not use this skill for:
    - Open a non-draft PR.
 2. Keep periodic monitoring enabled.
    - Scheduled workflow: `.github/workflows/pr-ai-review-monitor.yml`
-   - Local or CI scan: `python3 scripts/pr_ai_review_monitor.py --repo <owner/name> [--pr <number>] [--ai-login <login>]`
+   - Local or CI scan from this skill directory: `python3 ./scripts/pr_ai_review_monitor.py --repo <owner/name> [--pr <number>] [--ai-login <login>]`
    - Manual workflow run: `gh workflow run pr-ai-review-monitor.yml`
 3. Read review threads, not flat comments.
    - Keep thread ids, file anchors, outdated state, and resolution state.
@@ -58,12 +58,14 @@ Do not use this skill for:
 
 ## Quick Reference
 
+Commands below are relative to this skill directory.
+
 | Need | Action |
 | --- | --- |
 | Open or refresh PR | create a non-draft PR from the verified task branch |
-| Scan all open PRs | `python3 scripts/pr_ai_review_monitor.py --repo <owner/name>` |
-| Scan one PR | `python3 scripts/pr_ai_review_monitor.py --repo <owner/name> --pr <number>` |
-| Include another AI reviewer login | `python3 scripts/pr_ai_review_monitor.py --repo <owner/name> --ai-login <login>` |
+| Scan all open PRs | `python3 ./scripts/pr_ai_review_monitor.py --repo <owner/name>` |
+| Scan one PR | `python3 ./scripts/pr_ai_review_monitor.py --repo <owner/name> --pr <number>` |
+| Include another AI reviewer login | `python3 ./scripts/pr_ai_review_monitor.py --repo <owner/name> --ai-login <login>` |
 | Resolve a review thread | `gh api graphql -f query='mutation($id:ID!){resolveReviewThread(input:{threadId:$id}){thread{isResolved id}}}' -F id=<thread-id>` |
 | Re-check after push | run the monitor again and confirm zero unresolved AI review threads |
 

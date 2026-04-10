@@ -1,7 +1,30 @@
+import importlib.util
+from pathlib import Path
 import unittest
 from unittest.mock import patch
 
 from scripts import pr_ai_review_monitor as monitor
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+CANONICAL_SCRIPT = (
+    REPO_ROOT
+    / "skills"
+    / "monitoring-pr-ai-reviews"
+    / "scripts"
+    / "pr_ai_review_monitor.py"
+)
+
+
+def load_module(name: str, path: Path):
+    spec = importlib.util.spec_from_file_location(name, path)
+    if spec is None or spec.loader is None:
+        raise RuntimeError(f"Unable to load module from {path}")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+canonical_monitor = load_module("canonical_pr_ai_review_monitor", CANONICAL_SCRIPT)
 
 
 class PrAiReviewMonitorTest(unittest.TestCase):
@@ -38,6 +61,42 @@ class PrAiReviewMonitorTest(unittest.TestCase):
             monitor.resolve_ai_review_logins([]),
         )
 
+        self.assertEqual(1, len(findings))
+
+    def test_root_wrapper_delegates_to_skill_local_script(self):
+        pull_requests = [
+            {
+                "number": 9,
+                "title": "Monitor PR AI reviews",
+                "url": "https://example.test/pr/9",
+                "reviewThreads": {
+                    "nodes": [
+                        {
+                            "id": "thread-1",
+                            "isResolved": False,
+                            "isOutdated": False,
+                            "path": "skills/monitoring-pr-ai-reviews/scripts/pr_ai_review_monitor.py",
+                            "line": 42,
+                            "comments": {
+                                "nodes": [
+                                    {
+                                        "body": "Please keep this script self-contained.",
+                                        "author": {"login": "Copilot"},
+                                    }
+                                ]
+                            },
+                        }
+                    ]
+                },
+            }
+        ]
+
+        findings = canonical_monitor.collect_findings(
+            pull_requests,
+            canonical_monitor.resolve_ai_review_logins([]),
+        )
+
+        self.assertEqual(str(CANONICAL_SCRIPT), monitor.collect_findings.__code__.co_filename)
         self.assertEqual(1, len(findings))
 
     def test_collect_findings_uses_first_ai_comment_for_summary(self):
