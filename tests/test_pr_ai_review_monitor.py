@@ -1,0 +1,176 @@
+import unittest
+from unittest.mock import patch
+
+from scripts import pr_ai_review_monitor as monitor
+
+
+class PrAiReviewMonitorTest(unittest.TestCase):
+    def test_collect_findings_treats_codex_bot_as_ai_reviewer_by_default(self):
+        pull_requests = [
+            {
+                "number": 9,
+                "title": "Monitor PR AI reviews",
+                "url": "https://example.test/pr/9",
+                "reviewThreads": {
+                    "nodes": [
+                        {
+                            "id": "thread-1",
+                            "isResolved": False,
+                            "isOutdated": False,
+                            "path": "scripts/pr_ai_review_monitor.py",
+                            "line": 109,
+                            "comments": {
+                                "nodes": [
+                                    {
+                                        "body": "Please paginate review threads.",
+                                        "author": {"login": "chatgpt-codex-connector"},
+                                    }
+                                ]
+                            },
+                        }
+                    ]
+                },
+            }
+        ]
+
+        findings = monitor.collect_findings(
+            pull_requests,
+            monitor.resolve_ai_review_logins([]),
+        )
+
+        self.assertEqual(1, len(findings))
+
+    def test_collect_findings_uses_first_ai_comment_for_summary(self):
+        pull_requests = [
+            {
+                "number": 9,
+                "title": "Monitor PR AI reviews",
+                "url": "https://example.test/pr/9",
+                "reviewThreads": {
+                    "nodes": [
+                        {
+                            "id": "thread-1",
+                            "isResolved": False,
+                            "isOutdated": False,
+                            "path": "scripts/pr_ai_review_monitor.py",
+                            "line": 180,
+                            "comments": {
+                                "nodes": [
+                                    {
+                                        "body": "human follow-up",
+                                        "author": {"login": "maintainer"},
+                                    },
+                                    {
+                                        "body": "Prefer the first AI comment for the summary.",
+                                        "author": {"login": "Copilot"},
+                                    },
+                                ]
+                            },
+                        }
+                    ]
+                },
+            }
+        ]
+
+        findings = monitor.collect_findings(
+            pull_requests,
+            monitor.resolve_ai_review_logins([]),
+        )
+
+        self.assertEqual(
+            "Prefer the first AI comment for the summary.",
+            findings[0]["threads"][0]["summary"],
+        )
+
+    def test_load_review_threads_fetches_all_pages_for_one_pr(self):
+        first_page = {
+            "data": {
+                "repository": {
+                    "pullRequest": {
+                        "reviewThreads": {
+                            "nodes": [
+                                {
+                                    "id": "thread-1",
+                                    "isResolved": False,
+                                    "isOutdated": False,
+                                    "path": "a.py",
+                                    "line": 10,
+                                    "comments": {"nodes": [{"body": "one", "author": {"login": "Copilot"}}]},
+                                }
+                            ],
+                            "pageInfo": {"hasNextPage": True, "endCursor": "cursor-1"},
+                        }
+                    }
+                }
+            }
+        }
+        second_page = {
+            "data": {
+                "repository": {
+                    "pullRequest": {
+                        "reviewThreads": {
+                            "nodes": [
+                                {
+                                    "id": "thread-2",
+                                    "isResolved": False,
+                                    "isOutdated": False,
+                                    "path": "b.py",
+                                    "line": 20,
+                                    "comments": {"nodes": [{"body": "two", "author": {"login": "Copilot"}}]},
+                                }
+                            ],
+                            "pageInfo": {"hasNextPage": False, "endCursor": None},
+                        }
+                    }
+                }
+            }
+        }
+
+        with patch.object(monitor, "gh_graphql", side_effect=[first_page, second_page]) as gh_graphql:
+            threads = monitor.load_review_threads("owner", "repo", 7)
+
+        self.assertEqual(["thread-1", "thread-2"], [thread["id"] for thread in threads])
+        self.assertEqual(2, gh_graphql.call_count)
+
+    def test_load_pull_requests_hydrates_paginated_threads_for_open_prs(self):
+        pull_requests_page = {
+            "data": {
+                "repository": {
+                    "pullRequests": {
+                        "nodes": [
+                            {
+                                "number": 5,
+                                "title": "Add monitor",
+                                "url": "https://example.test/pr/5",
+                            }
+                        ],
+                        "pageInfo": {"hasNextPage": False, "endCursor": None},
+                    }
+                }
+            }
+        }
+        hydrated_threads = [
+            {
+                "id": "thread-1",
+                "isResolved": False,
+                "isOutdated": False,
+                "path": "scripts/pr_ai_review_monitor.py",
+                "line": 42,
+                "comments": {"nodes": [{"body": "paginate this", "author": {"login": "Copilot"}}]},
+            }
+        ]
+
+        with patch.object(monitor, "gh_graphql", return_value=pull_requests_page):
+            with patch.object(monitor, "load_review_threads", return_value=hydrated_threads) as load_review_threads:
+                pull_requests = monitor.load_pull_requests("owner/repo", None)
+
+        self.assertEqual(1, len(pull_requests))
+        self.assertEqual(
+            hydrated_threads,
+            pull_requests[0]["reviewThreads"]["nodes"],
+        )
+        load_review_threads.assert_called_once_with("owner", "repo", 5)
+
+
+if __name__ == "__main__":
+    unittest.main()

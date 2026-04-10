@@ -52,5 +52,11 @@
     "path": "skills/pr-review-autofix",
     "description_en": "Watch open PRs for AI code review comments and auto-fix them from local cron.",
     "description_zh": "通过本地定时任务盯住打开的 PR，发现 AI code review 评论后自动修复。"
+  },
+  {
+    "name": "monitoring-pr-ai-reviews",
+    "path": "skills/monitoring-pr-ai-reviews",
+    "description_en": "Use when implementation is already complete, a GitHub PR exists or must be opened, and follow-up work is still needed because Copilot or other AI review comments may arrive after the initial push.",
+    "description_zh": "当实现已经完成、GitHub PR 已存在或即将创建，而且还需要继续跟进 Copilot 或其他 AI review 评论时使用。"
   }
 ]
