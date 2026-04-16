@@ -18,6 +18,7 @@ A curated collection of [Claude Code](https://docs.anthropic.com/en/docs/claude-
 | [secret-scan](skills/secret-scan/) | Scan staged or changed files for leaked secrets before commit, push, or PR creation. |
 | [pr-review-autofix](skills/pr-review-autofix/) | Watch open PRs for AI code review comments and auto-fix them from local cron. |
 | [monitoring-pr-ai-reviews](skills/monitoring-pr-ai-reviews/) | Use when implementation is already complete, a GitHub PR exists or must be opened, and follow-up work is still needed because Copilot or other AI review comments may arrive after the initial push. |
+| [writing-commit](skills/writing-commit/) | Create local git commits by deriving scope and message from repository evidence, with secret scanning and verification gates. |
 
 ## Installation
 
@@ -25,7 +26,7 @@ Copy a skill directory into your local Claude Code skills folder:
 
 ```bash
 git clone https://github.com/Miss-you/yousa-skills.git
-skill_paths=(skills/explaining-completed-work skills/tmux-dispatch skills/social-strategist skills/structural-integrity-scan skills/two-mirror-examples skills/cdp-page-to-md skills/zh-proofreading skills/secret-scan skills/pr-review-autofix skills/monitoring-pr-ai-reviews)
+skill_paths=(skills/explaining-completed-work skills/tmux-dispatch skills/social-strategist skills/structural-integrity-scan skills/two-mirror-examples skills/cdp-page-to-md skills/zh-proofreading skills/secret-scan skills/pr-review-autofix skills/monitoring-pr-ai-reviews skills/writing-commit)
 for skill_path in "${skill_paths[@]}"; do
   skill_dir="${skill_path##*/}"
   cp -r "yousa-skills/${skill_path}" ~/.claude/skills/"${skill_dir}"
@@ -45,6 +46,7 @@ cp -r yousa-skills/skills/zh-proofreading ~/.claude/skills/zh-proofreading
 cp -r yousa-skills/skills/secret-scan ~/.claude/skills/secret-scan
 cp -r yousa-skills/skills/pr-review-autofix ~/.claude/skills/pr-review-autofix
 cp -r yousa-skills/skills/monitoring-pr-ai-reviews ~/.claude/skills/monitoring-pr-ai-reviews
+cp -r yousa-skills/skills/writing-commit ~/.claude/skills/writing-commit
 ```
 
 ## Maintenance
