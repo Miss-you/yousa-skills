@@ -58,5 +58,11 @@
     "path": "skills/monitoring-pr-ai-reviews",
     "description_en": "Use when implementation is already complete, a GitHub PR exists or must be opened, and follow-up work is still needed because Copilot or other AI review comments may arrive after the initial push.",
     "description_zh": "当实现已经完成、GitHub PR 已存在或即将创建，而且还需要继续跟进 Copilot 或其他 AI review 评论时使用。"
+  },
+  {
+    "name": "writing-commit",
+    "path": "skills/writing-commit",
+    "description_en": "Create local git commits by deriving scope and message from repository evidence, with secret scanning and verification gates.",
+    "description_zh": "通过检查仓库状态自动推导提交范围和提交信息来创建本地 git commit，内置密钥扫描和验证门禁。"
   }
 ]
