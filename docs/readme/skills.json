@@ -70,5 +70,11 @@
     "path": "skills/writing-contextual-todos",
     "description_en": "Write TODO docs as handoff artifacts with full context, acceptance criteria, and source attribution so future readers understand without chat history.",
     "description_zh": "将 TODO 文档写成交接产物，包含完整上下文、验收标准和来源归属，让未来读者无需聊天记录即可理解。"
+  },
+  {
+    "name": "creating-sourcecode-learning-sops",
+    "path": "skills/creating-sourcecode-learning-sops",
+    "description_en": "Create verified, multi-phase Study Operating Procedures for systematically learning a codebase feature, combining learning science with hands-on code verification.",
+    "description_zh": "创建经过验证的多阶段源码学习 SOP，结合学习科学和动手代码验证，系统性地学习代码库中的某个功能。"
   }
 ]
