@@ -23,7 +23,11 @@ Create a dedicated workspace with this structure:
 ```
 study-{feature}-sop/
 ├── README.md                    # The master SOP
-├── review-feedback.md           # Subagent review reports (v1, v2, ...)
+├── principles.md                # Learning & code-reading principles governing the SOP
+├── reviews/                     # Subagent review reports, one file per review pass
+│   ├── review-feedback-v1.md
+│   └── review-feedback-v2.md
+├── human-simulation.md          # Junior engineer simulation findings (Step 8)
 ├── phase1-birdview/             # Phase templates
 │   ├── code-map.md
 │   └── self-check.md
@@ -31,7 +35,7 @@ study-{feature}-sop/
 │   └── call-chain.md
 ├── phase3-tool/
 │   ├── deep-dive.md
-│   └── experiment.{py,sh}       # If applicable
+│   └── experiment.py            # If applicable; use experiment.sh instead only when shell is more appropriate
 ├── phase4-experiment/
 │   └── experiment-log.md
 ├── phase5-integration/
@@ -46,7 +50,7 @@ Use `WriteFile` or `Shell` to create these files immediately. Do not wait until 
 
 ## Step 2: Establish Principles
 
-Write a `principles.md` (or embed in `README.md`) that governs the SOP design. It must include principles from **both** dimensions:
+Write `principles.md` (created in Step 1) to govern the SOP design. It must include principles from **both** dimensions:
 
 ### Human Learning Science
 
@@ -134,7 +138,7 @@ D. Depth — Are hook mechanisms, event forwarding, state management, and error 
 Actions required:
 1. Read the SOP and all template files.
 2. Run verification commands for any suspicious references.
-3. Write a structured report to {path_to_review-feedback.md} containing:
+3. Write a structured report to `reviews/review-feedback-v1.md` containing:
    - Overall rating (1-5 stars) and one-sentence summary
    - Issues table: Severity [critical/warning/nice-to-have] | Description | Fix suggestion | Location
    - List of any factual errors found (wrong paths, non-existent tests)
@@ -157,7 +161,7 @@ For every **critical** and **warning** item:
 
 For **nice-to-have** items, apply the ones that clearly improve quality; skip the marginal ones.
 
-After fixing, if the number of changes is significant, **run a second subagent review** (v2) to validate the fixes. Update the review report filename (e.g., `review-v2-report.md`).
+After fixing, if the number of changes is significant, **run a second subagent review** (v2) to validate the fixes. Write the follow-up report to `reviews/review-feedback-v2.md`.
 
 ---
 
@@ -173,6 +177,7 @@ Before declaring completion, confirm every checkbox below is true:
 - [ ] At least one runnable experiment script is provided in the workspace
 - [ ] Final report template has a clear structure and a self-check quality checklist
 - [ ] No broken commands or non-existent file paths remain in the SOP
+- [ ] Human simulation report (`human-simulation.md`) has been generated and friction points addressed
 
 If any checkbox is unchecked, go back to the relevant step.
 
@@ -192,7 +197,7 @@ Do NOT actually spend hours reading code. Instead, simulate the experience:
 3. Verify that experiments can be copy-pasted and run without hidden dependencies.
 4. Flag any jargon that isn't explained or any command that assumes unstated context.
 
-Write your findings to {path_to_human-simulation.md} as:
+Write your findings to `human-simulation.md` (created in Step 1) as:
 - Friction points (ordered by severity)
 - Questions that the SOP left unanswered
 - Suggested micro-fixes (1-2 sentences each)
