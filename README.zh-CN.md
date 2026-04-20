@@ -21,6 +21,7 @@
 | [writing-commit](skills/writing-commit/) | 通过检查仓库状态自动推导提交范围和提交信息来创建本地 git commit，内置密钥扫描和验证门禁。 |
 | [writing-contextual-todos](skills/writing-contextual-todos/) | 将 TODO 文档写成交接产物，包含完整上下文、验收标准和来源归属，让未来读者无需聊天记录即可理解。 |
 | [creating-sourcecode-learning-sops](skills/creating-sourcecode-learning-sops/) | 创建经过验证的多阶段源码学习 SOP，结合学习科学和动手代码验证，系统性地学习代码库中的某个功能。 |
+| [checking-upstream-before-work](skills/checking-upstream-before-work/) | 开工前先检查上游仓库是否已有相关的 open PR 或近 5 天内合入的 PR，避免重复劳动或和他人冲突。 |
 
 ## 安装
 
@@ -28,7 +29,7 @@
 
 ```bash
 git clone https://github.com/Miss-you/yousa-skills.git
-skill_paths=(skills/explaining-completed-work skills/tmux-dispatch skills/social-strategist skills/structural-integrity-scan skills/two-mirror-examples skills/cdp-page-to-md skills/zh-proofreading skills/secret-scan skills/pr-review-autofix skills/monitoring-pr-ai-reviews skills/writing-commit skills/writing-contextual-todos skills/creating-sourcecode-learning-sops)
+skill_paths=(skills/explaining-completed-work skills/tmux-dispatch skills/social-strategist skills/structural-integrity-scan skills/two-mirror-examples skills/cdp-page-to-md skills/zh-proofreading skills/secret-scan skills/pr-review-autofix skills/monitoring-pr-ai-reviews skills/writing-commit skills/writing-contextual-todos skills/creating-sourcecode-learning-sops skills/checking-upstream-before-work)
 for skill_path in "${skill_paths[@]}"; do
   skill_dir="${skill_path##*/}"
   cp -r "yousa-skills/${skill_path}" ~/.claude/skills/"${skill_dir}"
@@ -51,6 +52,7 @@ cp -r yousa-skills/skills/monitoring-pr-ai-reviews ~/.claude/skills/monitoring-p
 cp -r yousa-skills/skills/writing-commit ~/.claude/skills/writing-commit
 cp -r yousa-skills/skills/writing-contextual-todos ~/.claude/skills/writing-contextual-todos
 cp -r yousa-skills/skills/creating-sourcecode-learning-sops ~/.claude/skills/creating-sourcecode-learning-sops
+cp -r yousa-skills/skills/checking-upstream-before-work ~/.claude/skills/checking-upstream-before-work
 ```
 
 ## 维护
