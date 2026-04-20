@@ -15,9 +15,14 @@ Use in any repo with an `upstream` or shared `origin` remote, except throwaway e
 
 ## Workflow
 
-1. Resolve the upstream repo:
+1. Resolve the upstream repo and remote name:
    ```bash
-   REMOTE=$(git remote get-url upstream 2>/dev/null || git remote get-url origin)
+   if git remote get-url upstream >/dev/null 2>&1; then
+     REMOTE_NAME=upstream
+   else
+     REMOTE_NAME=origin
+   fi
+   REMOTE=$(git remote get-url "$REMOTE_NAME")
    REPO=$(printf '%s\n' "$REMOTE" | sed -E 's#^(git@github.com:|https://github.com/)##; s#\.git$##')
    printf '%s\n' "$REPO"
    ```
@@ -25,9 +30,9 @@ Use in any repo with an `upstream` or shared `origin` remote, except throwaway e
 
 2. Generate 3-6 task terms: issue/error, command, subsystem, file/function/config names, symptom, and synonyms.
 
-3. Fetch if local base state matters:
+3. Fetch if local base state matters (use the remote resolved in step 1):
    ```bash
-   git fetch upstream --prune
+   git fetch "$REMOTE_NAME" --prune
    ```
 
 4. Compute the exact 5-day UTC window and run broad checks:
