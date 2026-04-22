@@ -26,7 +26,7 @@ When a user wants to systematically learn a specific feature in a codebase, do N
 
 ## Core Workflow
 
-Always follow these 8 steps in order:
+Always follow these 9 steps in order:
 
 1. **Create Workspace** — `study-{feature}-sop/` with subdirectories for each phase and final report
 2. **Establish Principles** — Write down the human learning + programmer code-reading principles that will govern the SOP design
@@ -36,6 +36,7 @@ Always follow these 8 steps in order:
 6. **Fix Issues** — Address every critical/warning found in the review; re-verify changed facts against the codebase
 7. **Acceptance Criteria** — Confirm the SOP meets the quality checklist before finishing
 8. **Human Simulation** — Have a subagent simulate a junior engineer following the SOP to surface remaining friction
+9. **Bilingual Rendering** — Translate prose to English + Chinese paired format in batches, preserving all code/diagrams, then self-check
 
 **REQUIRED:** For the full step-by-step instructions, subagent prompts, and acceptance checklist, read `workflow.md` in this skill directory.
 
@@ -47,6 +48,7 @@ Always follow these 8 steps in order:
 - [ ] Human learning principles explicitly embedded (active recall, Feynman technique, MRE)
 - [ ] Executable experiments/scripts that the learner can run safely
 - [ ] A final report template with clear structure and quality checklist
+- [ ] Bilingual rendering completed (English + Chinese paired), code/diagrams untouched, self-check passed
 
 ## Common Mistakes
 
@@ -54,3 +56,5 @@ Always follow these 8 steps in order:
 - **Skipping code verification** — file paths and test names drift; always run `grep`/`pytest` to confirm
 - **One-shot generation** — without subagent review, subtle inaccuracies (wrong function locations, outdated test names) remain hidden
 - **Missing experiments** — purely reading is passive; every SOP must include runnable experiments
+- **Translating code blocks or diagrams** — Step 9 must only translate prose; code fences, inline code, Mermaid/ASCII diagrams, file paths, shell commands, and identifiers must remain byte-identical
+- **One-shot bulk translation** — translating an entire file in a single pass causes drift and inconsistent terminology; always split into batches by `##` heading and maintain a glossary

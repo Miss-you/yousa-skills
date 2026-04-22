@@ -40,8 +40,11 @@ study-{feature}-sop/
 │   └── experiment-log.md
 ├── phase5-integration/
 │   └── architecture-diagram.md
-└── final/
-    └── learning-report.md
+├── final/
+│   └── learning-report.md
+└── i18n/                        # Step 9 artifacts
+    ├── glossary.md              # English → Chinese term mapping
+    └── translation-selfcheck.md # Self-check report for bilingual rendering
 ```
 
 Use `WriteFile` or `Shell` to create these files immediately. Do not wait until the end.
@@ -167,6 +170,8 @@ After fixing, if the number of changes is significant, **run a second subagent r
 
 ## Step 7: Acceptance Criteria
 
+> **When to run:** this is the **final completion gate**, executed only after Steps 8 and 9 are done. Its numeric position is historical (Steps 1–8 existed before Step 9 was added). Do not open this checklist until human simulation (Step 8) and bilingual rendering (Step 9) are both complete.
+
 Before declaring completion, confirm every checkbox below is true:
 
 - [ ] Workspace `study-{feature}-sop/` exists with all phase directories and templates
@@ -178,6 +183,7 @@ Before declaring completion, confirm every checkbox below is true:
 - [ ] Final report template has a clear structure and a self-check quality checklist
 - [ ] No broken commands or non-existent file paths remain in the SOP
 - [ ] Human simulation report (`human-simulation.md`) has been generated and friction points addressed
+- [ ] Step 9 bilingual rendering complete: every target file has English + Chinese paired prose, `i18n/glossary.md` exists, and `i18n/translation-selfcheck.md` shows all checks passed
 
 If any checkbox is unchecked, go back to the relevant step.
 
@@ -204,6 +210,115 @@ Write your findings to `human-simulation.md` (created in Step 1) as:
 ```
 
 Apply the micro-fixes that meaningfully reduce friction.
+
+---
+
+## Step 9: Bilingual Rendering (中英双语化)
+
+Only run this step **after** Steps 1–8 are complete and the English SOP is stable. Translation exposes prose ambiguities; doing it earlier forces re-translation.
+
+### 9.1 Scope — What to Translate vs. Preserve
+
+**Translate (prose):**
+- Paragraphs, list items, checklist text
+- Natural-language cells inside tables
+- Explanation/comment text authored by you
+
+**Headings — special case (see 9.3):**
+- Headings ARE translated, but use single-line `English · 中文` format (one heading, not two), so TOC and anchor IDs stay stable.
+
+**Preserve byte-identical (do NOT translate):**
+- Fenced code blocks (```...```) — including language tag and every character inside
+- Inline code (`...`)
+- Mermaid, ASCII, or other diagrams
+- File paths, shell commands, CLI flags
+- Identifiers: class names, function names, test names, variable names
+- YAML frontmatter
+- URLs and link targets (link text may be translated)
+
+### 9.2 Target Files
+
+Translate **Markdown prose artifacts only**. Never touch executable or non-prose files even if they live in the same phase directory.
+
+Translate (user-facing `.md` artifacts):
+- `README.md` (master SOP)
+- `principles.md`
+- All phase **template `.md` files** under `phase1-*/` through `phase5-*/` (e.g. `code-map.md`, `call-chain.md`, `deep-dive.md`, `experiment-log.md`, `architecture-diagram.md`, `self-check.md`)
+- `final/learning-report.md`
+
+Do **not** translate:
+- Executable scripts under any phase directory (e.g. `phase3-tool/experiment.py`, `*.sh`) — these are code, covered by 9.1's preservation rule
+- `reviews/*.md` (subagent review reports — internal process artifacts)
+- `human-simulation.md` (internal)
+- `i18n/*.md` (meta-files about translation itself)
+
+### 9.3 Layout Convention — Paragraph Pairing
+
+**Body prose** — render English original first, then a blank line, then the Chinese translation:
+
+```
+The entry point receives an inbound event and dispatches to the router.
+
+入口点接收入站事件并分发给路由器。
+```
+
+Do not mix inline translations in body prose (e.g. `English (中文)`) — it harms diff and copy-paste.
+
+**Headings — one-line bilingual form** (exception to the rule above):
+
+```
+## Phase 1: Birdview · 阶段 1：鸟瞰
+```
+
+Rationale: emitting two separate headings (`## Phase 1: Birdview` then `## 阶段 1：鸟瞰`) creates duplicate TOC entries. The `EN · 中文` form keeps a single TOC entry while showing both languages inline.
+
+**Caveat — anchor slugs change.** GitHub-style Markdown derives anchor slugs from the full heading text, so `## Phase 1: Birdview` and `## Phase 1: Birdview · 阶段 1：鸟瞰` produce different slugs. If any external doc, README, or intra-repo link already targets the original English-only anchor, bilingualizing the heading will break that link. Two mitigations:
+
+1. Before translating, grep for `#phase-1-birdview`-style anchor references inside the repo (and any known consumers). If none exist, the slug change is safe.
+2. If stable anchors are required, keep the heading English-only and put the Chinese translation on the immediately following non-heading line as body prose, or add an explicit HTML anchor above the heading (e.g. `<a id="phase-1-birdview"></a>`) and point links at the explicit id.
+
+### 9.4 Glossary First
+
+Before translating, create `i18n/glossary.md` with a table of key technical terms discovered during Steps 1–6:
+
+| English | Chinese | Notes |
+|---------|---------|-------|
+| call chain | 调用链 | |
+| entry point | 入口点 | |
+| hook | 钩子 | Keep English `hook` inside code refs |
+
+Extend the glossary as you translate. **Rule:** once a term has a Chinese mapping, every later occurrence must use the same mapping.
+
+### 9.5 Batch Strategy
+
+Translate in batches to bound context and preserve structure:
+
+1. **One file at a time.** Never translate multiple files in a single pass.
+2. **Within a file, split by `##` heading.** Each H2 section is one batch.
+3. For each batch:
+   a. Extract prose blocks only; list them with stable IDs (e.g. `P1`, `P2`, ...).
+   b. Translate each prose block, consulting `glossary.md`.
+   c. Re-inject Chinese paragraphs beneath their English counterparts, preserving surrounding code/diagram/structure exactly.
+   d. After re-injection, verify non-prose content (code, diagrams, paths, commands) is unchanged. If `git diff` is available, non-prose lines should show zero changes; otherwise eyeball-scan the batch.
+
+### 9.6 Ambiguity Escape Hatch
+
+Translation often surfaces ambiguity in the original English prose. Track these as you go.
+
+**If you accumulate ≥ 3 original-prose ambiguities during translation, STOP.** Return to Step 6 to fix the English source, then re-run affected batches. Do not ship translations that paper over unclear original prose.
+
+### 9.7 Self-Check (记录到 `i18n/translation-selfcheck.md`)
+
+After all files are translated, run every check below and record results:
+
+- [ ] **Code-block integrity:** For each translated file, visually scan every fenced code block, inline code span, Mermaid/ASCII diagram, file path, and shell command — confirm they read identically to your memory of the original. If `git diff` is available, use it as the authoritative check; if not, reading is sufficient since 9.1's blocklist already prevents mutation at translation time.
+- [ ] **Paragraph-count audit:** For each H2 section, number of English prose blocks equals number of Chinese prose blocks.
+- [ ] **No monolingual prose sections remain:** For every H2 section that contains at least one prose paragraph, that section must have both English and Chinese. Pure code / command / diagram appendix sections (no prose) are exempt.
+- [ ] **Glossary consistency:** Each English term in `glossary.md` maps to exactly one Chinese translation across all files. Sample 3 terms via `grep` to confirm.
+- [ ] **Semantic spot-check:** Randomly sample 3 paragraph pairs per file and confirm the Chinese faithfully conveys the English meaning (not literal word-for-word, not paraphrased beyond intent).
+- [ ] **Ambiguity log:** If any original-prose ambiguities were found, they are either fixed (Step 6 loop performed) or explicitly logged with rationale for why they were left as-is.
+
+If any checkbox fails, fix and re-check. Only then declare Step 9 complete.
 
 ---
 
