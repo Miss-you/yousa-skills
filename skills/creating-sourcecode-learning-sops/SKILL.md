@@ -36,7 +36,7 @@ Always follow these 9 steps in order:
 6. **Fix Issues** — Address every critical/warning found in the review; re-verify changed facts against the codebase
 7. **Acceptance Criteria** — Confirm the SOP meets the quality checklist before finishing
 8. **Human Simulation** — Have a subagent simulate a junior engineer following the SOP to surface remaining friction
-9. **Bilingual Rendering** — Translate prose to Chinese-English paired format in batches, preserving all code/diagrams, then self-check
+9. **Bilingual Rendering** — Translate prose to English + Chinese paired format in batches, preserving all code/diagrams, then self-check
 
 **REQUIRED:** For the full step-by-step instructions, subagent prompts, and acceptance checklist, read `workflow.md` in this skill directory.
 

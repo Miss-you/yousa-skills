@@ -170,6 +170,8 @@ After fixing, if the number of changes is significant, **run a second subagent r
 
 ## Step 7: Acceptance Criteria
 
+> **When to run:** this is the **final completion gate**, executed only after Steps 8 and 9 are done. Its numeric position is historical (Steps 1–8 existed before Step 9 was added). Do not open this checklist until human simulation (Step 8) and bilingual rendering (Step 9) are both complete.
+
 Before declaring completion, confirm every checkbox below is true:
 
 - [ ] Workspace `study-{feature}-sop/` exists with all phase directories and templates
@@ -236,15 +238,18 @@ Only run this step **after** Steps 1–8 are complete and the English SOP is sta
 
 ### 9.2 Target Files
 
-Translate user-facing learning artifacts only:
+Translate **Markdown prose artifacts only**. Never touch executable or non-prose files even if they live in the same phase directory.
+
+Translate (user-facing `.md` artifacts):
 - `README.md` (master SOP)
 - `principles.md`
-- All phase template files under `phase1-*/` through `phase5-*/`
+- All phase **template `.md` files** under `phase1-*/` through `phase5-*/` (e.g. `code-map.md`, `call-chain.md`, `deep-dive.md`, `experiment-log.md`, `architecture-diagram.md`, `self-check.md`)
 - `final/learning-report.md`
 
-Do **not** translate internal process artifacts:
-- `reviews/*.md` (subagent review reports)
-- `human-simulation.md`
+Do **not** translate:
+- Executable scripts under any phase directory (e.g. `phase3-tool/experiment.py`, `*.sh`) — these are code, covered by 9.1's preservation rule
+- `reviews/*.md` (subagent review reports — internal process artifacts)
+- `human-simulation.md` (internal)
 - `i18n/*.md` (meta-files about translation itself)
 
 ### 9.3 Layout Convention — Paragraph Pairing
@@ -265,7 +270,12 @@ Do not mix inline translations in body prose (e.g. `English (中文)`) — it ha
 ## Phase 1: Birdview · 阶段 1：鸟瞰
 ```
 
-Rationale: emitting two separate headings (`## Phase 1: Birdview` then `## 阶段 1：鸟瞰`) creates duplicate TOC entries and breaks stable anchor IDs that other docs may link to. Use `EN · 中文` with a middle-dot separator instead.
+Rationale: emitting two separate headings (`## Phase 1: Birdview` then `## 阶段 1：鸟瞰`) creates duplicate TOC entries. The `EN · 中文` form keeps a single TOC entry while showing both languages inline.
+
+**Caveat — anchor slugs change.** GitHub-style Markdown derives anchor slugs from the full heading text, so `## Phase 1: Birdview` and `## Phase 1: Birdview · 阶段 1：鸟瞰` produce different slugs. If any external doc, README, or intra-repo link already targets the original English-only anchor, bilingualizing the heading will break that link. Two mitigations:
+
+1. Before translating, grep for `#phase-1-birdview`-style anchor references inside the repo (and any known consumers). If none exist, the slug change is safe.
+2. If stable anchors are required, keep the heading English-only and put the Chinese translation on the immediately following non-heading line as body prose, or add an explicit HTML anchor above the heading (e.g. `<a id="phase-1-birdview"></a>`) and point links at the explicit id.
 
 ### 9.4 Glossary First
 
@@ -301,7 +311,7 @@ Translation often surfaces ambiguity in the original English prose. Track these 
 
 After all files are translated, run every check below and record results:
 
-- [ ] **Code-block integrity:** For each translated file, visually scan every fenced code block, inline code span, Mermaid/ASCII diagram, file path, and shell command — confirm they read identically to your memory of the original. If `git diff` is available, use it as the authoritative check; if not, reading is sufficient since 9.1's black-list already prevents mutation at translation time.
+- [ ] **Code-block integrity:** For each translated file, visually scan every fenced code block, inline code span, Mermaid/ASCII diagram, file path, and shell command — confirm they read identically to your memory of the original. If `git diff` is available, use it as the authoritative check; if not, reading is sufficient since 9.1's blocklist already prevents mutation at translation time.
 - [ ] **Paragraph-count audit:** For each H2 section, number of English prose blocks equals number of Chinese prose blocks.
 - [ ] **No monolingual prose sections remain:** For every H2 section that contains at least one prose paragraph, that section must have both English and Chinese. Pure code / command / diagram appendix sections (no prose) are exempt.
 - [ ] **Glossary consistency:** Each English term in `glossary.md` maps to exactly one Chinese translation across all files. Sample 3 terms via `grep` to confirm.
