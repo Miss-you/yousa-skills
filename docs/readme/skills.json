@@ -82,5 +82,11 @@
     "path": "skills/checking-upstream-before-work",
     "description_en": "Check upstream for overlapping open PRs and recent merges before starting implementation, bugfix, refactor, or investigation work.",
     "description_zh": "开工前先检查上游仓库是否已有相关的 open PR 或近 5 天内合入的 PR，避免重复劳动或和他人冲突。"
+  },
+  {
+    "name": "writing-open-source-prs",
+    "path": "skills/writing-open-source-prs",
+    "description_en": "Draft, review, and update open source pull request descriptions so maintainers get issue context, behavior changes, tests, tradeoffs, and CI status without reading the diff first.",
+    "description_zh": "为开源项目的 Pull Request 撰写、复核和更新描述，让维护者无需先读 diff 就能掌握 issue 背景、行为变化、测试覆盖、取舍和 CI 状态。"
   }
 ]
