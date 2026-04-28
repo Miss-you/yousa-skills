@@ -22,6 +22,7 @@ A curated collection of [Claude Code](https://docs.anthropic.com/en/docs/claude-
 | [writing-contextual-todos](skills/writing-contextual-todos/) | Write TODO docs as handoff artifacts with full context, acceptance criteria, and source attribution so future readers understand without chat history. |
 | [creating-sourcecode-learning-sops](skills/creating-sourcecode-learning-sops/) | Create verified, multi-phase Study Operating Procedures for systematically learning a codebase feature, combining learning science with hands-on code verification. |
 | [checking-upstream-before-work](skills/checking-upstream-before-work/) | Check upstream for overlapping open PRs and recent merges before starting implementation, bugfix, refactor, or investigation work. |
+| [judging-compounding-value](skills/judging-compounding-value/) | Judge whether an activity, skill, project, workflow, or career choice has compounding value or is mostly one-off consumption, using a six-dimension framework. |
 
 ## Installation
 
@@ -29,7 +30,7 @@ Copy a skill directory into your local Claude Code skills folder:
 
 ```bash
 git clone https://github.com/Miss-you/yousa-skills.git
-skill_paths=(skills/explaining-completed-work skills/tmux-dispatch skills/social-strategist skills/structural-integrity-scan skills/two-mirror-examples skills/cdp-page-to-md skills/zh-proofreading skills/secret-scan skills/pr-review-autofix skills/monitoring-pr-ai-reviews skills/writing-commit skills/writing-contextual-todos skills/creating-sourcecode-learning-sops skills/checking-upstream-before-work)
+skill_paths=(skills/explaining-completed-work skills/tmux-dispatch skills/social-strategist skills/structural-integrity-scan skills/two-mirror-examples skills/cdp-page-to-md skills/zh-proofreading skills/secret-scan skills/pr-review-autofix skills/monitoring-pr-ai-reviews skills/writing-commit skills/writing-contextual-todos skills/creating-sourcecode-learning-sops skills/checking-upstream-before-work skills/judging-compounding-value)
 for skill_path in "${skill_paths[@]}"; do
   skill_dir="${skill_path##*/}"
   cp -r "yousa-skills/${skill_path}" ~/.claude/skills/"${skill_dir}"
@@ -53,6 +54,7 @@ cp -r yousa-skills/skills/writing-commit ~/.claude/skills/writing-commit
 cp -r yousa-skills/skills/writing-contextual-todos ~/.claude/skills/writing-contextual-todos
 cp -r yousa-skills/skills/creating-sourcecode-learning-sops ~/.claude/skills/creating-sourcecode-learning-sops
 cp -r yousa-skills/skills/checking-upstream-before-work ~/.claude/skills/checking-upstream-before-work
+cp -r yousa-skills/skills/judging-compounding-value ~/.claude/skills/judging-compounding-value
 ```
 
 ## Maintenance

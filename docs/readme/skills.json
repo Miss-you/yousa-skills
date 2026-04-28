@@ -82,5 +82,11 @@
     "path": "skills/checking-upstream-before-work",
     "description_en": "Check upstream for overlapping open PRs and recent merges before starting implementation, bugfix, refactor, or investigation work.",
     "description_zh": "开工前先检查上游仓库是否已有相关的 open PR 或近 5 天内合入的 PR，避免重复劳动或和他人冲突。"
+  },
+  {
+    "name": "judging-compounding-value",
+    "path": "skills/judging-compounding-value",
+    "description_en": "Judge whether an activity, skill, project, workflow, or career choice has compounding value or is mostly one-off consumption, using a six-dimension framework.",
+    "description_zh": "用六维框架判断一项活动、技能、项目、工作流或职业选择是否具有复利价值，还是主要属于一次性消耗。"
   }
 ]
