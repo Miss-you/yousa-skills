@@ -23,6 +23,7 @@
 | [creating-sourcecode-learning-sops](skills/creating-sourcecode-learning-sops/) | 创建经过验证的多阶段源码学习 SOP，结合学习科学和动手代码验证，系统性地学习代码库中的某个功能。 |
 | [checking-upstream-before-work](skills/checking-upstream-before-work/) | 开工前先检查上游仓库是否已有相关的 open PR 或近 5 天内合入的 PR，避免重复劳动或和他人冲突。 |
 | [writing-open-source-prs](skills/writing-open-source-prs/) | 为开源项目的 Pull Request 撰写、复核和更新描述，让维护者无需先读 diff 就能掌握 issue 背景、行为变化、测试覆盖、取舍和 CI 状态。 |
+| [judging-compounding-value](skills/judging-compounding-value/) | 用六维框架判断一项活动、技能、项目、工作流或职业选择是否具有复利价值，还是主要属于一次性消耗。 |
 
 ## 安装
 
@@ -30,7 +31,7 @@
 
 ```bash
 git clone https://github.com/Miss-you/yousa-skills.git
-skill_paths=(skills/explaining-completed-work skills/tmux-dispatch skills/social-strategist skills/structural-integrity-scan skills/two-mirror-examples skills/cdp-page-to-md skills/zh-proofreading skills/secret-scan skills/pr-review-autofix skills/monitoring-pr-ai-reviews skills/writing-commit skills/writing-contextual-todos skills/creating-sourcecode-learning-sops skills/checking-upstream-before-work skills/writing-open-source-prs)
+skill_paths=(skills/explaining-completed-work skills/tmux-dispatch skills/social-strategist skills/structural-integrity-scan skills/two-mirror-examples skills/cdp-page-to-md skills/zh-proofreading skills/secret-scan skills/pr-review-autofix skills/monitoring-pr-ai-reviews skills/writing-commit skills/writing-contextual-todos skills/creating-sourcecode-learning-sops skills/checking-upstream-before-work skills/writing-open-source-prs skills/judging-compounding-value)
 for skill_path in "${skill_paths[@]}"; do
   skill_dir="${skill_path##*/}"
   cp -r "yousa-skills/${skill_path}" ~/.claude/skills/"${skill_dir}"
@@ -55,6 +56,7 @@ cp -r yousa-skills/skills/writing-contextual-todos ~/.claude/skills/writing-cont
 cp -r yousa-skills/skills/creating-sourcecode-learning-sops ~/.claude/skills/creating-sourcecode-learning-sops
 cp -r yousa-skills/skills/checking-upstream-before-work ~/.claude/skills/checking-upstream-before-work
 cp -r yousa-skills/skills/writing-open-source-prs ~/.claude/skills/writing-open-source-prs
+cp -r yousa-skills/skills/judging-compounding-value ~/.claude/skills/judging-compounding-value
 ```
 
 ## 维护

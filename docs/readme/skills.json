@@ -88,5 +88,11 @@
     "path": "skills/writing-open-source-prs",
     "description_en": "Draft, review, and update open source pull request descriptions so maintainers get issue context, behavior changes, tests, tradeoffs, and CI status without reading the diff first.",
     "description_zh": "为开源项目的 Pull Request 撰写、复核和更新描述，让维护者无需先读 diff 就能掌握 issue 背景、行为变化、测试覆盖、取舍和 CI 状态。"
+  },
+  {
+    "name": "judging-compounding-value",
+    "path": "skills/judging-compounding-value",
+    "description_en": "Judge whether an activity, skill, project, workflow, or career choice has compounding value or is mostly one-off consumption, using a six-dimension framework.",
+    "description_zh": "用六维框架判断一项活动、技能、项目、工作流或职业选择是否具有复利价值，还是主要属于一次性消耗。"
   }
 ]
