@@ -50,7 +50,7 @@ If the user says not to ask questions, state assumptions and missing inputs as r
 
 ```markdown
 ## Handoff Status
-Blocked: missing <repo/version/entrypoint/metric/target behavior>.
+Blocked: missing {repo/version/entrypoint/metric/target behavior}.
 
 ## Required Inputs
 - ...
