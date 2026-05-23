@@ -100,5 +100,11 @@
     "path": "skills/auditing-dead-code",
     "description_en": "Audit dead code by reconciling static analysis, reference classification, and entrypoint/API risk before declaring symbols safe to remove, especially around RPC, config, generated code, and exported APIs.",
     "description_zh": "通过静态分析、引用分类和入口/接口风险对账来审计死代码，避免仅凭 grep 计数就判定某个符号可以删除，尤其针对 RPC、配置、生成代码和导出 API 等场景。"
+  },
+  {
+    "name": "research-question-framing",
+    "path": "skills/research-question-framing",
+    "description_en": "Turn a fuzzy research topic into an evidence-seeking brief — question tree, evidence matrix with proof/non-proof, and validation scenarios — before any source-code study, investigation, or architecture inquiry begins.",
+    "description_zh": "在开始读源码、做调研或架构探究之前，把模糊的研究主题转化为带问题树、证据矩阵（含「能证明 / 不能证明」两列）和验证场景的研究纲要。"
   }
 ]
