@@ -25,6 +25,7 @@ A curated collection of [Claude Code](https://docs.anthropic.com/en/docs/claude-
 | [writing-open-source-prs](skills/writing-open-source-prs/) | Draft, review, and update open source pull request descriptions so maintainers get issue context, behavior changes, tests, tradeoffs, and CI status without reading the diff first. |
 | [judging-compounding-value](skills/judging-compounding-value/) | Judge whether an activity, skill, project, workflow, or career choice has compounding value or is mostly one-off consumption, using a six-dimension framework. |
 | [auditing-dead-code](skills/auditing-dead-code/) | Audit dead code by reconciling static analysis, reference classification, and entrypoint/API risk before declaring symbols safe to remove, especially around RPC, config, generated code, and exported APIs. |
+| [research-question-framing](skills/research-question-framing/) | Turn a fuzzy research topic into an evidence-seeking brief — question tree, evidence matrix with proof/non-proof, and validation scenarios — before any source-code study, investigation, or architecture inquiry begins. |
 
 ## Installation
 
@@ -32,7 +33,7 @@ Copy a skill directory into your local Claude Code skills folder:
 
 ```bash
 git clone https://github.com/Miss-you/yousa-skills.git
-skill_paths=(skills/explaining-completed-work skills/tmux-dispatch skills/social-strategist skills/structural-integrity-scan skills/two-mirror-examples skills/cdp-page-to-md skills/zh-proofreading skills/secret-scan skills/pr-review-autofix skills/monitoring-pr-ai-reviews skills/writing-commit skills/writing-contextual-todos skills/creating-sourcecode-learning-sops skills/checking-upstream-before-work skills/writing-open-source-prs skills/judging-compounding-value skills/auditing-dead-code)
+skill_paths=(skills/explaining-completed-work skills/tmux-dispatch skills/social-strategist skills/structural-integrity-scan skills/two-mirror-examples skills/cdp-page-to-md skills/zh-proofreading skills/secret-scan skills/pr-review-autofix skills/monitoring-pr-ai-reviews skills/writing-commit skills/writing-contextual-todos skills/creating-sourcecode-learning-sops skills/checking-upstream-before-work skills/writing-open-source-prs skills/judging-compounding-value skills/auditing-dead-code skills/research-question-framing)
 for skill_path in "${skill_paths[@]}"; do
   skill_dir="${skill_path##*/}"
   cp -r "yousa-skills/${skill_path}" ~/.claude/skills/"${skill_dir}"
@@ -59,6 +60,7 @@ cp -r yousa-skills/skills/checking-upstream-before-work ~/.claude/skills/checkin
 cp -r yousa-skills/skills/writing-open-source-prs ~/.claude/skills/writing-open-source-prs
 cp -r yousa-skills/skills/judging-compounding-value ~/.claude/skills/judging-compounding-value
 cp -r yousa-skills/skills/auditing-dead-code ~/.claude/skills/auditing-dead-code
+cp -r yousa-skills/skills/research-question-framing ~/.claude/skills/research-question-framing
 ```
 
 ## Maintenance
