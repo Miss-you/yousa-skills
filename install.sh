@@ -6,8 +6,12 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SRC_DIR="$SCRIPT_DIR/skills"
 
+# Resolve targets, then strip any trailing slash so that "<target>.bak"
+# always resolves to a SIBLING of the skills directory, never inside it.
 CLAUDE_DIR="${CLAUDE_SKILLS_DIR:-$HOME/.claude/skills}"
 CODEX_DIR="${CODEX_SKILLS_DIR:-$HOME/.codex/skills}"
+CLAUDE_DIR="${CLAUDE_DIR%/}"
+CODEX_DIR="${CODEX_DIR%/}"
 
 install_claude=1
 install_codex=1
@@ -28,7 +32,7 @@ Targets (default: both):
   --codex-only         Install to \$CODEX_SKILLS_DIR  (default: ~/.codex/skills)
 
 Behavior:
-  --backup             Move existing <skill>/ to <target>.bak/<skill>-<timestamp>/
+  --backup             Move existing <skill>/ to <target>.bak/<skill>-<timestamp>-<pid>/
                        before overwriting. Default is plain overwrite.
                        Backups live OUTSIDE the skills dir so the host (Claude/
                        Codex) doesn't load them as duplicate skills.
@@ -39,26 +43,27 @@ Behavior:
 Env overrides:
   CLAUDE_SKILLS_DIR    Override Claude target directory.
   CODEX_SKILLS_DIR     Override Codex target directory.
+  INSTALL_NO_RSYNC=1   Force the rm/cp fallback path even if rsync is
+                       available. Mainly for testing the fallback path.
 EOF
 }
 
-log()  { printf '%s\n' "$*"; }
-warn() { printf 'warn: %s\n' "$*" >&2; }
-die()  { printf 'error: %s\n' "$*" >&2; exit 1; }
+log() { printf '%s\n' "$*"; }
+die() { printf 'error: %s\n' "$*" >&2; exit 1; }
 
 while [[ $# -gt 0 ]]; do
-  case "$1" in
+  arg="$1"; shift
+  case "$arg" in
     --claude-only) install_codex=0 ;;
     --codex-only)  install_claude=0 ;;
     --backup)      do_backup=1 ;;
     --dry-run)     dry_run=1 ;;
     --list)        do_list=1 ;;
     -h|--help)     usage; exit 0 ;;
-    --) shift; while [[ $# -gt 0 ]]; do selected+=("$1"); shift; done ;;
-    -*) die "unknown option: $1 (try --help)" ;;
-    *)  selected+=("$1") ;;
+    --)            if [[ $# -gt 0 ]]; then selected+=("$@"); fi; break ;;
+    -*)            die "unknown option: $arg (try --help)" ;;
+    *)             selected+=("$arg") ;;
   esac
-  shift
 done
 
 [[ -d "$SRC_DIR" ]] || die "skills source not found: $SRC_DIR"
@@ -100,23 +105,30 @@ targets=()
 [[ ${#targets[@]} -gt 0 ]] || die "no install targets selected"
 
 have_rsync=0
-command -v rsync >/dev/null 2>&1 && have_rsync=1
+if [[ -z "${INSTALL_NO_RSYNC:-}" ]] && command -v rsync >/dev/null 2>&1; then
+  have_rsync=1
+fi
 
+# run: execute (or in dry-run, print) a command directly via "$@" — no eval,
+# so quoted skill names / paths can never be re-interpreted.
 run() {
   if [[ $dry_run -eq 1 ]]; then
-    printf '  + %s\n' "$*"
+    printf '  +'
+    local a
+    for a in "$@"; do printf ' %q' "$a"; done
+    printf '\n'
   else
-    eval "$@"
+    "$@"
   fi
 }
 
 copy_skill() {
   local src="$1" dst="$2"
   if [[ $have_rsync -eq 1 ]]; then
-    run "rsync -a --delete -- \"$src/\" \"$dst/\""
+    run rsync -a --delete -- "$src/" "$dst/"
   else
-    run "rm -rf -- \"$dst\""
-    run "cp -R -- \"$src\" \"$dst\""
+    run rm -rf -- "$dst"
+    run cp -R -- "$src" "$dst"
   fi
 }
 
@@ -134,7 +146,7 @@ log ""
 for target in "${targets[@]}"; do
   if [[ ! -d "$target" ]]; then
     log "creating target dir: $target"
-    run "mkdir -p -- \"$target\""
+    run mkdir -p -- "$target"
   fi
 
   for name in "${to_install[@]}"; do
@@ -145,10 +157,14 @@ for target in "${targets[@]}"; do
       action="upgrade"
       if [[ $do_backup -eq 1 ]]; then
         backup_root="${target}.bak"
-        backup="$backup_root/$name-$ts"
+        # PID makes the path unique across rapid re-invocations within one second.
+        backup="$backup_root/$name-$ts-$$"
+        if [[ -e "$backup" ]]; then
+          die "backup path already exists: $backup (refusing to clobber)"
+        fi
         log "backup : $dst -> $backup"
-        run "mkdir -p -- \"$backup_root\""
-        run "mv -- \"$dst\" \"$backup\""
+        run mkdir -p -- "$backup_root"
+        run mv -- "$dst" "$backup"
         backed_up=$((backed_up + 1))
       fi
     fi

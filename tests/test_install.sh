@@ -3,29 +3,45 @@
 # Uses CLAUDE_SKILLS_DIR / CODEX_SKILLS_DIR env overrides to run against
 # a temporary scratch directory — never touches the user's real ~/.claude
 # or ~/.codex.
+#
+# Portable across macOS (BSD coreutils) and Linux (GNU coreutils): chooses
+# sha256sum vs `shasum -a 256` and snapshots files by content hash rather
+# than `stat` (whose flag syntax differs across platforms).
 set -uo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 INSTALL="$REPO_ROOT/install.sh"
 
+if command -v sha256sum >/dev/null 2>&1; then
+  HASH=(sha256sum)
+elif command -v shasum >/dev/null 2>&1; then
+  HASH=(shasum -a 256)
+else
+  echo "error: need sha256sum or shasum on PATH" >&2
+  exit 2
+fi
+
 pass=0
 fail=0
 fail_msgs=()
 
-ok()   { pass=$((pass+1)); printf '  PASS %s\n' "$*"; }
-bad()  { fail=$((fail+1)); fail_msgs+=("$*"); printf '  FAIL %s\n' "$*"; }
+ok()  { pass=$((pass+1)); printf '  PASS %s\n' "$*"; }
+bad() { fail=$((fail+1)); fail_msgs+=("$*"); printf '  FAIL %s\n' "$*"; }
 
+# Stable content hash for every file under given dirs. Used to detect any
+# modification. Order is sorted so output is reproducible.
 snapshot() {
-  # Stable hash of (path + content) for every file under given dirs.
-  # Used to detect any modification.
   local out="$1"; shift
   : > "$out"
   for d in "$@"; do
     [[ -e "$d" ]] || continue
-    ( cd "$d" && find . -type f -print0 | sort -z | xargs -0 shasum ) >> "$out"
+    ( cd "$d" && find . -type f -print0 | sort -z | xargs -0 "${HASH[@]}" ) >> "$out"
   done
 }
+
+# Hash a single file's content (portable across BSD/GNU).
+file_hash() { "${HASH[@]}" < "$1" | awk '{print $1}'; }
 
 new_env() {
   TMP="$(mktemp -d)"
@@ -54,11 +70,11 @@ SKILL1="writing-commit"
 SKILL2="zh-proofreading"
 SKILL3="auditing-dead-code"
 
-# ---------------------------------------------------------------- AC-1, AC-7
+# ---------------------------------------------------------------- AC-1
 echo "[case 1] default install: scope is only repo skills; both targets installed"
 new_env
 snapshot "$TMP/before.foreign" "$CLAUDE/foreign-a" "$CLAUDE/foreign-b" "$CODEX/foreign-c"
-foreign_meta_before="$(stat -f '%N %m %z' "$CLAUDE/.notes.txt")"
+notes_before="$(file_hash "$CLAUDE/.notes.txt")"
 
 CLAUDE_SKILLS_DIR="$CLAUDE" CODEX_SKILLS_DIR="$CODEX" \
   "$INSTALL" >/dev/null 2>"$TMP/err1.log"
@@ -72,10 +88,10 @@ else
   bad "AC-1: third-party skills changed (diff: $(diff "$TMP/before.foreign" "$TMP/after.foreign"))"
 fi
 
-foreign_meta_after="$(stat -f '%N %m %z' "$CLAUDE/.notes.txt")"
-[[ "$foreign_meta_before" == "$foreign_meta_after" ]] \
+notes_after="$(file_hash "$CLAUDE/.notes.txt")"
+[[ "$notes_before" == "$notes_after" ]] \
   && ok "AC-1b: stray file .notes.txt preserved" \
-  || bad "AC-1b: .notes.txt mutated ($foreign_meta_before -> $foreign_meta_after)"
+  || bad "AC-1b: .notes.txt mutated"
 
 # Repo skills should now be installed in both targets.
 for d in "$CLAUDE" "$CODEX"; do
@@ -135,6 +151,30 @@ stray_bak=$(find "$CLAUDE" -mindepth 1 -maxdepth 1 -name '*.bak*' 2>/dev/null | 
   || bad "AC-3: found backup dir(s) inside $CLAUDE"
 cleanup
 
+# ---------------------------------------------------------------- AC-3b (trailing slash)
+echo "[case 2b] trailing slash in CLAUDE_SKILLS_DIR still places backup OUTSIDE"
+new_env
+mkdir -p "$CLAUDE/$SKILL1"
+printf 'OLD\n' > "$CLAUDE/$SKILL1/SKILL.md"
+
+# Intentionally pass with trailing slash.
+CLAUDE_SKILLS_DIR="$CLAUDE/" CODEX_SKILLS_DIR="$CODEX" \
+  "$INSTALL" --backup --claude-only "$SKILL1" >/dev/null 2>"$TMP/err2b.log"
+rc=$?
+[[ $rc -eq 0 ]] && ok "exit 0 with trailing slash" || bad "exit $rc"
+
+# Hidden ".bak" directory inside $CLAUDE would be a regression.
+if [[ -e "$CLAUDE/.bak" ]]; then
+  bad "AC-3 (slash): backup landed INSIDE skills dir at $CLAUDE/.bak"
+else
+  ok "AC-3 (slash): no .bak inside skills dir"
+fi
+# The proper sibling location must exist.
+[[ -d "$TMP/claude/skills.bak" ]] \
+  && ok "AC-3 (slash): backup sibling dir exists" \
+  || bad "AC-3 (slash): expected $TMP/claude/skills.bak to exist"
+cleanup
+
 # ---------------------------------------------------------------- AC-4
 echo "[case 3] --dry-run: zero filesystem changes"
 new_env
@@ -150,9 +190,6 @@ diff -q "$TMP/before.all" "$TMP/after.all" >/dev/null \
   && ok "AC-4: dry-run made no changes" \
   || bad "AC-4: dry-run modified files: $(diff "$TMP/before.all" "$TMP/after.all")"
 
-# No new dirs/files should have appeared anywhere under $TMP.
-extra=$(find "$TMP" -mindepth 1 -newer "$INSTALL" 2>/dev/null | wc -l | tr -d ' ')
-# Hard to assert with --newer; instead make sure no .bak roots were created.
 [[ ! -e "$TMP/claude/skills.bak" && ! -e "$TMP/codex/skills.bak" ]] \
   && ok "AC-4: no backup roots created" \
   || bad "AC-4: dry-run created a backup root"
@@ -180,18 +217,11 @@ diff -q "$TMP/before.all" "$TMP/after.all" >/dev/null \
 cleanup
 
 # ---------------------------------------------------------------- AC-6
-echo "[case 5] fallback (no rsync) path is also scope-safe"
+echo "[case 5] fallback (no rsync) path is also scope-safe (INSTALL_NO_RSYNC=1)"
 new_env
 snapshot "$TMP/before.foreign" "$CLAUDE/foreign-a" "$CLAUDE/foreign-b"
 
-# Force fallback by hiding rsync from PATH.
-NORSYNC_BIN="$TMP/nopath"
-mkdir -p "$NORSYNC_BIN"
-# Build a minimal PATH that excludes rsync.
-PATH_WITHOUT_RSYNC="$NORSYNC_BIN:/usr/bin:/bin"
-command -v rsync >/dev/null && rsync_was="yes" || rsync_was="no"
-
-PATH="$PATH_WITHOUT_RSYNC" CLAUDE_SKILLS_DIR="$CLAUDE" CODEX_SKILLS_DIR="$CODEX" \
+INSTALL_NO_RSYNC=1 CLAUDE_SKILLS_DIR="$CLAUDE" CODEX_SKILLS_DIR="$CODEX" \
   "$INSTALL" --claude-only "$SKILL2" >/dev/null 2>"$TMP/err5.log"
 rc=$?
 [[ $rc -eq 0 ]] && ok "exit 0 in fallback path" || bad "exit $rc (err: $(cat "$TMP/err5.log"))"
@@ -249,6 +279,49 @@ snapshot "$TMP/run2" "$CLAUDE" "$CODEX"
 diff -q "$TMP/run1" "$TMP/run2" >/dev/null \
   && ok "AC-8: idempotent" \
   || bad "AC-8: second run changed state: $(diff "$TMP/run1" "$TMP/run2" | head -20)"
+cleanup
+
+# ---------------------------------------------------------------- AC-9 (-- parsing)
+echo "[case 9] '--' separator works without shift-count errors"
+new_env
+CLAUDE_SKILLS_DIR="$CLAUDE" CODEX_SKILLS_DIR="$CODEX" \
+  "$INSTALL" --claude-only -- "$SKILL1" >"$TMP/out9.log" 2>"$TMP/err9.log"
+rc=$?
+[[ $rc -eq 0 ]] && ok "AC-9: -- separator: exit 0" \
+  || bad "AC-9: -- separator: exit $rc (err: $(cat "$TMP/err9.log"))"
+grep -q "shift count out of range" "$TMP/err9.log" \
+  && bad "AC-9: leaked shift-count error" \
+  || ok "AC-9: no shift-count error"
+[[ -d "$CLAUDE/$SKILL1" ]] \
+  && ok "AC-9: -- consumed and skill installed" \
+  || bad "AC-9: skill not installed after --"
+
+# Bare '--' with no following args must also be safe.
+new_env
+CLAUDE_SKILLS_DIR="$CLAUDE" CODEX_SKILLS_DIR="$CODEX" \
+  "$INSTALL" --claude-only --dry-run -- >/dev/null 2>"$TMP/err9b.log"
+rc=$?
+[[ $rc -eq 0 ]] && ok "AC-9b: bare '--' exit 0" \
+  || bad "AC-9b: bare '--' exit $rc (err: $(cat "$TMP/err9b.log"))"
+cleanup
+
+# ---------------------------------------------------------------- run() safety
+echo "[case 10] no-eval: skill name with shell metacharacters does not execute"
+new_env
+# Marker file: if any shell expansion fires, the command substitution would
+# create this file. After running install.sh, the file must NOT exist.
+canary="$TMP/canary"
+CLAUDE_SKILLS_DIR="$CLAUDE" CODEX_SKILLS_DIR="$CODEX" \
+  "$INSTALL" "\$(touch $canary)" >/dev/null 2>"$TMP/err10.log"
+rc=$?
+[[ $rc -ne 0 ]] && ok "case10: tricky skill name rejected" \
+  || bad "case10: tricky skill name accepted (no eval guard?)"
+[[ ! -e "$canary" ]] \
+  && ok "case10: no command substitution executed" \
+  || bad "case10: skill name was eval'd — canary file created"
+grep -q "skill not found" "$TMP/err10.log" \
+  && ok "case10: clean 'skill not found' error" \
+  || bad "case10: unexpected error: $(cat "$TMP/err10.log")"
 cleanup
 
 # -----------------------------------------------------------------
