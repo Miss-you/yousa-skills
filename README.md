@@ -43,7 +43,7 @@ cd yousa-skills
 ./install.sh --list                           # list installable skills
 ```
 
-Re-run `./install.sh` to upgrade. The script only touches skill directories it owns — skills installed from other sources are never modified.
+Re-run `./install.sh` to upgrade. The script only touches skill directories whose names appear under this repo's `skills/`: skills with **other names** are left alone, and skills with the **same name** are overwritten — pass `--backup` to keep the old copy first.
 
 ## Maintenance
 

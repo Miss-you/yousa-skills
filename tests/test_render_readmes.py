@@ -148,7 +148,7 @@ class RenderReadmesTest(unittest.TestCase):
         self.assertNotIn("cp -r yousa-skills/", english)
         self.assertIn("./install.sh", english)
 
-    def test_render_readmes_includes_every_skill_in_installation_examples(self):
+    def test_render_readmes_includes_every_manifest_skill(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             repo_root = Path(tmpdir)
             _copy_templates(repo_root)

@@ -26,7 +26,7 @@ cd yousa-skills
 ./install.sh --list                           # 列出所有可装 skill
 ```
 
-重新运行 `./install.sh` 即可升级。脚本只动它自己管理的 skill 目录，其他来源安装的 skill 不会受影响。
+重新运行 `./install.sh` 即可升级。脚本只动名字出现在本仓库 `skills/` 下的目录：**其他名字**的 skill 不受影响；**同名**的 skill 会被覆盖，想保留旧版本请加 `--backup`。
 
 ## 维护
 
