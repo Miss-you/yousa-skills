@@ -124,7 +124,7 @@ class RenderReadmesTest(unittest.TestCase):
         self.assertIn("示例技能的中文说明。", chinese)
         self.assertNotIn("Example skill in English.", chinese)
 
-    def test_render_readme_uses_manifest_path_for_links_and_install_commands(self):
+    def test_render_readme_uses_manifest_path_for_skill_links(self):
         manifest = [
             {
                 "name": "display-name",
@@ -140,14 +140,15 @@ class RenderReadmesTest(unittest.TestCase):
             repo_root=Path("."),
         )
 
+        # Link target must come from `path`, not `name`.
         self.assertIn("[display-name](skills/real-skill-dir/)", english)
-        self.assertIn(
-            "cp -r yousa-skills/skills/real-skill-dir ~/.claude/skills/real-skill-dir",
-            english,
-        )
-        self.assertNotIn("cp -r yousa-skills/skills/display-name", english)
+        self.assertNotIn("](skills/display-name/)", english)
+        # The install section no longer enumerates per-skill commands; it
+        # documents `./install.sh` instead, so no `cp -r` lines should appear.
+        self.assertNotIn("cp -r yousa-skills/", english)
+        self.assertIn("./install.sh", english)
 
-    def test_render_readmes_includes_every_skill_in_installation_examples(self):
+    def test_render_readmes_includes_every_manifest_skill(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             repo_root = Path(tmpdir)
             _copy_templates(repo_root)

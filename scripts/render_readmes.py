@@ -92,10 +92,6 @@ def _skill_source_path(entry: dict) -> str:
     return entry["path"].rstrip("/")
 
 
-def _skill_slug(entry: dict) -> str:
-    return Path(_skill_source_path(entry)).name
-
-
 def _format_skill_rows(language: str, manifest: list[dict]) -> str:
     lines = []
     desc_key = "description_en" if language == "en" else "description_zh"
@@ -104,29 +100,12 @@ def _format_skill_rows(language: str, manifest: list[dict]) -> str:
     return "\n".join(lines)
 
 
-def _format_installation_examples(language: str, manifest: list[dict]) -> str:
-    prefix = "Install each skill with one copy command:" if language == "en" else "使用一条复制命令安装每个 skill："
-    lines = [prefix, "", "```bash"]
-    for entry in manifest:
-        lines.append(
-            f"cp -r yousa-skills/{_skill_source_path(entry)} ~/.claude/skills/{_skill_slug(entry)}"
-        )
-    lines.append("```")
-    return "\n".join(lines)
-
-
-def _skill_names(manifest: list[dict]) -> str:
-    return " ".join(_skill_source_path(entry) for entry in manifest)
-
-
 def render_readme(language: str, manifest: list[dict], repo_root: Path | None = None) -> str:
     root = repo_root or Path.cwd()
     template = template_path(root, language).read_text(encoding="utf-8")
     rendered = template
     rendered = rendered.replace("{{language_switcher}}", _language_switcher(language))
     rendered = rendered.replace("{{skills_table}}", _format_skill_rows(language, manifest))
-    rendered = rendered.replace("{{installation_examples}}", _format_installation_examples(language, manifest))
-    rendered = rendered.replace("{{skill_names}}", _skill_names(manifest))
     return rendered.rstrip() + "\n"
 
 
