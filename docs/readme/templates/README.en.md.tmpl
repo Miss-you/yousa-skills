@@ -12,18 +12,21 @@ A curated collection of [Claude Code](https://docs.anthropic.com/en/docs/claude-
 
 ## Installation
 
-Copy a skill directory into your local Claude Code skills folder:
+Clone the repo and run `./install.sh`. It syncs every skill under `skills/` into your personal Claude and Codex skill directories (`~/.claude/skills` and `~/.codex/skills`).
 
 ```bash
 git clone https://github.com/Miss-you/yousa-skills.git
-skill_paths=({{skill_names}})
-for skill_path in "${skill_paths[@]}"; do
-  skill_dir="${skill_path##*/}"
-  cp -r "yousa-skills/${skill_path}" ~/.claude/skills/"${skill_dir}"
-done
+cd yousa-skills
+./install.sh                                  # install all skills to both Claude and Codex
+./install.sh writing-commit zh-proofreading   # install only the named skills
+./install.sh --claude-only                    # only ~/.claude/skills
+./install.sh --codex-only                     # only ~/.codex/skills
+./install.sh --backup                         # before overwriting, move the old skill to <target>.bak/
+./install.sh --dry-run                        # print planned actions without changing anything
+./install.sh --list                           # list installable skills
 ```
 
-{{installation_examples}}
+Re-run `./install.sh` to upgrade. The script only touches skill directories it owns — skills installed from other sources are never modified.
 
 ## Maintenance
 

@@ -29,39 +29,21 @@
 
 ## 安装
 
-把需要的 skill 目录复制到本地 Claude Code skills 目录：
+克隆仓库后运行 `./install.sh`，它会把 `skills/` 下的全部 skill 同步到你个人的 Claude 与 Codex skill 目录（`~/.claude/skills` 和 `~/.codex/skills`）。
 
 ```bash
 git clone https://github.com/Miss-you/yousa-skills.git
-skill_paths=(skills/explaining-completed-work skills/tmux-dispatch skills/social-strategist skills/structural-integrity-scan skills/two-mirror-examples skills/cdp-page-to-md skills/zh-proofreading skills/secret-scan skills/pr-review-autofix skills/monitoring-pr-ai-reviews skills/writing-commit skills/writing-contextual-todos skills/creating-sourcecode-learning-sops skills/checking-upstream-before-work skills/writing-open-source-prs skills/judging-compounding-value skills/auditing-dead-code skills/research-question-framing)
-for skill_path in "${skill_paths[@]}"; do
-  skill_dir="${skill_path##*/}"
-  cp -r "yousa-skills/${skill_path}" ~/.claude/skills/"${skill_dir}"
-done
+cd yousa-skills
+./install.sh                                  # 安装全部 skill 到 Claude 和 Codex
+./install.sh writing-commit zh-proofreading   # 只安装指定的 skill
+./install.sh --claude-only                    # 只装到 ~/.claude/skills
+./install.sh --codex-only                     # 只装到 ~/.codex/skills
+./install.sh --backup                         # 覆盖前把旧版本备份到 <target>.bak/
+./install.sh --dry-run                        # 只打印计划，不动文件
+./install.sh --list                           # 列出所有可装 skill
 ```
 
-使用一条复制命令安装每个 skill：
-
-```bash
-cp -r yousa-skills/skills/explaining-completed-work ~/.claude/skills/explaining-completed-work
-cp -r yousa-skills/skills/tmux-dispatch ~/.claude/skills/tmux-dispatch
-cp -r yousa-skills/skills/social-strategist ~/.claude/skills/social-strategist
-cp -r yousa-skills/skills/structural-integrity-scan ~/.claude/skills/structural-integrity-scan
-cp -r yousa-skills/skills/two-mirror-examples ~/.claude/skills/two-mirror-examples
-cp -r yousa-skills/skills/cdp-page-to-md ~/.claude/skills/cdp-page-to-md
-cp -r yousa-skills/skills/zh-proofreading ~/.claude/skills/zh-proofreading
-cp -r yousa-skills/skills/secret-scan ~/.claude/skills/secret-scan
-cp -r yousa-skills/skills/pr-review-autofix ~/.claude/skills/pr-review-autofix
-cp -r yousa-skills/skills/monitoring-pr-ai-reviews ~/.claude/skills/monitoring-pr-ai-reviews
-cp -r yousa-skills/skills/writing-commit ~/.claude/skills/writing-commit
-cp -r yousa-skills/skills/writing-contextual-todos ~/.claude/skills/writing-contextual-todos
-cp -r yousa-skills/skills/creating-sourcecode-learning-sops ~/.claude/skills/creating-sourcecode-learning-sops
-cp -r yousa-skills/skills/checking-upstream-before-work ~/.claude/skills/checking-upstream-before-work
-cp -r yousa-skills/skills/writing-open-source-prs ~/.claude/skills/writing-open-source-prs
-cp -r yousa-skills/skills/judging-compounding-value ~/.claude/skills/judging-compounding-value
-cp -r yousa-skills/skills/auditing-dead-code ~/.claude/skills/auditing-dead-code
-cp -r yousa-skills/skills/research-question-framing ~/.claude/skills/research-question-framing
-```
+重新运行 `./install.sh` 即可升级。脚本只动它自己管理的 skill 目录，其他来源安装的 skill 不会受影响。
 
 ## 维护
 

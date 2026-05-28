@@ -29,39 +29,21 @@ A curated collection of [Claude Code](https://docs.anthropic.com/en/docs/claude-
 
 ## Installation
 
-Copy a skill directory into your local Claude Code skills folder:
+Clone the repo and run `./install.sh`. It syncs every skill under `skills/` into your personal Claude and Codex skill directories (`~/.claude/skills` and `~/.codex/skills`).
 
 ```bash
 git clone https://github.com/Miss-you/yousa-skills.git
-skill_paths=(skills/explaining-completed-work skills/tmux-dispatch skills/social-strategist skills/structural-integrity-scan skills/two-mirror-examples skills/cdp-page-to-md skills/zh-proofreading skills/secret-scan skills/pr-review-autofix skills/monitoring-pr-ai-reviews skills/writing-commit skills/writing-contextual-todos skills/creating-sourcecode-learning-sops skills/checking-upstream-before-work skills/writing-open-source-prs skills/judging-compounding-value skills/auditing-dead-code skills/research-question-framing)
-for skill_path in "${skill_paths[@]}"; do
-  skill_dir="${skill_path##*/}"
-  cp -r "yousa-skills/${skill_path}" ~/.claude/skills/"${skill_dir}"
-done
+cd yousa-skills
+./install.sh                                  # install all skills to both Claude and Codex
+./install.sh writing-commit zh-proofreading   # install only the named skills
+./install.sh --claude-only                    # only ~/.claude/skills
+./install.sh --codex-only                     # only ~/.codex/skills
+./install.sh --backup                         # before overwriting, move the old skill to <target>.bak/
+./install.sh --dry-run                        # print planned actions without changing anything
+./install.sh --list                           # list installable skills
 ```
 
-Install each skill with one copy command:
-
-```bash
-cp -r yousa-skills/skills/explaining-completed-work ~/.claude/skills/explaining-completed-work
-cp -r yousa-skills/skills/tmux-dispatch ~/.claude/skills/tmux-dispatch
-cp -r yousa-skills/skills/social-strategist ~/.claude/skills/social-strategist
-cp -r yousa-skills/skills/structural-integrity-scan ~/.claude/skills/structural-integrity-scan
-cp -r yousa-skills/skills/two-mirror-examples ~/.claude/skills/two-mirror-examples
-cp -r yousa-skills/skills/cdp-page-to-md ~/.claude/skills/cdp-page-to-md
-cp -r yousa-skills/skills/zh-proofreading ~/.claude/skills/zh-proofreading
-cp -r yousa-skills/skills/secret-scan ~/.claude/skills/secret-scan
-cp -r yousa-skills/skills/pr-review-autofix ~/.claude/skills/pr-review-autofix
-cp -r yousa-skills/skills/monitoring-pr-ai-reviews ~/.claude/skills/monitoring-pr-ai-reviews
-cp -r yousa-skills/skills/writing-commit ~/.claude/skills/writing-commit
-cp -r yousa-skills/skills/writing-contextual-todos ~/.claude/skills/writing-contextual-todos
-cp -r yousa-skills/skills/creating-sourcecode-learning-sops ~/.claude/skills/creating-sourcecode-learning-sops
-cp -r yousa-skills/skills/checking-upstream-before-work ~/.claude/skills/checking-upstream-before-work
-cp -r yousa-skills/skills/writing-open-source-prs ~/.claude/skills/writing-open-source-prs
-cp -r yousa-skills/skills/judging-compounding-value ~/.claude/skills/judging-compounding-value
-cp -r yousa-skills/skills/auditing-dead-code ~/.claude/skills/auditing-dead-code
-cp -r yousa-skills/skills/research-question-framing ~/.claude/skills/research-question-framing
-```
+Re-run `./install.sh` to upgrade. The script only touches skill directories it owns — skills installed from other sources are never modified.
 
 ## Maintenance
 
