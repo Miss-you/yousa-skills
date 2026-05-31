@@ -1,11 +1,11 @@
 ---
 name: contribute-skill
-description: Use when submitting a skill (or a directory of skills) to the yousa-skills GitHub project. Handles copying skill files, updating README.md skill table, committing changes, and creating a pull request.
+description: Use when submitting a skill (or a directory of skills) to the yousa-skills GitHub project. Handles copying skill files, updating docs/readme/skills.json, regenerating README.md and README.zh-CN.md, committing changes, and creating a pull request.
 ---
 
 # Contribute Skill
 
-将一个 skill 或 skill 目录提交到 yousa-skills 项目中，自动完成文件复制、README 更新、git commit 和 PR 创建。
+将一个 skill 或 skill 目录提交到 yousa-skills 项目中，自动完成文件复制、README 元数据更新、双语 README 重新生成、git commit 和 PR 创建。
 
 ## 输入
 
@@ -29,7 +29,7 @@ digraph validate {
 
 对每个 skill：
 1. 确认 `SKILL.md` 存在且包含有效的 YAML frontmatter（`name` 和 `description` 字段）
-2. 读取 `name` 和 `description` 用于后续步骤
+2. 读取 `name` 用于目录和清单定位；README 展示文案单独维护在 `docs/readme/skills.json`
 3. 跳过 placeholder 文件（内容含 "placeholder" 或 "TODO" 的模板文件）
 
 ### Step 2: 复制到项目
@@ -44,23 +44,28 @@ cp -r <skill-dir> skills/<skill-name>/
 - 如果目标已存在，提示用户确认是否覆盖；确认后先 `rm -rf` 再 `cp -r`，确保完整替换而非合并
 - 清理 placeholder 文件：删除仅含模板内容的 `references/`、`scripts/`、`assets/` 文件
 
-### Step 3: 更新 README.md
+### Step 3: 更新清单并重新生成 README
 
-在 `README.md` 的 Skills 表格中追加一行：
-
-```markdown
-| [<skill-name>](skills/<skill-name>/) | <description-from-frontmatter> |
-```
+更新 `docs/readme/skills.json`，把 skill 的 README 相关元数据加入单一来源。
 
 规则：
-- 如果该 skill 已存在于表格中，更新描述而非重复添加
-- `description` 截取前 120 字符（如有必要），保持表格整洁
-- 同时更新 Installation 部分的示例命令，展示新 skill 的安装方式
+- 如果该 skill 已存在于清单中，更新对应条目而非重复添加
+- `description` 保持简洁，并分别维护英文/中文说明
+- `README.md` 和 `README.zh-CN.md` 均为生成文件，不要手工编辑
+- 如果 README 的页面文案或结构需要变化，修改 `docs/readme/templates/` 下的模板，而不是直接改生成产物
+
+然后运行：
+
+```bash
+python3 scripts/render_readmes.py
+```
+
+确认两个 README 文件都已重新生成。
 
 ### Step 4: Git Commit
 
 ```bash
-git add skills/<skill-name>/ README.md
+git add skills/<skill-name>/ docs/readme/skills.json README.md README.zh-CN.md
 git commit -m "feat: add <skill-name> skill" -m "<one-line description>"
 ```
 
