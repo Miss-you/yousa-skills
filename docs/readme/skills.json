@@ -102,6 +102,12 @@
     "description_zh": "通过静态分析、引用分类和入口/接口风险对账来审计死代码，避免仅凭 grep 计数就判定某个符号可以删除，尤其针对 RPC、配置、生成代码和导出 API 等场景。"
   },
   {
+    "name": "go-3am-debuggable",
+    "path": "skills/go-3am-debuggable",
+    "description_en": "Review or write Go code with a 3AM debuggability lens, focusing on readable panic stacks, visible async ownership, mock-only seams, callback inversion, closure chains, and low-value indirection.",
+    "description_zh": "用“凌晨 3 点能 debug”的视角评审或编写 Go 代码，聚焦 panic stack 可读性、异步归属、mock-only seam、callback 反转、闭包链和低价值间接层。"
+  },
+  {
     "name": "research-question-framing",
     "path": "skills/research-question-framing",
     "description_en": "Turn a fuzzy research topic into an evidence-seeking brief — question tree, evidence matrix with proof/non-proof, and validation scenarios — before any source-code study, investigation, or architecture inquiry begins.",
