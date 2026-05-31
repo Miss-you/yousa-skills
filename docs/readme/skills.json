@@ -108,6 +108,12 @@
     "description_zh": "用“凌晨 3 点能 debug”的视角评审或编写 Go 代码，聚焦 panic stack 可读性、异步归属、mock-only seam、callback 反转、闭包链和低价值间接层。"
   },
   {
+    "name": "python-3am-debuggable",
+    "path": "skills/python-3am-debuggable",
+    "description_en": "Review or write Python code with a 3AM debuggability lens, focusing on tracebacks, async/background ownership, exception semantics, side effects, mutable state capture, dynamic dispatch, and low-value indirection.",
+    "description_zh": "用“凌晨 3 点能 debug”的视角评审或编写 Python 代码，聚焦 traceback、异步/后台任务归属、异常语义、副作用、可变状态捕获、动态分发和低价值间接层。"
+  },
+  {
     "name": "research-question-framing",
     "path": "skills/research-question-framing",
     "description_en": "Turn a fuzzy research topic into an evidence-seeking brief — question tree, evidence matrix with proof/non-proof, and validation scenarios — before any source-code study, investigation, or architecture inquiry begins.",

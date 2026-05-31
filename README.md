@@ -26,6 +26,7 @@ A curated collection of [Claude Code](https://docs.anthropic.com/en/docs/claude-
 | [judging-compounding-value](skills/judging-compounding-value/) | Judge whether an activity, skill, project, workflow, or career choice has compounding value or is mostly one-off consumption, using a six-dimension framework. |
 | [auditing-dead-code](skills/auditing-dead-code/) | Audit dead code by reconciling static analysis, reference classification, and entrypoint/API risk before declaring symbols safe to remove, especially around RPC, config, generated code, and exported APIs. |
 | [go-3am-debuggable](skills/go-3am-debuggable/) | Review or write Go code with a 3AM debuggability lens, focusing on readable panic stacks, visible async ownership, mock-only seams, callback inversion, closure chains, and low-value indirection. |
+| [python-3am-debuggable](skills/python-3am-debuggable/) | Review or write Python code with a 3AM debuggability lens, focusing on tracebacks, async/background ownership, exception semantics, side effects, mutable state capture, dynamic dispatch, and low-value indirection. |
 | [research-question-framing](skills/research-question-framing/) | Turn a fuzzy research topic into an evidence-seeking brief — question tree, evidence matrix with proof/non-proof, and validation scenarios — before any source-code study, investigation, or architecture inquiry begins. |
 
 ## Installation
