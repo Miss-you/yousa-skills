@@ -118,5 +118,17 @@
     "path": "skills/research-question-framing",
     "description_en": "Turn a fuzzy research topic into an evidence-seeking brief — question tree, evidence matrix with proof/non-proof, and validation scenarios — before any source-code study, investigation, or architecture inquiry begins.",
     "description_zh": "在开始读源码、做调研或架构探究之前，把模糊的研究主题转化为带问题树、证据矩阵（含「能证明 / 不能证明」两列）和验证场景的研究纲要。"
+  },
+  {
+    "name": "transcript-to-deep-minutes",
+    "path": "skills/transcript-to-deep-minutes",
+    "description_en": "Turn speaker-tagged meeting and roundtable transcripts into structured deep minutes by extracting judgments, mindsets, and cases through a multi-agent pipeline.",
+    "description_zh": "通过多 agent 流水线将带说话人标签的会议和圆桌转录提炼成「判断→思维模型→实证案例」三层的结构化深度纪要。"
+  },
+  {
+    "name": "minutes-sensitive-scan",
+    "path": "skills/minutes-sensitive-scan",
+    "description_en": "Scan and redact meeting minutes for sensitive identities, personnel signals, and traceable fingerprints before external release under the Chatham House Rule.",
+    "description_zh": "在对外发布前按查塔姆宫规则扫描并脱敏会议纪要，去除人名机构、人事信号和可反查的指纹细节。"
   }
 ]

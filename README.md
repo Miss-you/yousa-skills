@@ -28,6 +28,8 @@ A curated collection of [Claude Code](https://docs.anthropic.com/en/docs/claude-
 | [go-3am-debuggable](skills/go-3am-debuggable/) | Review or write Go code with a 3AM debuggability lens, focusing on readable panic stacks, visible async ownership, mock-only seams, callback inversion, closure chains, and low-value indirection. |
 | [python-3am-debuggable](skills/python-3am-debuggable/) | Review or write Python code with a 3AM debuggability lens, focusing on tracebacks, async/background ownership, exception semantics, side effects, mutable state capture, dynamic dispatch, and low-value indirection. |
 | [research-question-framing](skills/research-question-framing/) | Turn a fuzzy research topic into an evidence-seeking brief — question tree, evidence matrix with proof/non-proof, and validation scenarios — before any source-code study, investigation, or architecture inquiry begins. |
+| [transcript-to-deep-minutes](skills/transcript-to-deep-minutes/) | Turn speaker-tagged meeting and roundtable transcripts into structured deep minutes by extracting judgments, mindsets, and cases through a multi-agent pipeline. |
+| [minutes-sensitive-scan](skills/minutes-sensitive-scan/) | Scan and redact meeting minutes for sensitive identities, personnel signals, and traceable fingerprints before external release under the Chatham House Rule. |
 
 ## Installation
 
