@@ -28,6 +28,8 @@
 | [go-3am-debuggable](skills/go-3am-debuggable/) | 用“凌晨 3 点能 debug”的视角评审或编写 Go 代码，聚焦 panic stack 可读性、异步归属、mock-only seam、callback 反转、闭包链和低价值间接层。 |
 | [python-3am-debuggable](skills/python-3am-debuggable/) | 用“凌晨 3 点能 debug”的视角评审或编写 Python 代码，聚焦 traceback、异步/后台任务归属、异常语义、副作用、可变状态捕获、动态分发和低价值间接层。 |
 | [research-question-framing](skills/research-question-framing/) | 在开始读源码、做调研或架构探究之前，把模糊的研究主题转化为带问题树、证据矩阵（含「能证明 / 不能证明」两列）和验证场景的研究纲要。 |
+| [transcript-to-deep-minutes](skills/transcript-to-deep-minutes/) | 通过多 agent 流水线将带说话人标签的会议和圆桌转录提炼成「判断→思维模型→实证案例」三层的结构化深度纪要。 |
+| [minutes-sensitive-scan](skills/minutes-sensitive-scan/) | 在对外发布前按查塔姆宫规则扫描并脱敏会议纪要，去除人名机构、人事信号和可反查的指纹细节。 |
 
 ## 安装
 
