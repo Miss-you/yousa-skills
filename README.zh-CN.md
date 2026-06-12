@@ -22,6 +22,7 @@
 | [writing-contextual-todos](skills/writing-contextual-todos/) | 将 TODO 文档写成交接产物，包含完整上下文、验收标准和来源归属，让未来读者无需聊天记录即可理解。 |
 | [creating-sourcecode-learning-sops](skills/creating-sourcecode-learning-sops/) | 创建经过验证的多阶段源码学习 SOP，结合学习科学和动手代码验证，系统性地学习代码库中的某个功能。 |
 | [checking-upstream-before-work](skills/checking-upstream-before-work/) | 开工前先检查上游仓库是否已有相关的 open PR 或近 5 天内合入的 PR，避免重复劳动或和他人冲突。 |
+| [designing-state-machines](skills/designing-state-machines/) | 设计和评审生命周期状态机，覆盖持久状态字段、异步流程、重试、终态、并发控制和可观测性。 |
 | [writing-open-source-prs](skills/writing-open-source-prs/) | 为开源项目的 Pull Request 撰写、复核和更新描述，让维护者无需先读 diff 就能掌握 issue 背景、行为变化、测试覆盖、取舍和 CI 状态。 |
 | [judging-compounding-value](skills/judging-compounding-value/) | 用六维框架判断一项活动、技能、项目、工作流或职业选择是否具有复利价值，还是主要属于一次性消耗。 |
 | [auditing-dead-code](skills/auditing-dead-code/) | 通过静态分析、引用分类和入口/接口风险对账来审计死代码，避免仅凭 grep 计数就判定某个符号可以删除，尤其针对 RPC、配置、生成代码和导出 API 等场景。 |
