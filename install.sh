@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Install skills from this repo into personal Claude / Codex skill dirs.
+# Install skills from this repo into personal Claude / Codex / Trae skill dirs.
 # Default: overwrite existing skills. Use --backup to keep the old copy.
 set -euo pipefail
 
@@ -10,15 +10,23 @@ SRC_DIR="$SCRIPT_DIR/skills"
 # always resolves to a SIBLING of the skills directory, never inside it.
 CLAUDE_DIR="${CLAUDE_SKILLS_DIR:-$HOME/.claude/skills}"
 CODEX_DIR="${CODEX_SKILLS_DIR:-$HOME/.codex/skills}"
+TRAE_DIR="${TRAE_SKILLS_DIR:-$HOME/.trae-cn/skills}"
 CLAUDE_DIR="${CLAUDE_DIR%/}"
 CODEX_DIR="${CODEX_DIR%/}"
+TRAE_DIR="${TRAE_DIR%/}"
 
 install_claude=1
 install_codex=1
+install_trae=1
 do_backup=0
 dry_run=0
 do_list=0
 selected=()
+# Track whether any --*-only flag has been used so we can switch from the
+# default "install everywhere" mode to an explicit allow-list. Without this,
+# passing --trae-only would still install to Claude / Codex because their
+# flags default to 1.
+only_mode=0
 
 usage() {
   cat <<EOF
@@ -27,15 +35,20 @@ Usage: $(basename "$0") [options] [skill-name ...]
 Install skills from $SRC_DIR into personal skill directories.
 With no skill names, installs every skill under skills/.
 
-Targets (default: both):
+Targets (default: all three):
   --claude-only        Install to \$CLAUDE_SKILLS_DIR (default: ~/.claude/skills)
   --codex-only         Install to \$CODEX_SKILLS_DIR  (default: ~/.codex/skills)
+  --trae-only          Install to \$TRAE_SKILLS_DIR   (default: ~/.trae-cn/skills)
+
+  The --*-only flags are additive: pass several to install to a chosen subset.
+  For example: --claude-only --trae-only installs to Claude and Trae, skipping
+  Codex.
 
 Behavior:
   --backup             Move existing <skill>/ to <target>.bak/<skill>-<timestamp>-<pid>/
                        before overwriting. Default is plain overwrite.
                        Backups live OUTSIDE the skills dir so the host (Claude/
-                       Codex) doesn't load them as duplicate skills.
+                       Codex/Trae) doesn't load them as duplicate skills.
   --dry-run            Print planned actions without changing anything.
   --list               List skills available in this repo and exit.
   -h, --help           Show this help.
@@ -43,6 +56,7 @@ Behavior:
 Env overrides:
   CLAUDE_SKILLS_DIR    Override Claude target directory.
   CODEX_SKILLS_DIR     Override Codex target directory.
+  TRAE_SKILLS_DIR      Override Trae target directory.
   INSTALL_NO_RSYNC=1   Force the rm/cp fallback path even if rsync is
                        available. Mainly for testing the fallback path.
 EOF
@@ -54,8 +68,24 @@ die() { printf 'error: %s\n' "$*" >&2; exit 1; }
 while [[ $# -gt 0 ]]; do
   arg="$1"; shift
   case "$arg" in
-    --claude-only) install_codex=0 ;;
-    --codex-only)  install_claude=0 ;;
+    --claude-only)
+      if [[ $only_mode -eq 0 ]]; then
+        install_claude=0; install_codex=0; install_trae=0; only_mode=1
+      fi
+      install_claude=1
+      ;;
+    --codex-only)
+      if [[ $only_mode -eq 0 ]]; then
+        install_claude=0; install_codex=0; install_trae=0; only_mode=1
+      fi
+      install_codex=1
+      ;;
+    --trae-only)
+      if [[ $only_mode -eq 0 ]]; then
+        install_claude=0; install_codex=0; install_trae=0; only_mode=1
+      fi
+      install_trae=1
+      ;;
     --backup)      do_backup=1 ;;
     --dry-run)     dry_run=1 ;;
     --list)        do_list=1 ;;
@@ -102,6 +132,7 @@ fi
 targets=()
 [[ $install_claude -eq 1 ]] && targets+=("$CLAUDE_DIR")
 [[ $install_codex  -eq 1 ]] && targets+=("$CODEX_DIR")
+[[ $install_trae   -eq 1 ]] && targets+=("$TRAE_DIR")
 [[ ${#targets[@]} -gt 0 ]] || die "no install targets selected"
 
 have_rsync=0
