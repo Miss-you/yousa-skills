@@ -12,21 +12,25 @@ A curated collection of [Claude Code](https://docs.anthropic.com/en/docs/claude-
 
 ## Installation
 
-Clone the repo and run `./install.sh`. It syncs every skill under `skills/` into your personal Claude and Codex skill directories (`~/.claude/skills` and `~/.codex/skills`).
+Clone the repo and run `./install.sh`. It syncs every skill under `skills/` into your personal Claude, Codex, and Trae skill directories (`~/.claude/skills`, `~/.codex/skills`, and `~/.trae-cn/skills`).
 
 ```bash
 git clone https://github.com/Miss-you/yousa-skills.git
 cd yousa-skills
-./install.sh                                  # install all skills to both Claude and Codex
+./install.sh                                  # install all skills to Claude, Codex, and Trae
 ./install.sh writing-commit zh-proofreading   # install only the named skills
 ./install.sh --claude-only                    # only ~/.claude/skills
 ./install.sh --codex-only                     # only ~/.codex/skills
+./install.sh --trae-only                      # only ~/.trae-cn/skills
+./install.sh --claude-only --trae-only        # combine --*-only flags to install to a subset
 ./install.sh --backup                         # before overwriting, move the old skill to <target>.bak/
 ./install.sh --dry-run                        # print planned actions without changing anything
 ./install.sh --list                           # list installable skills
 ```
 
 Re-run `./install.sh` to upgrade. The script only touches skill directories whose names appear under this repo's `skills/`: skills with **other names** are left alone, and skills with the **same name** are overwritten — pass `--backup` to keep the old copy first.
+
+Override target directories with `CLAUDE_SKILLS_DIR`, `CODEX_SKILLS_DIR`, or `TRAE_SKILLS_DIR` if your installation lives somewhere else.
 
 ## Maintenance
 

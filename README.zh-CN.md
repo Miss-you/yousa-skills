@@ -37,21 +37,25 @@
 
 ## 安装
 
-克隆仓库后运行 `./install.sh`，它会把 `skills/` 下的全部 skill 同步到你个人的 Claude 与 Codex skill 目录（`~/.claude/skills` 和 `~/.codex/skills`）。
+克隆仓库后运行 `./install.sh`，它会把 `skills/` 下的全部 skill 同步到你个人的 Claude、Codex 与 Trae skill 目录（`~/.claude/skills`、`~/.codex/skills` 和 `~/.trae-cn/skills`）。
 
 ```bash
 git clone https://github.com/Miss-you/yousa-skills.git
 cd yousa-skills
-./install.sh                                  # 安装全部 skill 到 Claude 和 Codex
+./install.sh                                  # 安装全部 skill 到 Claude、Codex 与 Trae
 ./install.sh writing-commit zh-proofreading   # 只安装指定的 skill
 ./install.sh --claude-only                    # 只装到 ~/.claude/skills
 ./install.sh --codex-only                     # 只装到 ~/.codex/skills
+./install.sh --trae-only                      # 只装到 ~/.trae-cn/skills
+./install.sh --claude-only --trae-only        # 组合 --*-only 标志，可装到任意子集
 ./install.sh --backup                         # 覆盖前把旧版本备份到 <target>.bak/
 ./install.sh --dry-run                        # 只打印计划，不动文件
 ./install.sh --list                           # 列出所有可装 skill
 ```
 
 重新运行 `./install.sh` 即可升级。脚本只动名字出现在本仓库 `skills/` 下的目录：**其他名字**的 skill 不受影响；**同名**的 skill 会被覆盖，想保留旧版本请加 `--backup`。
+
+如果你的目录位置不同，可通过 `CLAUDE_SKILLS_DIR`、`CODEX_SKILLS_DIR` 或 `TRAE_SKILLS_DIR` 环境变量覆盖默认路径。
 
 ## 维护
 
