@@ -30,6 +30,10 @@ A curated collection of [Claude Code](https://docs.anthropic.com/en/docs/claude-
 | [research-question-framing](skills/research-question-framing/) | Turn a fuzzy research topic into an evidence-seeking brief — question tree, evidence matrix with proof/non-proof, and validation scenarios — before any source-code study, investigation, or architecture inquiry begins. |
 | [transcript-to-deep-minutes](skills/transcript-to-deep-minutes/) | Turn speaker-tagged meeting and roundtable transcripts into structured deep minutes by extracting judgments, mindsets, and cases through a multi-agent pipeline. |
 | [minutes-sensitive-scan](skills/minutes-sensitive-scan/) | Scan and redact meeting minutes for sensitive identities, personnel signals, and traceable fingerprints before external release under the Chatham House Rule. |
+| [youtube-video-analysis](skills/youtube-video-analysis/) | Run a four-step deep analysis on a YouTube video: pull subtitles, structure the summary, cross-check claims online, and output a reasonable/unreasonable/insight report. |
+| [research-to-knowledge-note](skills/research-to-knowledge-note/) | Restructure finished research plus web evidence into a long-term archivable Chinese knowledge note with provenance, evidence table, methodology, reproduction steps, and AC self-check. |
+| [claim-verification](skills/claim-verification/) | Audit a claim, video, article, or analysis for truthfulness: decompose arguments, cross-check key data online, surface the strongest opposition, and output an 8-dimension red/yellow/green diagnostic with a final objective verdict. |
+| [narrative-truth-audit](skills/narrative-truth-audit/) | Stress-test financial, macro, geopolitical, or business narratives across fact, structure, and causal layers, with cross-country and historical counterexamples and a final go/no-go verdict. |
 
 ## Installation
 

@@ -130,5 +130,29 @@
     "path": "skills/minutes-sensitive-scan",
     "description_en": "Scan and redact meeting minutes for sensitive identities, personnel signals, and traceable fingerprints before external release under the Chatham House Rule.",
     "description_zh": "在对外发布前按查塔姆宫规则扫描并脱敏会议纪要，去除人名机构、人事信号和可反查的指纹细节。"
+  },
+  {
+    "name": "youtube-video-analysis",
+    "path": "skills/youtube-video-analysis",
+    "description_en": "Run a four-step deep analysis on a YouTube video: pull subtitles, structure the summary, cross-check claims online, and output a reasonable/unreasonable/insight report.",
+    "description_zh": "对 YouTube 视频做四步深度分析：抓字幕 → 结构化总结 → 联网事实核查 → 输出「合理/不合理/启发」判断报告。"
+  },
+  {
+    "name": "research-to-knowledge-note",
+    "path": "skills/research-to-knowledge-note",
+    "description_en": "Restructure finished research plus web evidence into a long-term archivable Chinese knowledge note with provenance, evidence table, methodology, reproduction steps, and AC self-check.",
+    "description_zh": "把已完成的分析结果与联网检索证据整合成可长期归档的中文知识笔记，带元信息、证据表、方法论、复现方法和 AC 自检表。"
+  },
+  {
+    "name": "claim-verification",
+    "path": "skills/claim-verification",
+    "description_en": "Audit a claim, video, article, or analysis for truthfulness: decompose arguments, cross-check key data online, surface the strongest opposition, and output an 8-dimension red/yellow/green diagnostic with a final objective verdict.",
+    "description_zh": "对一段陈述、视频、文章或分析报告做真实性验收：拆解论点链 → 联网核查关键数据 → 找出强反方证据 → 输出 8 维度红绿灯诊断与最终客观判断。"
+  },
+  {
+    "name": "narrative-truth-audit",
+    "path": "skills/narrative-truth-audit",
+    "description_en": "Stress-test financial, macro, geopolitical, or business narratives across fact, structure, and causal layers, with cross-country and historical counterexamples and a final go/no-go verdict.",
+    "description_zh": "对金融、宏观、政经或商业叙事做真实性与逻辑性校验：拆命题 → 查数据 → 验结构 → 找反例 → 打分 → 输出可决策/观察/拒绝的明确验收结论。"
   }
 ]

@@ -30,6 +30,10 @@
 | [research-question-framing](skills/research-question-framing/) | 在开始读源码、做调研或架构探究之前，把模糊的研究主题转化为带问题树、证据矩阵（含「能证明 / 不能证明」两列）和验证场景的研究纲要。 |
 | [transcript-to-deep-minutes](skills/transcript-to-deep-minutes/) | 通过多 agent 流水线将带说话人标签的会议和圆桌转录提炼成「判断→思维模型→实证案例」三层的结构化深度纪要。 |
 | [minutes-sensitive-scan](skills/minutes-sensitive-scan/) | 在对外发布前按查塔姆宫规则扫描并脱敏会议纪要，去除人名机构、人事信号和可反查的指纹细节。 |
+| [youtube-video-analysis](skills/youtube-video-analysis/) | 对 YouTube 视频做四步深度分析：抓字幕 → 结构化总结 → 联网事实核查 → 输出「合理/不合理/启发」判断报告。 |
+| [research-to-knowledge-note](skills/research-to-knowledge-note/) | 把已完成的分析结果与联网检索证据整合成可长期归档的中文知识笔记，带元信息、证据表、方法论、复现方法和 AC 自检表。 |
+| [claim-verification](skills/claim-verification/) | 对一段陈述、视频、文章或分析报告做真实性验收：拆解论点链 → 联网核查关键数据 → 找出强反方证据 → 输出 8 维度红绿灯诊断与最终客观判断。 |
+| [narrative-truth-audit](skills/narrative-truth-audit/) | 对金融、宏观、政经或商业叙事做真实性与逻辑性校验：拆命题 → 查数据 → 验结构 → 找反例 → 打分 → 输出可决策/观察/拒绝的明确验收结论。 |
 
 ## 安装
 
