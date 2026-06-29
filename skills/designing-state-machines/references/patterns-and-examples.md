@@ -51,14 +51,14 @@ No `RUNNING` state is needed unless the server can prove execution. Use `ACKED` 
 
 ## Test Matrix Template
 
-Every row is a current state. Every column is an event. Fill each cell with a transition, idempotent result, rejection, audit-only behavior, or repair path.
+Every row is a current state. Every column is an event. Reuse the exact event names from the transition table above so the matrix is a direct, complete derivative of the example — including the distinct `PULL_TIMEOUT` and `EXEC_TIMEOUT` paths rather than a single merged timeout. Fill each cell with a transition, idempotent result, rejection, audit-only behavior, or repair path.
 
-| Current state | `CLIENT_PULLED` | `REPORT_SUCCESS` | `REPORT_FAILURE` | `TIMEOUT` |
-| --- | --- | --- | --- | --- |
-| `PENDING` | `ACKED` | reject/audit | reject/audit | `FAILED` |
-| `ACKED` | idempotent `ACKED` | `FINISHED` | `FAILED` | `FAILED` |
-| `FINISHED` | idempotent `FINISHED` | idempotent `FINISHED` | conflict/audit | ignore/audit |
-| `FAILED` | reject/audit | conflict/audit | idempotent `FAILED` | idempotent `FAILED` |
+| Current state | `CLIENT_PULLED` | `CLIENT_REPORTED_SUCCESS` | `CLIENT_REPORTED_FAILURE` | `PULL_TIMEOUT` | `EXEC_TIMEOUT` |
+| --- | --- | --- | --- | --- | --- |
+| `PENDING` | `ACKED` | reject/audit | reject/audit | `FAILED` | reject/audit |
+| `ACKED` | idempotent `ACKED` | `FINISHED` | `FAILED` | ignore/audit | `FAILED` |
+| `FINISHED` | idempotent `FINISHED` | idempotent `FINISHED` | conflict/audit | ignore/audit | ignore/audit |
+| `FAILED` | reject/audit | conflict/audit | idempotent `FAILED` | idempotent `FAILED` | idempotent `FAILED` |
 
 ## Review Questions
 
