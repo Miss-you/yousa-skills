@@ -154,5 +154,11 @@
     "path": "skills/narrative-truth-audit",
     "description_en": "Stress-test financial, macro, geopolitical, or business narratives across fact, structure, and causal layers, with cross-country and historical counterexamples and a final go/no-go verdict.",
     "description_zh": "对金融、宏观、政经或商业叙事做真实性与逻辑性校验：拆命题 → 查数据 → 验结构 → 找反例 → 打分 → 输出可决策/观察/拒绝的明确验收结论。"
+  },
+  {
+    "name": "deep-research-verifier",
+    "path": "skills/deep-research-verifier",
+    "description_en": "Answer complex multi-source questions with a structured research-answer-verify framework: deconstruct the question and design an SOP, gather evidence by dimension, cross-check facts and logic, then output a verified answer with an evidence-tracking table.",
+    "description_zh": "用「研究-回答-验证」四阶段框架回答需要多源信息支撑的复杂问题：解构问题并设计 SOP → 按维度搜集证据 → 交叉验证事实与逻辑 → 输出经验证的结论与证据追踪表。"
   }
 ]
