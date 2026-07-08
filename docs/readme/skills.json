@@ -172,5 +172,11 @@
     "path": "skills/minutes-quality-eval",
     "description_en": "Evaluate and compare meeting-minutes quality against the original transcript: fidelity spot-checks with risk-prioritized sampling, coverage inventory, distortion-pattern scan, and weighted multi-dimension scoring.",
     "description_zh": "对照原始转录评估/对比会议纪要质量：按风险优先级抽查保真度、盘点覆盖度、扫描九类失真模式，输出多维度加权打分与失真清单。"
+  },
+  {
+    "name": "eacc-chat-daily-distill",
+    "path": "skills/eacc-chat-daily-distill",
+    "description_en": "Distill a day of investment group chat into a sourced, sender-weighted Markdown note focused on decision-relevant methodology, judgments, and know-how, with mandatory acceptance checks.",
+    "description_zh": "按日提炼投资群聊记录，产出带溯源、按发言人权重加权的 Markdown 笔记，聚焦对投资决策有价值的方法论、关键判断与 Know-how，并强制执行数据验收。"
   }
 ]
