@@ -36,6 +36,7 @@
 | [claim-verification](skills/claim-verification/) | 对一段陈述、视频、文章或分析报告做真实性验收：拆解论点链 → 联网核查关键数据 → 找出强反方证据 → 输出 8 维度红绿灯诊断与最终客观判断。 |
 | [narrative-truth-audit](skills/narrative-truth-audit/) | 对金融、宏观、政经或商业叙事做真实性与逻辑性校验：拆命题 → 查数据 → 验结构 → 找反例 → 打分 → 输出可决策/观察/拒绝的明确验收结论。 |
 | [deep-research-verifier](skills/deep-research-verifier/) | 用「研究-回答-验证」四阶段框架回答需要多源信息支撑的复杂问题：解构问题并设计 SOP → 按维度搜集证据 → 交叉验证事实与逻辑 → 输出经验证的结论与证据追踪表。 |
+| [minutes-quality-eval](skills/minutes-quality-eval/) | 对照原始转录评估/对比会议纪要质量：按风险优先级抽查保真度、盘点覆盖度、扫描九类失真模式，输出多维度加权打分与失真清单。 |
 
 ## 安装
 
