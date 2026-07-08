@@ -172,5 +172,11 @@
     "path": "skills/minutes-quality-eval",
     "description_en": "Evaluate and compare meeting-minutes quality against the original transcript: fidelity spot-checks with risk-prioritized sampling, coverage inventory, distortion-pattern scan, and weighted multi-dimension scoring.",
     "description_zh": "对照原始转录评估/对比会议纪要质量：按风险优先级抽查保真度、盘点覆盖度、扫描九类失真模式，输出多维度加权打分与失真清单。"
+  },
+  {
+    "name": "improving-english-prompts",
+    "path": "skills/improving-english-prompts",
+    "description_en": "Correct rough English prompts into clear workplace English and create short practice quizzes from the user's mistakes.",
+    "description_zh": "将粗糙英文提示改成清晰的职场英文，并基于真实错误生成简短练习题。"
   }
 ]
