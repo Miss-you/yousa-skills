@@ -38,6 +38,7 @@
 | [deep-research-verifier](skills/deep-research-verifier/) | 用「研究-回答-验证」四阶段框架回答需要多源信息支撑的复杂问题：解构问题并设计 SOP → 按维度搜集证据 → 交叉验证事实与逻辑 → 输出经验证的结论与证据追踪表。 |
 | [minutes-quality-eval](skills/minutes-quality-eval/) | 对照原始转录评估/对比会议纪要质量：按风险优先级抽查保真度、盘点覆盖度、扫描九类失真模式，输出多维度加权打分与失真清单。 |
 | [improving-english-prompts](skills/improving-english-prompts/) | 将粗糙英文提示改成清晰的职场英文，并基于真实错误生成简短练习题。 |
+| [eacc-chat-daily-distill](skills/eacc-chat-daily-distill/) | 按日提炼投资群聊记录，产出带溯源、按发言人权重加权的 Markdown 笔记，聚焦对投资决策有价值的方法论、关键判断与 Know-how，并强制执行数据验收。 |
 
 ## 安装
 

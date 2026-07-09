@@ -178,5 +178,11 @@
     "path": "skills/improving-english-prompts",
     "description_en": "Correct rough English prompts into clear workplace English and create short practice quizzes from the user's mistakes.",
     "description_zh": "将粗糙英文提示改成清晰的职场英文，并基于真实错误生成简短练习题。"
+  },
+  {
+    "name": "eacc-chat-daily-distill",
+    "path": "skills/eacc-chat-daily-distill",
+    "description_en": "Distill a day of investment group chat into a sourced, sender-weighted Markdown note focused on decision-relevant methodology, judgments, and know-how, with mandatory acceptance checks.",
+    "description_zh": "按日提炼投资群聊记录，产出带溯源、按发言人权重加权的 Markdown 笔记，聚焦对投资决策有价值的方法论、关键判断与 Know-how，并强制执行数据验收。"
   }
 ]
