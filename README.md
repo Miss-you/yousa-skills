@@ -41,7 +41,7 @@ A curated collection of [Claude Code](https://docs.anthropic.com/en/docs/claude-
 
 ## Installation
 
-Clone the repo and run `./install.sh`. It syncs every skill under `skills/` into your personal Claude, Codex, and Trae skill directories (`~/.claude/skills`, `~/.codex/skills`, and `~/.trae-cn/skills`).
+Clone the repo and run the installer for your shell. It syncs every skill under `skills/` into your personal Claude, Codex, and Trae skill directories (`~/.claude/skills`, `~/.codex/skills`, and `~/.trae-cn/skills`).
 
 ```bash
 git clone https://github.com/Miss-you/yousa-skills.git
@@ -57,7 +57,21 @@ cd yousa-skills
 ./install.sh --list                           # list installable skills
 ```
 
-Re-run `./install.sh` to upgrade. The script only touches skill directories whose names appear under this repo's `skills/`: skills with **other names** are left alone, and skills with the **same name** are overwritten — pass `--backup` to keep the old copy first.
+```powershell
+git clone https://github.com/Miss-you/yousa-skills.git
+cd yousa-skills
+.\install.ps1                                  # install all skills to Claude, Codex, and Trae
+.\install.ps1 writing-commit zh-proofreading   # install only the named skills
+.\install.ps1 --claude-only                    # only ~/.claude/skills
+.\install.ps1 --codex-only                     # only ~/.codex/skills
+.\install.ps1 --trae-only                      # only ~/.trae-cn/skills
+.\install.ps1 --claude-only --trae-only        # combine --*-only flags to install to a subset
+.\install.ps1 --backup                         # before overwriting, move the old skill to <target>.bak/
+.\install.ps1 --dry-run                        # print planned actions without changing anything
+.\install.ps1 --list                           # list installable skills
+```
+
+Re-run `./install.sh` or `.\install.ps1` to upgrade. The installer only touches skill directories whose names appear under this repo's `skills/`: skills with **other names** are left alone, and skills with the **same name** are overwritten — pass `--backup` to keep the old copy first.
 
 Override target directories with `CLAUDE_SKILLS_DIR`, `CODEX_SKILLS_DIR`, or `TRAE_SKILLS_DIR` if your installation lives somewhere else.
 
