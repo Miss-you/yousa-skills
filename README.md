@@ -37,6 +37,7 @@ A curated collection of [Claude Code](https://docs.anthropic.com/en/docs/claude-
 | [narrative-truth-audit](skills/narrative-truth-audit/) | Stress-test financial, macro, geopolitical, or business narratives across fact, structure, and causal layers, with cross-country and historical counterexamples and a final go/no-go verdict. |
 | [deep-research-verifier](skills/deep-research-verifier/) | Answer complex multi-source questions with a structured research-answer-verify framework: deconstruct the question and design an SOP, gather evidence by dimension, cross-check facts and logic, then output a verified answer with an evidence-tracking table. |
 | [minutes-quality-eval](skills/minutes-quality-eval/) | Evaluate and compare meeting-minutes quality against the original transcript: fidelity spot-checks with risk-prioritized sampling, coverage inventory, distortion-pattern scan, and weighted multi-dimension scoring. |
+| [improving-english-prompts](skills/improving-english-prompts/) | Correct rough English prompts into clear workplace English and create short practice quizzes from the user's mistakes. |
 | [eacc-chat-daily-distill](skills/eacc-chat-daily-distill/) | Distill a day of investment group chat into a sourced, sender-weighted Markdown note focused on decision-relevant methodology, judgments, and know-how, with mandatory acceptance checks. |
 
 ## Installation
