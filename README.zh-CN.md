@@ -58,7 +58,21 @@ cd yousa-skills
 ./install.sh --list                           # 列出所有可装 skill
 ```
 
-重新运行 `./install.sh` 即可升级。脚本只动名字出现在本仓库 `skills/` 下的目录：**其他名字**的 skill 不受影响；**同名**的 skill 会被覆盖，想保留旧版本请加 `--backup`。
+```powershell
+git clone https://github.com/Miss-you/yousa-skills.git
+cd yousa-skills
+.\install.ps1                                  # install all skills to Claude, Codex, and Trae
+.\install.ps1 writing-commit zh-proofreading   # install only the named skills
+.\install.ps1 --claude-only                    # only ~/.claude/skills
+.\install.ps1 --codex-only                     # only ~/.codex/skills
+.\install.ps1 --trae-only                      # only ~/.trae-cn/skills
+.\install.ps1 --claude-only --trae-only        # combine --*-only flags to install to a subset
+.\install.ps1 --backup                         # before overwriting, move the old skill to <target>.bak/
+.\install.ps1 --dry-run                        # print planned actions without changing anything
+.\install.ps1 --list                           # list installable skills
+```
+
+重新运行 `./install.sh` 或 `.\install.ps1` 即可升级。安装器只动名字出现在本仓库 `skills/` 下的目录：**其他名字**的 skill 不受影响；**同名**的 skill 会被覆盖，想保留旧版本请加 `--backup`。
 
 如果你的目录位置不同，可通过 `CLAUDE_SKILLS_DIR`、`CODEX_SKILLS_DIR` 或 `TRAE_SKILLS_DIR` 环境变量覆盖默认路径。
 
