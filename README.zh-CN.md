@@ -39,6 +39,8 @@
 | [minutes-quality-eval](skills/minutes-quality-eval/) | 对照原始转录评估/对比会议纪要质量：按风险优先级抽查保真度、盘点覆盖度、扫描九类失真模式，输出多维度加权打分与失真清单。 |
 | [improving-english-prompts](skills/improving-english-prompts/) | 将粗糙英文提示改成清晰的职场英文，并基于真实错误生成简短练习题。 |
 | [eacc-chat-daily-distill](skills/eacc-chat-daily-distill/) | 按日提炼投资群聊记录，产出带溯源、按发言人权重加权的 Markdown 笔记，聚焦对投资决策有价值的方法论、关键判断与 Know-how，并强制执行数据验收。 |
+| [kospi-mobile-web-design](skills/kospi-mobile-web-design/) | 设计 KOSPI Monitor 手机页面与分享报告，兼顾指标可读性、触控操作和响应式布局。 |
+| [kospi-desktop-dashboard-design](skills/kospi-desktop-dashboard-design/) | 设计 KOSPI Monitor 桌面 Dashboard 与报告，明确安排信息层级、图表和精确数值。 |
 | [prepare-audio-library](skills/prepare-audio-library/) | 将长音频、视频或 OST 合集整理成可独立播放的曲目，核对曲名与切点，嵌入用户提供的封面并补充有依据的音乐标签。 |
 
 ## 安装
