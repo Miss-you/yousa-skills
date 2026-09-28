@@ -42,6 +42,7 @@ A curated collection of [Claude Code](https://docs.anthropic.com/en/docs/claude-
 | [kospi-mobile-web-design](skills/kospi-mobile-web-design/) | Design KOSPI Monitor phone pages and shareable reports with readable metrics, touch controls, and responsive layouts. |
 | [kospi-desktop-dashboard-design](skills/kospi-desktop-dashboard-design/) | Design KOSPI Monitor desktop dashboards and reports with clear information hierarchy, charts, and precise values. |
 | [prepare-audio-library](skills/prepare-audio-library/) | Organize long audio, videos, and OST collections into playable tracks, verify track identities and cut points, and add user-provided covers and evidence-backed music tags. |
+| [triaging-github-ai-reviews](skills/triaging-github-ai-reviews/) | Assess AI review feedback on open-source GitHub PRs using correctness, necessity, complexity reduction, and long-term maintainability before selective fixes and authorized merging. |
 
 ## Installation
 

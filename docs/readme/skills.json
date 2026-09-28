@@ -202,5 +202,11 @@
     "path": "skills/prepare-audio-library",
     "description_en": "Organize long audio, videos, and OST collections into playable tracks, verify track identities and cut points, and add user-provided covers and evidence-backed music tags.",
     "description_zh": "将长音频、视频或 OST 合集整理成可独立播放的曲目，核对曲名与切点，嵌入用户提供的封面并补充有依据的音乐标签。"
+  },
+  {
+    "name": "triaging-github-ai-reviews",
+    "path": "skills/triaging-github-ai-reviews",
+    "description_en": "Assess AI review feedback on open-source GitHub PRs using correctness, necessity, complexity reduction, and long-term maintainability before selective fixes and authorized merging.",
+    "description_zh": "逐条评估开源 GitHub PR 的 AI 审查意见，依据正确性、必要性、熵减和长期可维护性选择性修复，并在授权与验证满足后合并。"
   }
 ]
