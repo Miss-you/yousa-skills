@@ -42,6 +42,7 @@
 | [kospi-mobile-web-design](skills/kospi-mobile-web-design/) | 设计 KOSPI Monitor 手机页面与分享报告，兼顾指标可读性、触控操作和响应式布局。 |
 | [kospi-desktop-dashboard-design](skills/kospi-desktop-dashboard-design/) | 设计 KOSPI Monitor 桌面 Dashboard 与报告，明确安排信息层级、图表和精确数值。 |
 | [prepare-audio-library](skills/prepare-audio-library/) | 将长音频、视频或 OST 合集整理成可独立播放的曲目，核对曲名与切点，嵌入用户提供的封面并补充有依据的音乐标签。 |
+| [triaging-github-ai-reviews](skills/triaging-github-ai-reviews/) | 逐条评估开源 GitHub PR 的 AI 审查意见，依据正确性、必要性、熵减和长期可维护性选择性修复，并在授权与验证满足后合并。 |
 
 ## 安装
 
