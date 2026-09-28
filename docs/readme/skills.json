@@ -196,5 +196,11 @@
     "path": "skills/kospi-desktop-dashboard-design",
     "description_en": "Design KOSPI Monitor desktop dashboards and reports with clear information hierarchy, charts, and precise values.",
     "description_zh": "设计 KOSPI Monitor 桌面 Dashboard 与报告，明确安排信息层级、图表和精确数值。"
+  },
+  {
+    "name": "prepare-audio-library",
+    "path": "skills/prepare-audio-library",
+    "description_en": "Organize long audio, videos, and OST collections into playable tracks, verify track identities and cut points, and add user-provided covers and evidence-backed music tags.",
+    "description_zh": "将长音频、视频或 OST 合集整理成可独立播放的曲目，核对曲名与切点，嵌入用户提供的封面并补充有依据的音乐标签。"
   }
 ]

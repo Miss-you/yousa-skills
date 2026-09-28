@@ -41,6 +41,7 @@
 | [eacc-chat-daily-distill](skills/eacc-chat-daily-distill/) | 按日提炼投资群聊记录，产出带溯源、按发言人权重加权的 Markdown 笔记，聚焦对投资决策有价值的方法论、关键判断与 Know-how，并强制执行数据验收。 |
 | [kospi-mobile-web-design](skills/kospi-mobile-web-design/) | 设计 KOSPI Monitor 手机页面与分享报告，兼顾指标可读性、触控操作和响应式布局。 |
 | [kospi-desktop-dashboard-design](skills/kospi-desktop-dashboard-design/) | 设计 KOSPI Monitor 桌面 Dashboard 与报告，明确安排信息层级、图表和精确数值。 |
+| [prepare-audio-library](skills/prepare-audio-library/) | 将长音频、视频或 OST 合集整理成可独立播放的曲目，核对曲名与切点，嵌入用户提供的封面并补充有依据的音乐标签。 |
 
 ## 安装
 

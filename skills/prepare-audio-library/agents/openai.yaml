@@ -1,0 +1,4 @@
+interface:
+  display_name: "音乐资源整理与核验"
+  short_description: "长音频切歌、曲名核对、用户封面与作者标签，以及音质调查和交付验收"
+  default_prompt: "使用 $prepare-audio-library 整理这些音乐资源，核对曲名和切点，嵌入我提供的封面，调查作者与更好音源，并交付音频和验收结果。"
