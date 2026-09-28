@@ -184,5 +184,17 @@
     "path": "skills/eacc-chat-daily-distill",
     "description_en": "Distill a day of investment group chat into a sourced, sender-weighted Markdown note focused on decision-relevant methodology, judgments, and know-how, with mandatory acceptance checks.",
     "description_zh": "按日提炼投资群聊记录，产出带溯源、按发言人权重加权的 Markdown 笔记，聚焦对投资决策有价值的方法论、关键判断与 Know-how，并强制执行数据验收。"
+  },
+  {
+    "name": "kospi-mobile-web-design",
+    "path": "skills/kospi-mobile-web-design",
+    "description_en": "Design KOSPI Monitor phone pages and shareable reports with readable metrics, touch controls, and responsive layouts.",
+    "description_zh": "设计 KOSPI Monitor 手机页面与分享报告，兼顾指标可读性、触控操作和响应式布局。"
+  },
+  {
+    "name": "kospi-desktop-dashboard-design",
+    "path": "skills/kospi-desktop-dashboard-design",
+    "description_en": "Design KOSPI Monitor desktop dashboards and reports with clear information hierarchy, charts, and precise values.",
+    "description_zh": "设计 KOSPI Monitor 桌面 Dashboard 与报告，明确安排信息层级、图表和精确数值。"
   }
 ]
