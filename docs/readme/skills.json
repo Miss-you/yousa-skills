@@ -184,5 +184,11 @@
     "path": "skills/eacc-chat-daily-distill",
     "description_en": "Distill a day of investment group chat into a sourced, sender-weighted Markdown note focused on decision-relevant methodology, judgments, and know-how, with mandatory acceptance checks.",
     "description_zh": "按日提炼投资群聊记录，产出带溯源、按发言人权重加权的 Markdown 笔记，聚焦对投资决策有价值的方法论、关键判断与 Know-how，并强制执行数据验收。"
+  },
+  {
+    "name": "prepare-audio-library",
+    "path": "skills/prepare-audio-library",
+    "description_en": "Organize long audio, videos, and OST collections into playable tracks, verify track identities and cut points, and add user-provided covers and evidence-backed music tags.",
+    "description_zh": "将长音频、视频或 OST 合集整理成可独立播放的曲目，核对曲名与切点，嵌入用户提供的封面并补充有依据的音乐标签。"
   }
 ]

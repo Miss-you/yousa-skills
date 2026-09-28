@@ -39,6 +39,7 @@ A curated collection of [Claude Code](https://docs.anthropic.com/en/docs/claude-
 | [minutes-quality-eval](skills/minutes-quality-eval/) | Evaluate and compare meeting-minutes quality against the original transcript: fidelity spot-checks with risk-prioritized sampling, coverage inventory, distortion-pattern scan, and weighted multi-dimension scoring. |
 | [improving-english-prompts](skills/improving-english-prompts/) | Correct rough English prompts into clear workplace English and create short practice quizzes from the user's mistakes. |
 | [eacc-chat-daily-distill](skills/eacc-chat-daily-distill/) | Distill a day of investment group chat into a sourced, sender-weighted Markdown note focused on decision-relevant methodology, judgments, and know-how, with mandatory acceptance checks. |
+| [prepare-audio-library](skills/prepare-audio-library/) | Organize long audio, videos, and OST collections into playable tracks, verify track identities and cut points, and add user-provided covers and evidence-backed music tags. |
 
 ## Installation
 
