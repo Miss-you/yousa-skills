@@ -5,7 +5,7 @@ try {
   const stored = localStorage.getItem("ydd-skills-theme");
   if (stored === "light" || stored === "dark") root.dataset.theme = stored;
 } catch {
-  // The toggle still works for this page when storage is unavailable.
+  // Theme controls also work without storage.
 }
 const isDark = () => root.dataset.theme ? root.dataset.theme === "dark" : scheme.matches;
 const syncTheme = () => theme.setAttribute("aria-pressed", String(isDark()));
@@ -24,43 +24,71 @@ theme.addEventListener("click", () => {
 
 const search = document.querySelector("#skill-search");
 if (search) {
-  const cards = [...document.querySelectorAll(".skill-card")];
+  const rows = Array.from(document.querySelectorAll(".skill-row"), (row) => ({
+    row,
+    text: row.dataset.search.toLocaleLowerCase(),
+  }));
   const count = document.querySelector("#skill-count");
   const empty = document.querySelector("#no-results");
+  const form = search.form;
+  const clear = form.querySelector(".clear-search");
   const chinese = root.lang === "zh-CN";
+  const initialCount = count.textContent;
   function filterCatalog() {
-    const terms = search.value.toLocaleLowerCase().trim().split(/\s+/);
+    const query = search.value.toLocaleLowerCase().trim();
+    const terms = query.split(/\s+/);
     let visible = 0;
-    for (const card of cards) {
-      const text = card.textContent.toLocaleLowerCase();
-      card.hidden = !terms.every((term) => text.includes(term));
-      if (!card.hidden) visible++;
+    for (const { row, text } of rows) {
+      row.hidden = !terms.every((term) => text.includes(term));
+      if (!row.hidden) visible++;
     }
-    count.textContent = chinese ? `${visible} 项 Skills` : `${visible} ${visible === 1 ? "skill" : "skills"}`;
+    count.textContent = !query ? initialCount : chinese
+      ? `${visible} / ${rows.length} 项`
+      : `${visible} of ${rows.length} skills`;
     empty.hidden = visible > 0;
+    clear.hidden = !search.value;
   }
-  search.closest("label").hidden = false;
+  form.hidden = false;
+  form.addEventListener("submit", (event) => event.preventDefault());
+  form.addEventListener("reset", (event) => {
+    event.preventDefault();
+    search.value = "";
+    filterCatalog();
+    search.focus();
+  });
   search.addEventListener("input", filterCatalog);
+  window.addEventListener("pageshow", filterCatalog);
   filterCatalog();
 }
 
 const status = document.querySelector("#copy-status");
+const dialog = document.querySelector("#copy-fallback");
+const fallback = dialog.querySelector("textarea");
+let resetCopyLabel;
+let previousButton;
+let previousLabel;
 for (const button of document.querySelectorAll("[data-copy]")) {
   button.hidden = false;
   button.addEventListener("click", async () => {
-    const target = document.getElementById(button.dataset.copy);
+    const text = button.dataset.copy;
+    status.textContent = "";
     try {
-      await navigator.clipboard.writeText(target.textContent);
-      status.textContent = document.body.dataset.copied;
+      await navigator.clipboard.writeText(text);
+      if (previousButton) previousButton.textContent = previousLabel;
+      clearTimeout(resetCopyLabel);
+      previousButton = button;
+      previousLabel = button.textContent;
+      button.textContent = document.body.dataset.copied;
+      status.textContent = `${button.getAttribute("aria-label")} · ${document.body.dataset.copied}`;
+      resetCopyLabel = setTimeout(() => {
+        button.textContent = previousLabel;
+        previousButton = undefined;
+      }, 2000);
     } catch {
-      if (!target.hidden) {
-        const selection = window.getSelection();
-        const range = document.createRange();
-        range.selectNodeContents(target);
-        selection.removeAllRanges();
-        selection.addRange(range);
-      }
-      status.textContent = target.hidden ? document.body.dataset.linkFailed : document.body.dataset.copyFailed;
+      fallback.value = text;
+      dialog.showModal();
+      fallback.focus();
+      fallback.select();
     }
   });
 }

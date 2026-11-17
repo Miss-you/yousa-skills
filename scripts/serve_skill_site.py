@@ -11,7 +11,8 @@ from urllib.parse import parse_qs
 
 SLUG = re.compile(r"[a-z0-9]+(?:-[a-z0-9]+)*")
 PUBLIC_PATH = re.compile(
-    rf"/(?:en/?)?|/(?:en/)?skills/{SLUG.pattern}/?|/assets/registry\.(?:css|js)|/(?:en/)?404\.html"
+    rf"/(?:en/?)?|/(?:en/)?skills/{SLUG.pattern}/?|/assets/registry\.(?:css|js)"
+    rf"|/downloads/{SLUG.pattern}\.zip"
 )
 
 
@@ -44,7 +45,7 @@ class RegistryHandler(SimpleHTTPRequestHandler):
                         self.end_headers()
                         return None
                 return self.missing(path)
-        if not PUBLIC_PATH.fullmatch(path) or path.endswith("/404.html"):
+        if not PUBLIC_PATH.fullmatch(path):
             return self.missing(path)
         requested = Path(self.directory) / path.strip("/")
         if requested.is_dir():
@@ -57,13 +58,18 @@ class RegistryHandler(SimpleHTTPRequestHandler):
         # Avoid logging arbitrary public request paths and query strings.
         pass
 
+    def send_response(self, code, message=None):
+        super().send_response(code, message)
+        path = self.path.partition("?")[0]
+        if code == HTTPStatus.OK and path.startswith("/downloads/") and PUBLIC_PATH.fullmatch(path):
+            self.send_header("Content-Disposition", f'attachment; filename="{path.rsplit("/", 1)[-1]}"')
+
     def end_headers(self):
         self.send_header("X-Content-Type-Options", "nosniff")
         self.send_header("Cache-Control", "no-store")
         self.send_header(
             "Content-Security-Policy",
-            "default-src 'none'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; "
-            "font-src https://fonts.gstatic.com; base-uri 'none'; frame-ancestors 'none'",
+            "default-src 'none'; script-src 'self'; style-src 'self'; base-uri 'none'; frame-ancestors 'none'",
         )
         super().end_headers()
 

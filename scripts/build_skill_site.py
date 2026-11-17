@@ -7,6 +7,7 @@ import os
 from pathlib import Path
 import re
 import shutil
+import subprocess
 import tempfile
 
 if __package__:
@@ -20,8 +21,27 @@ ASSETS = ("registry.css", "registry.js")
 SLUG = re.compile(r"[a-z0-9]+(?:-[a-z0-9]+)*")
 
 
-def copy_button(target: str, label: str) -> str:
-    return f'<button type="button" data-copy="{target}" hidden>{label}</button>'
+def copy_button(text: str, label: str, name: str, *, primary: bool = False) -> str:
+    kind = "button primary" if primary else "button"
+    return (
+        f'<button type="button" class="{kind}" data-copy="{html.escape(text)}" '
+        f'aria-label="{label} · {name}" hidden>{label}</button>'
+    )
+
+
+def install_prompt(name: str) -> str:
+    source = f"{REPO}/tree/main/skills/{name}"
+    return (
+        f"Install the {name} skill from {source} into this workspace. "
+        "Start from AGENTS.md and follow any WORKSPACE.md routing rules. Clone or vendor the repository "
+        "under the appropriate project directory. Keep this skill's directory and its companion files "
+        "together. Expose its single SKILL.md through the workspace's skill-discovery chain and register "
+        "it in the local index if present. Keep private aliases, paths, and credentials in a local overlay."
+    )
+
+
+def download_link(name: str, label: str) -> str:
+    return f'<a class="button" href="/downloads/{name}.zip" download aria-label="{label} · {name}">{label}</a>'
 
 
 def layout(title: str, description: str, path: str, alternate: str, zh: bool, body: str) -> str:
@@ -31,10 +51,13 @@ def layout(title: str, description: str, path: str, alternate: str, zh: bool, bo
     homepage = "个人主页" if zh else "About Yousa"
     switch = "English" if zh else "简体中文"
     switch_lang = "en" if zh else "zh-CN"
-    theme = "切换深色模式" if zh else "Toggle dark mode"
+    theme = "切换明暗主题" if zh else "Toggle light/dark theme"
     copied = "已复制" if zh else "Copied"
-    failed = "复制失败，请手动选中复制" if zh else "Copy unavailable. Select the text to copy it."
-    link_failed = "请从地址栏复制链接" if zh else "Copy the link from the address bar."
+    manual = "手动复制" if zh else "Copy manually"
+    failed = "剪贴板不可用，请复制下方已选中的文本。" if zh else "Clipboard unavailable. Copy the selected text."
+    close = "关闭" if zh else "Close"
+    main_nav = "主导航" if zh else "Main navigation"
+    skip = "跳到主要内容" if zh else "Skip to main content"
     return f"""<!doctype html>
 <html lang="{lang}">
 <head>
@@ -46,24 +69,38 @@ def layout(title: str, description: str, path: str, alternate: str, zh: bool, bo
   <meta property="og:url" content="{ORIGIN}{path}">
   <link rel="canonical" href="{ORIGIN}{path}">
   <link rel="alternate" hreflang="{switch_lang}" href="{ORIGIN}{alternate}">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&amp;family=Noto+Serif+SC:wght@600;700&amp;family=Noto+Sans+SC:wght@400;500;700&amp;display=swap">
   <link rel="stylesheet" href="/assets/registry.css">
   <script src="/assets/registry.js" defer></script>
   <title>{html.escape(title)}</title>
 </head>
-<body data-copied="{copied}" data-copy-failed="{failed}" data-link-failed="{link_failed}">
+<body data-copied="{copied}">
+  <a class="skip-link" href="#main-content">{skip}</a>
   <header class="site-header">
-    <div class="header-inner">
-      <a class="brand" href="https://yousali.com/">Yousa Driven Development <span>| YDD</span></a>
-      <nav aria-label="{catalog}">
-        <a href="{home}" aria-current="{'page' if path == home else 'true'}">{catalog}</a>
+    <div class="site-header-inner">
+      <div class="site-brand-row">
+        <a class="site-brand" href="https://yousali.com/">Yousa Driven Development | YDD</a>
+        <div class="site-controls">
+          <button id="theme-toggle" type="button" aria-pressed="false" aria-label="{theme}" hidden><span aria-hidden="true"></span></button>
+          <a href="{alternate}" hreflang="{switch_lang}" lang="{switch_lang}" aria-label="{switch}">{"En" if zh else "中文"}</a>
+        </div>
+      </div>
+      <nav class="site-menu" aria-label="{main_nav}">
+        <a href="https://yousali.com/">{homepage}</a>
+        <a href="{home}" aria-current="{'page' if path == home else 'location'}">{catalog}</a>
         <a href="{REPO}">GitHub</a>
-        <a href="{alternate}" hreflang="{switch_lang}" lang="{switch_lang}">{switch}</a>
-        <button id="theme-toggle" class="theme-toggle" type="button" aria-pressed="false" aria-label="{theme}" hidden>◐</button>
       </nav>
     </div>
   </header>
-  <main>{body}</main>
+  <main id="main-content">{body}</main>
+  <div id="copy-status" class="visually-hidden" role="status"></div>
+  <dialog id="copy-fallback" aria-labelledby="copy-heading">
+    <form method="dialog">
+      <h2 id="copy-heading">{manual}</h2>
+      <p id="copy-instruction">{failed}</p>
+      <textarea readonly rows="7" aria-labelledby="copy-heading" aria-describedby="copy-instruction"></textarea>
+      <button class="button" type="submit">{close}</button>
+    </form>
+  </dialog>
   <footer><a href="https://yousali.com/">{homepage}</a> <span aria-hidden="true">·</span>
     <a href="{REPO}">Miss-you / yousa-skills</a></footer>
 </body>
@@ -77,20 +114,34 @@ def description_for(entry: dict, zh: bool) -> str:
 
 def catalog_page(entries: list[dict], zh: bool) -> str:
     prefix = "" if zh else "/en"
-    title = "Yousa Skills"
-    intro = ("面向 AI 协作的可复用工作流，从源码阅读、写作到代码审查。"
-             if zh else "Reusable workflows for working with AI, from reading source code and writing to reviewing changes.")
-    search_label = "搜索名称或说明" if zh else "Search by name or description"
-    count = f"{len(entries)} 项 Skills" if zh else f"{len(entries)} skills"
+    title = "Skills 目录" if zh else "Skills catalog"
+    intro = (
+        "浏览公开 Skill，把安装提示发给你的编程助手，或下载 ZIP 手动安装。"
+        if zh else "Browse public skills. Send an install prompt to your coding agent or download a ZIP."
+    )
+    search_label = "搜索 Skill" if zh else "Search skills"
+    placeholder = "名称或简介，例如「代码」" if zh else "Name or description, e.g. code review"
+    count = f"全部 {len(entries)} 项" if zh else f"All {len(entries)} skills"
     no_results = "没有匹配的 Skill。" if zh else "No matching skills."
-    cards = []
+    clear = "清除搜索" if zh else "Clear search"
+    copy = "复制安装提示" if zh else "Copy install prompt"
+    download = "下载 ZIP" if zh else "Download ZIP"
+    rows = []
     for entry in sorted(entries, key=lambda item: item["name"]):
         name = entry["name"]
         desc = html.escape(description_for(entry, zh))
-        cards.append(
-            f'<li class="skill-card"><a href="{prefix}/skills/{name}/">'
-            f'<h2>{name}</h2><p>{desc}</p><span class="arrow" aria-hidden="true">↗</span></a></li>'
-        )
+        search_text = html.escape(" ".join((name, name.replace("-", " "), entry["description_en"], entry["description_zh"])))
+        rows.append(f"""
+        <li class="skill-row" data-search="{search_text}">
+          <div class="skill-info">
+            <h2><a href="{prefix}/skills/{name}/">{name}</a></h2>
+            <p>{desc}</p>
+          </div>
+          <div class="row-actions">
+            {copy_button(install_prompt(name), copy, name, primary=True)}
+            {download_link(name, download)}
+          </div>
+        </li>""")
     body = f"""
     <section class="intro">
       <h1>{title}</h1>
@@ -98,15 +149,17 @@ def catalog_page(entries: list[dict], zh: bool) -> str:
     </section>
     <section aria-label="{title}">
       <div class="catalog-tools">
-        <label class="search" hidden>{search_label}
-          <input id="skill-search" type="search" autocomplete="off">
-        </label>
-        <p class="count" id="skill-count" aria-live="polite">{count}</p>
+        <form class="search" role="search" hidden>
+          <label class="visually-hidden" for="skill-search">{search_label}</label>
+          <input id="skill-search" type="search" autocomplete="off" placeholder="{placeholder}">
+          <button class="button clear-search" type="reset" hidden>{clear}</button>
+        </form>
+        <p class="count" id="skill-count" role="status">{count}</p>
       </div>
-      <p id="no-results" hidden>{no_results}</p>
-      <ul class="catalog">{''.join(cards)}</ul>
+      <p class="empty" id="no-results" hidden>{no_results}</p>
+      <ul class="catalog">{''.join(rows)}</ul>
     </section>"""
-    return layout(title, intro, f"{prefix}/", "/en/" if zh else "/", zh, body)
+    return layout(f"{title} · YDD", intro, f"{prefix}/", "/en/" if zh else "/", zh, body)
 
 
 def detail_page(entry: dict, zh: bool) -> str:
@@ -129,12 +182,11 @@ def detail_page(entry: dict, zh: bool) -> str:
         "Installs to Claude Code, Codex, and Trae with backups of existing copies. "
         "Add --claude-only, --codex-only, or --trae-only to select one client."
     )
-    prompt = (
-        f"Install the {name} skill from {source} into this workspace. "
-        "Start from AGENTS.md and follow any WORKSPACE.md routing rules. Clone or vendor the repository under the appropriate project directory. "
-        "Keep this skill's directory and its companion files together. Expose its single SKILL.md "
-        "through the workspace's skill-discovery chain and register it in the local index if present. "
-        "Keep private aliases, paths, and credentials in a local overlay."
+    prompt = install_prompt(name)
+    download = "下载 ZIP" if zh else "Download ZIP"
+    zip_help = (
+        "解压后将整个 Skill 文件夹放入客户端的技能目录，保留其中的子目录和文件。"
+        if zh else "Unzip and place the entire skill folder in your client's skill directory."
     )
     command = f"git clone {REPO}.git\ncd yousa-skills\n./install.sh --backup {name}"
     windows = f"git clone {REPO}.git\ncd yousa-skills\n.\\install.ps1 --backup {name}"
@@ -145,18 +197,18 @@ def detail_page(entry: dict, zh: bool) -> str:
       <h1>{name}</h1>
       <p class="description">{html.escape(desc)}</p>
       <div class="actions">
-        {copy_button("install-prompt", copy)}
-        <a class="action" href="{source}">{source_label}</a>
-        {copy_button("share-url", copy_link)}
+        {copy_button(prompt, copy, name, primary=True)}
+        {download_link(name, download)}
+        <a class="button" href="{source}">{source_label}</a>
+        {copy_button(ORIGIN + prefix + route, copy_link, name)}
       </div>
-      <span id="copy-status" class="status" role="status"></span>
     </article>
     <section class="install-panel" aria-labelledby="install-heading">
       <h2 id="install-heading">{install}</h2>
       <p>{"将这段提示发给你的编程助手。" if zh else "Send this prompt to your coding agent."}</p>
       <pre id="install-prompt">{html.escape(prompt)}</pre>
-      <span id="share-url" hidden>{ORIGIN}{prefix}{route}</span>
       <details><summary>{cli}</summary>
+        <p>{zip_help}</p>
         <p>{scope}</p>
         <p>macOS / Linux</p><pre>{html.escape(command)}</pre>
         <p>Windows PowerShell</p><pre>{html.escape(windows)}</pre>
@@ -172,6 +224,29 @@ def missing_page(zh: bool) -> str:
     body = f'<section class="intro"><h1>{title}</h1><p><a href="{home}">{back}</a></p></section>'
     prefix, alternate = ("", "/en") if zh else ("/en", "")
     return layout(title, title, f"{prefix}/404.html", f"{alternate}/404.html", zh, body)
+
+
+def archive_skills(root: Path, output: Path, entries: list[dict]) -> None:
+    tree = subprocess.check_output(["git", "ls-tree", "-rz", "HEAD", "--", "skills/"], cwd=root)
+    committed = set()
+    for record in tree.split(b"\0"):
+        if not record:
+            continue
+        metadata, filename = record.split(b"\t", 1)
+        if metadata.split()[0] not in (b"100644", b"100755"):
+            raise ValueError(f"Skill archive requires committed regular files: {os.fsdecode(filename)}")
+        committed.add(os.fsdecode(filename))
+
+    output.mkdir()
+    for entry in entries:
+        name, path = entry["name"], entry["path"]
+        if f"{path}/SKILL.md" not in committed:
+            raise ValueError(f"Commit {path}/SKILL.md before building its download")
+        with (output / f"{name}.zip").open("wb") as archive:
+            subprocess.run(
+                ["git", "archive", "--format=zip", f"--prefix={name}/", f"HEAD:{path}"],
+                cwd=root, stdout=archive, check=True,
+            )
 
 
 def build(output: Path) -> int:
@@ -196,6 +271,7 @@ def build(output: Path) -> int:
         if source.is_symlink() or not source.is_file():
             raise ValueError(f"Public asset must be a regular file: {source}")
         shutil.copyfile(source, assets / filename)
+    archive_skills(root, output / "downloads", entries)
     for zh in (True, False):
         locale_dir = output if zh else output / "en"
         locale_dir.mkdir(exist_ok=True)
