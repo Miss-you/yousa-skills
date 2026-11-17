@@ -4,6 +4,8 @@ A curated collection of [Claude Code](https://docs.anthropic.com/en/docs/claude-
 
 [English](README.md) | [简体中文](README.zh-CN.md)
 
+[Browse the public skill catalog](https://skills.yousali.com/en/)
+
 ## Skills
 
 | Skill | Description |

@@ -27,6 +27,7 @@
 - When adding or changing a skill, follow the `contribute-skill` workflow.
 - Keep `.claude/skills/` and `.codex/skills/` mirrors in sync when the project relies on those local copies.
 - Update `README.md` whenever a published skill is added or its public description changes.
+- Use the existing bilingual inventory to publish the Skills catalog. See [catalog maintenance](docs/skills-site.md).
 - Do not commit placeholder-only files or half-copied skill directories.
 
 ## Verification
