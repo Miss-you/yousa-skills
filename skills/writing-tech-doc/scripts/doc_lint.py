@@ -88,7 +88,7 @@ def check_headings(lines, mask):
         if level < 2:
             continue
         is_appendix = bool(re.match(r"^(附录|Appendix)", text))
-        if re.match(r"^\d+\.", text) or is_appendix:
+        if level == 2 and (re.match(r"^\d+\.", text) or is_appendix):
             numbered += 1
         for pat in NARRATIVE:
             if re.search(pat, text):
