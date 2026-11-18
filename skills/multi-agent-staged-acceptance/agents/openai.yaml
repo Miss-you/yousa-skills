@@ -1,0 +1,4 @@
+interface:
+  display_name: "Multi-Agent Code Acceptance"
+  short_description: "Spec-aware Git scope, multi-agent review and acceptance"
+  default_prompt: "Use $multi-agent-staged-acceptance to infer the review scope from Git changes and the relevant spec, then review and acceptance-test that scope with multiple agents."

@@ -208,5 +208,47 @@
     "path": "skills/triaging-github-ai-reviews",
     "description_en": "Assess AI review feedback on open-source GitHub PRs using correctness, necessity, complexity reduction, and long-term maintainability before selective fixes and authorized merging.",
     "description_zh": "逐条评估开源 GitHub PR 的 AI 审查意见，依据正确性、必要性、熵减和长期可维护性选择性修复，并在授权与验证满足后合并。"
+  },
+  {
+    "name": "safe-rebase-push",
+    "path": "skills/safe-rebase-push",
+    "description_en": "Safely rebase and push after a rejected push by checking file overlap with remote commits first and verifying that no remote change was lost.",
+    "description_zh": "push 被拒或需要安全拉取推送时，先检查与远程新提交的文件交叉，再 rebase 并验证远程改动没有丢失。"
+  },
+  {
+    "name": "overengineering-audit",
+    "path": "skills/overengineering-audit",
+    "description_en": "Run a subtractive review of a finished change against its goal, cutting speculative abstractions, unused knobs, and impossible edge-case handling.",
+    "description_zh": "对照目标对已完成的改动做减法审查，砍掉投机性抽象、没人用的配置项和防不可能发生情况的代码。"
+  },
+  {
+    "name": "auditing-change-scope",
+    "path": "skills/auditing-change-scope",
+    "description_en": "Audit a change or plan before commit or handover, classifying each hunk as in-scope, needs-decision, or hand-off to catch scope creep and drive-by edits.",
+    "description_zh": "提交、推送或移交前审计改动范围，逐块判定是否在授权范围内，揪出顺手改和夹带改动。"
+  },
+  {
+    "name": "multi-agent-staged-acceptance",
+    "path": "skills/multi-agent-staged-acceptance",
+    "description_en": "Review spec or working-tree changes with independent agents that infer scope from Git evidence and report severity-ordered findings with file:line proof.",
+    "description_zh": "按需求和 Git 证据确定审查范围，派多个独立 agent 交叉验收改动，输出按严重度排序、带 file:line 证据的结论。"
+  },
+  {
+    "name": "deriving-solution-scope",
+    "path": "skills/deriving-solution-scope",
+    "description_en": "Turn a problem, goal, incident, or vague direction into candidate work items, decision principles, and a second-pass recommended scope.",
+    "description_zh": "把问题、目标、事故或模糊方向推导成候选工作项、取舍原则，并经二次评估给出推荐范围。"
+  },
+  {
+    "name": "writing-conclusion-first-briefs",
+    "path": "skills/writing-conclusion-first-briefs",
+    "description_en": "Write durable Markdown research briefs, retrospectives, and decision memos that put the answer first, followed by evidence, limits, and next checks.",
+    "description_zh": "撰写结论先行的 Markdown 调研简报、复盘或决策备忘，先给答案，再给证据、局限和后续验证。"
+  },
+  {
+    "name": "go-service-risk-review",
+    "path": "skills/go-service-risk-review",
+    "description_en": "Run a lightweight production-risk review of a finished Go backend change across observability, compatibility, performance, isolation, and concurrency.",
+    "description_zh": "对已完成的 Go 后端服务改动做轻量上线风险审查，覆盖可观测性、兼容性、性能、隔离和并发。"
   }
 ]

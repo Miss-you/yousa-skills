@@ -17,7 +17,7 @@
 | [zh-proofreading](skills/zh-proofreading/) | 逐段扫描中文文章的错别字、语病、标点问题和中英混排格式问题。 | 近3月 0 次 / ⚪ 未使用 |
 | [secret-scan](skills/secret-scan/) | 在提交、推送或创建 PR 之前扫描已暂存或已修改的文件，检查是否泄露密钥。 | 近3月 185 次 / 🟢 活跃 |
 | [pr-review-autofix](skills/pr-review-autofix/) | 通过本地定时任务盯住打开的 PR，发现 AI code review 评论后自动修复。 | 近3月 1 次 / 🟡 低频 |
-| [monitoring-pr-ai-reviews](skills/monitoring-pr-ai-reviews/) | 当实现已经完成、GitHub PR 已存在或即将创建，而且还需要继续跟进 Copilot 或其他 AI review 评论时使用。 | 近3月 6 次 / 🟢 活跃 |
+| [monitoring-pr-ai-reviews](skills/monitoring-pr-ai-reviews/) | 当实现已经完成、GitHub PR 已存在或即将创建，而且还需要继续跟进 Copilot 或其他 AI review 评论时使用。 | 近3月 7 次 / 🟢 活跃 |
 | [writing-commit](skills/writing-commit/) | 通过检查仓库状态自动推导提交范围和提交信息来创建本地 git commit，内置密钥扫描和验证门禁。 | 近3月 10 次 / 🟢 活跃 |
 | [writing-contextual-todos](skills/writing-contextual-todos/) | 将 TODO 文档写成交接产物，包含完整上下文、验收标准和来源归属，让未来读者无需聊天记录即可理解。 | 近3月 15 次 / 🟢 活跃 |
 | [creating-sourcecode-learning-sops](skills/creating-sourcecode-learning-sops/) | 创建经过验证的多阶段源码学习 SOP，结合学习科学和动手代码验证，系统性地学习代码库中的某个功能。 | 近3月 0 次 / ⚪ 未使用 |
@@ -43,6 +43,13 @@
 | [kospi-desktop-dashboard-design](skills/kospi-desktop-dashboard-design/) | 设计 KOSPI Monitor 桌面 Dashboard 与报告，明确安排信息层级、图表和精确数值。 | 近3月 0 次 / ⚪ 未使用 |
 | [prepare-audio-library](skills/prepare-audio-library/) | 将长音频、视频或 OST 合集整理成可独立播放的曲目，核对曲名与切点，嵌入用户提供的封面并补充有依据的音乐标签。 | 近3月 5 次 / 🟢 活跃 |
 | [triaging-github-ai-reviews](skills/triaging-github-ai-reviews/) | 逐条评估开源 GitHub PR 的 AI 审查意见，依据正确性、必要性、熵减和长期可维护性选择性修复，并在授权与验证满足后合并。 | 近3月 0 次 / ⚪ 未使用 |
+| [safe-rebase-push](skills/safe-rebase-push/) | push 被拒或需要安全拉取推送时，先检查与远程新提交的文件交叉，再 rebase 并验证远程改动没有丢失。 | 近3月 164 次 / 🟢 活跃 |
+| [overengineering-audit](skills/overengineering-audit/) | 对照目标对已完成的改动做减法审查，砍掉投机性抽象、没人用的配置项和防不可能发生情况的代码。 | 近3月 126 次 / 🟢 活跃 |
+| [auditing-change-scope](skills/auditing-change-scope/) | 提交、推送或移交前审计改动范围，逐块判定是否在授权范围内，揪出顺手改和夹带改动。 | 近3月 85 次 / 🟢 活跃 |
+| [multi-agent-staged-acceptance](skills/multi-agent-staged-acceptance/) | 按需求和 Git 证据确定审查范围，派多个独立 agent 交叉验收改动，输出按严重度排序、带 file:line 证据的结论。 | 近3月 53 次 / 🟢 活跃 |
+| [deriving-solution-scope](skills/deriving-solution-scope/) | 把问题、目标、事故或模糊方向推导成候选工作项、取舍原则，并经二次评估给出推荐范围。 | 近3月 18 次 / 🟢 活跃 |
+| [writing-conclusion-first-briefs](skills/writing-conclusion-first-briefs/) | 撰写结论先行的 Markdown 调研简报、复盘或决策备忘，先给答案，再给证据、局限和后续验证。 | 近3月 15 次 / 🟢 活跃 |
+| [go-service-risk-review](skills/go-service-risk-review/) | 对已完成的 Go 后端服务改动做轻量上线风险审查，覆盖可观测性、兼容性、性能、隔离和并发。 | 近3月 40 次 / 🟢 活跃 |
 
 活跃度统计的是维护者本人在本地 Claude Code 和 Codex 会话里的使用次数，区间 2026-09 至 2026-11（截至 2026-11-18）：≥5 次为活跃，1–4 次为低频，0 次为未使用，— 表示暂无数据。更早的日志不完整，0 次只说明没有留下记录，不代表从未用过。每月用 `scripts/skill_usage_stats.py` 刷新一次。
 
