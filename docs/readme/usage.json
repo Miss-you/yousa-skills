@@ -8,6 +8,19 @@
   "status_rule": "recent_3m >= 5: active; 1-4: low; 0: inactive",
   "coverage_note": "Counts come from the maintainer's local Claude Code and Codex session logs, so they reflect one person's usage, not installs. Claude Code transcripts exist only from 2026-08 and most older Codex logs were pruned, so months before the recent_3m window are undercounted. Reading a SKILL.md with Claude's Read tool, or a skill typed but never loaded, is not counted. A skill used several times in one turn counts once. 0 means no recorded use, not proof of no use.",
   "skills": {
+    "aligning-new-interface-fields": {
+      "monthly": {
+        "2026-06": 0,
+        "2026-07": 0,
+        "2026-08": 6,
+        "2026-09": 7,
+        "2026-10": 16,
+        "2026-11": 3
+      },
+      "recent_3m": 26,
+      "last_used_month": "2026-11",
+      "status": "active"
+    },
     "auditing-change-scope": {
       "monthly": {
         "2026-06": 0,
@@ -18,6 +31,19 @@
         "2026-11": 28
       },
       "recent_3m": 85,
+      "last_used_month": "2026-11",
+      "status": "active"
+    },
+    "auditing-code-comments": {
+      "monthly": {
+        "2026-06": 0,
+        "2026-07": 0,
+        "2026-08": 0,
+        "2026-09": 39,
+        "2026-10": 31,
+        "2026-11": 16
+      },
+      "recent_3m": 86,
       "last_used_month": "2026-11",
       "status": "active"
     },
@@ -68,6 +94,32 @@
         "2026-09": 10,
         "2026-10": 8,
         "2026-11": 5
+      },
+      "recent_3m": 23,
+      "last_used_month": "2026-11",
+      "status": "active"
+    },
+    "config-switch-review": {
+      "monthly": {
+        "2026-06": 0,
+        "2026-07": 0,
+        "2026-08": 1,
+        "2026-09": 5,
+        "2026-10": 12,
+        "2026-11": 2
+      },
+      "recent_3m": 19,
+      "last_used_month": "2026-11",
+      "status": "active"
+    },
+    "constraint-first-proposal": {
+      "monthly": {
+        "2026-06": 0,
+        "2026-07": 0,
+        "2026-08": 0,
+        "2026-09": 20,
+        "2026-10": 1,
+        "2026-11": 2
       },
       "recent_3m": 23,
       "last_used_month": "2026-11",
@@ -307,6 +359,19 @@
       "last_used_month": "2026-11",
       "status": "active"
     },
+    "polishing-go-readability": {
+      "monthly": {
+        "2026-06": 0,
+        "2026-07": 0,
+        "2026-08": 0,
+        "2026-09": 19,
+        "2026-10": 25,
+        "2026-11": 9
+      },
+      "recent_3m": 53,
+      "last_used_month": "2026-11",
+      "status": "active"
+    },
     "pr-review-autofix": {
       "monthly": {
         "2026-06": 0,
@@ -398,6 +463,19 @@
       "last_used_month": "2026-11",
       "status": "active"
     },
+    "smart-commit": {
+      "monthly": {
+        "2026-06": 13,
+        "2026-07": 20,
+        "2026-08": 89,
+        "2026-09": 69,
+        "2026-10": 97,
+        "2026-11": 71
+      },
+      "recent_3m": 237,
+      "last_used_month": "2026-11",
+      "status": "active"
+    },
     "social-strategist": {
       "monthly": {
         "2026-06": 0,
@@ -408,6 +486,19 @@
         "2026-11": 3
       },
       "recent_3m": 10,
+      "last_used_month": "2026-11",
+      "status": "active"
+    },
+    "spec-to-techdoc": {
+      "monthly": {
+        "2026-06": 0,
+        "2026-07": 0,
+        "2026-08": 13,
+        "2026-09": 2,
+        "2026-10": 12,
+        "2026-11": 2
+      },
+      "recent_3m": 16,
       "last_used_month": "2026-11",
       "status": "active"
     },
@@ -422,6 +513,19 @@
       },
       "recent_3m": 6,
       "last_used_month": "2026-10",
+      "status": "active"
+    },
+    "tech-validation-doc": {
+      "monthly": {
+        "2026-06": 0,
+        "2026-07": 0,
+        "2026-08": 8,
+        "2026-09": 6,
+        "2026-10": 28,
+        "2026-11": 16
+      },
+      "recent_3m": 50,
+      "last_used_month": "2026-11",
       "status": "active"
     },
     "tmux-dispatch": {
@@ -527,6 +631,19 @@
       "recent_3m": 2,
       "last_used_month": "2026-09",
       "status": "low"
+    },
+    "writing-tech-doc": {
+      "monthly": {
+        "2026-06": 0,
+        "2026-07": 0,
+        "2026-08": 3,
+        "2026-09": 8,
+        "2026-10": 5,
+        "2026-11": 2
+      },
+      "recent_3m": 15,
+      "last_used_month": "2026-11",
+      "status": "active"
     },
     "youtube-video-analysis": {
       "monthly": {
