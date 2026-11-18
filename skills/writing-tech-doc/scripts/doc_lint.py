@@ -169,13 +169,21 @@ def check_mermaid(lines):
         if not body:
             out.append(("error", start, "mermaid 块为空"))
             continue
-        kind = body[0][1].strip()
-        if kind.startswith("%%{"):
-            kind = body[1][1].strip() if len(body) > 1 else ""
+        # 跳过 YAML frontmatter（--- ... ---）、%% 注释/指令和空行，找真正的图类型声明
+        rest = [b for b in body]
+        if rest and rest[0][1].strip() == "---":
+            k = next((j for j in range(1, len(rest)) if rest[j][1].strip() == "---"), None)
+            rest = rest[k + 1:] if k is not None else []
+        rest = [b for b in rest if b[1].strip() and not b[1].strip().startswith("%%")]
+        kind = rest[0][1].strip() if rest else ""
         if not re.match(r"^(flowchart|graph|sequenceDiagram|stateDiagram|erDiagram"
-                        r"|gantt|classDiagram|journey|pie)", kind):
+                        r"|gantt|classDiagram|journey|pie|mindmap|timeline|gitGraph"
+                        r"|quadrantChart|xychart|sankey|block|C4)", kind):
             out.append(("error", start, f"mermaid 首行不是图类型声明：{kind[:40]}"))
-        for lno, ln in body:
+        # 节点/边标签规则只适用于 flowchart；时序图等的消息文本允许方括号和括号
+        if not re.match(r"^(flowchart|graph)\b", kind):
+            continue
+        for lno, ln in rest[1:]:
             # 只有括号会真的让 flowchart 节点标签解析失败；: / <br/> 都是合法的
             for lb in re.findall(r"\[([^\]]*)\]", ln):
                 # 去掉形状定界符：[(圆柱)]、[[子程序]]、[/平行四边形/]
