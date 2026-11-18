@@ -1,0 +1,4 @@
+interface:
+  display_name: "Conclusion-First Briefs"
+  short_description: "Write evidence-backed briefs with the answer first"
+  default_prompt: "Use $writing-conclusion-first-briefs to turn this material into a concise, evidence-backed Markdown brief with the conclusion first."
