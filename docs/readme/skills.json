@@ -208,5 +208,29 @@
     "path": "skills/triaging-github-ai-reviews",
     "description_en": "Assess AI review feedback on open-source GitHub PRs using correctness, necessity, complexity reduction, and long-term maintainability before selective fixes and authorized merging.",
     "description_zh": "逐条评估开源 GitHub PR 的 AI 审查意见，依据正确性、必要性、熵减和长期可维护性选择性修复，并在授权与验证满足后合并。"
+  },
+  {
+    "name": "smart-commit",
+    "path": "skills/smart-commit",
+    "description_en": "Generate a structured commit message from the staged diff and an optional design doc, with an optional ticket reference that follows the repo's own convention, then commit after confirmation.",
+    "description_zh": "基于暂存区改动和可选设计文档生成结构化 commit message，可按仓库约定附带需求单号，确认后提交。"
+  },
+  {
+    "name": "spec-to-techdoc",
+    "path": "skills/spec-to-techdoc",
+    "description_en": "Generate a technical design doc from change specs (e.g. OpenSpec) plus the actual code, serving both client developers (API docs) and backend developers (decisions, tests, config, todos).",
+    "description_zh": "从变更规格（如 OpenSpec）和实际代码生成技术方案文档，同时服务客户端（接口文档）和后台（技术决策、测试清单、配置依赖、待办）。"
+  },
+  {
+    "name": "tech-validation-doc",
+    "path": "skills/tech-validation-doc",
+    "description_en": "Turn research notes, validation results, and confirmed conclusions into a maintainable technical validation doc covering decisions, known constraints, and phased todos.",
+    "description_zh": "把调研笔记、验证结果和核对结论整理成可长期维护的技术方案验证文档，聚焦关键决策、存量约束和分阶段待办。"
+  },
+  {
+    "name": "writing-tech-doc",
+    "path": "skills/writing-tech-doc",
+    "description_en": "Write Chinese backend technical docs in three passes: content draft, structure assets checked by a bundled lint script, then a style pass that removes AI-sounding prose.",
+    "description_zh": "三轮写中文后台技术文档：先写内容，再补结构资产并用自带 lint 脚本检查，最后去 AI 味。"
   }
 ]

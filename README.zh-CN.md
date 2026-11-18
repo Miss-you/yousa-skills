@@ -43,6 +43,10 @@
 | [kospi-desktop-dashboard-design](skills/kospi-desktop-dashboard-design/) | 设计 KOSPI Monitor 桌面 Dashboard 与报告，明确安排信息层级、图表和精确数值。 | 近3月 0 次 / ⚪ 未使用 |
 | [prepare-audio-library](skills/prepare-audio-library/) | 将长音频、视频或 OST 合集整理成可独立播放的曲目，核对曲名与切点，嵌入用户提供的封面并补充有依据的音乐标签。 | 近3月 5 次 / 🟢 活跃 |
 | [triaging-github-ai-reviews](skills/triaging-github-ai-reviews/) | 逐条评估开源 GitHub PR 的 AI 审查意见，依据正确性、必要性、熵减和长期可维护性选择性修复，并在授权与验证满足后合并。 | 近3月 0 次 / ⚪ 未使用 |
+| [smart-commit](skills/smart-commit/) | 基于暂存区改动和可选设计文档生成结构化 commit message，可按仓库约定附带需求单号，确认后提交。 | — |
+| [spec-to-techdoc](skills/spec-to-techdoc/) | 从变更规格（如 OpenSpec）和实际代码生成技术方案文档，同时服务客户端（接口文档）和后台（技术决策、测试清单、配置依赖、待办）。 | — |
+| [tech-validation-doc](skills/tech-validation-doc/) | 把调研笔记、验证结果和核对结论整理成可长期维护的技术方案验证文档，聚焦关键决策、存量约束和分阶段待办。 | — |
+| [writing-tech-doc](skills/writing-tech-doc/) | 三轮写中文后台技术文档：先写内容，再补结构资产并用自带 lint 脚本检查，最后去 AI 味。 | — |
 
 活跃度统计的是维护者本人在本地 Claude Code 和 Codex 会话里的使用次数，区间 2026-09 至 2026-11（截至 2026-11-18）：≥5 次为活跃，1–4 次为低频，0 次为未使用，— 表示暂无数据。更早的日志不完整，0 次只说明没有留下记录，不代表从未用过。每月用 `scripts/skill_usage_stats.py` 刷新一次。
 

@@ -43,6 +43,10 @@ A curated collection of [Claude Code](https://docs.anthropic.com/en/docs/claude-
 | [kospi-desktop-dashboard-design](skills/kospi-desktop-dashboard-design/) | Design KOSPI Monitor desktop dashboards and reports with clear information hierarchy, charts, and precise values. | 0 in 3 mo / ⚪ inactive |
 | [prepare-audio-library](skills/prepare-audio-library/) | Organize long audio, videos, and OST collections into playable tracks, verify track identities and cut points, and add user-provided covers and evidence-backed music tags. | 5 in 3 mo / 🟢 active |
 | [triaging-github-ai-reviews](skills/triaging-github-ai-reviews/) | Assess AI review feedback on open-source GitHub PRs using correctness, necessity, complexity reduction, and long-term maintainability before selective fixes and authorized merging. | 0 in 3 mo / ⚪ inactive |
+| [smart-commit](skills/smart-commit/) | Generate a structured commit message from the staged diff and an optional design doc, with an optional ticket reference that follows the repo's own convention, then commit after confirmation. | — |
+| [spec-to-techdoc](skills/spec-to-techdoc/) | Generate a technical design doc from change specs (e.g. OpenSpec) plus the actual code, serving both client developers (API docs) and backend developers (decisions, tests, config, todos). | — |
+| [tech-validation-doc](skills/tech-validation-doc/) | Turn research notes, validation results, and confirmed conclusions into a maintainable technical validation doc covering decisions, known constraints, and phased todos. | — |
+| [writing-tech-doc](skills/writing-tech-doc/) | Write Chinese backend technical docs in three passes: content draft, structure assets checked by a bundled lint script, then a style pass that removes AI-sounding prose. | — |
 
 Activity counts the maintainer's own uses in local Claude Code and Codex sessions, 2026-09 to 2026-11 (as of 2026-11-18): 5+ uses is active, 1–4 is low, 0 is inactive, and — means no data yet. Older logs are incomplete, so 0 means no recorded use, not proof of no use. Refresh monthly with `scripts/skill_usage_stats.py`.
 
