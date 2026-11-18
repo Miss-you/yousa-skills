@@ -43,6 +43,11 @@
 | [kospi-desktop-dashboard-design](skills/kospi-desktop-dashboard-design/) | 设计 KOSPI Monitor 桌面 Dashboard 与报告，明确安排信息层级、图表和精确数值。 |
 | [prepare-audio-library](skills/prepare-audio-library/) | 将长音频、视频或 OST 合集整理成可独立播放的曲目，核对曲名与切点，嵌入用户提供的封面并补充有依据的音乐标签。 |
 | [triaging-github-ai-reviews](skills/triaging-github-ai-reviews/) | 逐条评估开源 GitHub PR 的 AI 审查意见，依据正确性、必要性、熵减和长期可维护性选择性修复，并在授权与验证满足后合并。 |
+| [auditing-code-comments](skills/auditing-code-comments/) | 对已完成的改动做「注释减法审查」：删掉或压缩复述代码、记录设计论证、重复测试、引用不存在符号的注释，只保留能防止「照直觉改会出事」的那几处。 |
+| [polishing-go-readability](skills/polishing-go-readability/) | 在 Go 改动功能完成、review 通过、提交前，用少量不改行为的可读性调整降低 diff 的阅读成本；bug 和性能问题转到另行处理。 |
+| [aligning-new-interface-fields](skills/aligning-new-interface-fields/) | 新增或变更接口、实现前，先对照既有 proto 核对 RPC 名、路由别名、请求/响应消息和字段名与类型，让新字段沿用已有约定。 |
+| [constraint-first-proposal](skills/constraint-first-proposal/) | 出技术方案前先确认四个决定性约束（可逆性、项目阶段、影响半径、站在哪个角色），避免方案因权重没说清而反复返工。 |
+| [config-switch-review](skills/config-switch-review/) | 从运维视角审查新增的运行时配置和功能开关：列出真实会出现的开关组合，先只凭 key 名预期行为，再和代码对比，找出隐性互斥、缺省即全开、名不副实和无法回滚的开关。 |
 
 ## 安装
 

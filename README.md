@@ -43,6 +43,11 @@ A curated collection of [Claude Code](https://docs.anthropic.com/en/docs/claude-
 | [kospi-desktop-dashboard-design](skills/kospi-desktop-dashboard-design/) | Design KOSPI Monitor desktop dashboards and reports with clear information hierarchy, charts, and precise values. |
 | [prepare-audio-library](skills/prepare-audio-library/) | Organize long audio, videos, and OST collections into playable tracks, verify track identities and cut points, and add user-provided covers and evidence-backed music tags. |
 | [triaging-github-ai-reviews](skills/triaging-github-ai-reviews/) | Assess AI review feedback on open-source GitHub PRs using correctness, necessity, complexity reduction, and long-term maintainability before selective fixes and authorized merging. |
+| [auditing-code-comments](skills/auditing-code-comments/) | Run a subtraction-only review of comments on a finished change: delete or shrink comments that restate code, replay design debates, duplicate tests, or reference missing symbols, keeping only the ones that prevent intuitive-but-wrong edits. |
+| [polishing-go-readability](skills/polishing-go-readability/) | Lower the reading cost of a finished, reviewed Go diff right before commit with a few behavior-preserving readability edits, deferring bugs and performance to a separate list. |
+| [aligning-new-interface-fields](skills/aligning-new-interface-fields/) | Before implementing a new or changed interface, reconcile RPC names, route aliases, req/rsp messages, and field names/types against existing protos so new fields follow the conventions already in use. |
+| [constraint-first-proposal](skills/constraint-first-proposal/) | Before proposing a technical approach, pin down four decisive constraints (reversibility, project phase, blast radius, which hat) so the proposal isn't reworked round after round. |
+| [config-switch-review](skills/config-switch-review/) | Review new runtime config and feature switches from the operator's point of view: build the realistic switch-combination table, predict behavior from key names alone, then diff against the code to catch hidden mutual exclusion, fully-on defaults, misleading names, and unrollbackable switches. |
 
 ## Installation
 
