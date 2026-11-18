@@ -159,6 +159,10 @@ def check_mermaid(lines):
         for lno, ln in body:
             # 只有括号会真的让 flowchart 节点标签解析失败；: / <br/> 都是合法的
             for lb in re.findall(r"\[([^\]]*)\]", ln):
+                # 去掉形状定界符：[(圆柱)]、[[子程序]]、[/平行四边形/]
+                if lb.startswith("(") and lb.endswith(")"):
+                    lb = lb[1:-1]
+                lb = lb.lstrip("[/\\").rstrip("/\\")
                 if lb and not lb.startswith('"') and re.search(r"[()（）{}]", lb):
                     out.append(("error", lno, f'节点标签含括号需加引号："{lb[:30]}"'))
             if re.search(r"\|[^|]*[()（）][^|]*\|", ln):
