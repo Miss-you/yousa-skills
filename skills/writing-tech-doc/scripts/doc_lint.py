@@ -27,21 +27,31 @@ BANNED = [
 NARRATIVE = [r"[？?]", r"^为什么", r"^怎么", r"^如何看", r"了吗", r"变了", r"来了",
              r"其实", r"真相", r"背后", r"[，,]", r"[。！!]$"]
 
-FENCE = re.compile(r"^```")
+FENCE = re.compile(r"^(`{3,}|~{3,})")
 HEADING = re.compile(r"^(#{1,6})\s+(.*)$")
 ROW = re.compile(r"^\s*\|.*\|\s*$")
 SEP = re.compile(r"^\s*\|[\s:|-]+\|\s*$")
 
 
+def closes_fence(line, opener):
+    """围栏只能被同类字符、长度不短于开头、且后面没有其他内容的行关闭。"""
+    t = line.strip()
+    return t.startswith(opener) and set(t) == {opener[0]}
+
+
 def code_mask(lines):
-    """每行是否在围栏代码块内（围栏行本身也算）。"""
-    mask, inside = [], False
+    """每行是否在围栏代码块内（围栏行本身也算）。支持 ``` 和 ~~~。"""
+    mask, opener = [], None
     for ln in lines:
-        if FENCE.match(ln.strip()):
-            inside = not inside
-            mask.append(True)
+        if opener is None:
+            m = FENCE.match(ln.strip())
+            if m:
+                opener = m.group(1)
+            mask.append(m is not None)
         else:
-            mask.append(inside)
+            if closes_fence(ln, opener):
+                opener = None
+            mask.append(True)
     return mask
 
 
@@ -136,11 +146,13 @@ def check_mermaid(lines):
     """mermaid 常见渲染故障。节点标签含括号/冒号/斜杠不加引号会解析失败。"""
     out, i, n = [], 0, len(lines)
     while i < n:
-        if not re.match(r"^```\s*mermaid", lines[i].strip()):
+        m = re.match(r"^(`{3,}|~{3,})\s*mermaid", lines[i].strip())
+        if not m:
             i += 1
             continue
+        opener = m.group(1)
         start, i, body = i + 1, i + 1, []
-        while i < n and not FENCE.match(lines[i].strip()):
+        while i < n and not closes_fence(lines[i], opener):
             body.append((i + 1, lines[i]))
             i += 1
         if i >= n:
