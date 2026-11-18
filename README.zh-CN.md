@@ -50,6 +50,10 @@
 | [deriving-solution-scope](skills/deriving-solution-scope/) | 把问题、目标、事故或模糊方向推导成候选工作项、取舍原则，并经二次评估给出推荐范围。 | 近3月 18 次 / 🟢 活跃 |
 | [writing-conclusion-first-briefs](skills/writing-conclusion-first-briefs/) | 撰写结论先行的 Markdown 调研简报、复盘或决策备忘，先给答案，再给证据、局限和后续验证。 | 近3月 15 次 / 🟢 活跃 |
 | [go-service-risk-review](skills/go-service-risk-review/) | 对已完成的 Go 后端服务改动做轻量上线风险审查，覆盖可观测性、兼容性、性能、隔离和并发。 | 近3月 40 次 / 🟢 活跃 |
+| [smart-commit](skills/smart-commit/) | 基于暂存区改动和可选设计文档生成结构化 commit message，可按仓库约定附带需求单号，确认后提交。 | — |
+| [spec-to-techdoc](skills/spec-to-techdoc/) | 从变更规格（如 OpenSpec）和实际代码生成技术方案文档，同时服务客户端（接口文档）和后台（技术决策、测试清单、配置依赖、待办）。 | — |
+| [tech-validation-doc](skills/tech-validation-doc/) | 把调研笔记、验证结果和核对结论整理成可长期维护的技术方案验证文档，聚焦关键决策、存量约束和分阶段待办。 | — |
+| [writing-tech-doc](skills/writing-tech-doc/) | 三轮写中文后台技术文档：先写内容，再补结构资产并用自带 lint 脚本检查，最后去 AI 味。 | — |
 
 活跃度统计的是维护者本人在本地 Claude Code 和 Codex 会话里的使用次数，区间 2026-09 至 2026-11（截至 2026-11-18）：≥5 次为活跃，1–4 次为低频，0 次为未使用，— 表示暂无数据。更早的日志不完整，0 次只说明没有留下记录，不代表从未用过。每月用 `scripts/skill_usage_stats.py` 刷新一次。
 
