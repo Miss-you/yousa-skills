@@ -223,11 +223,11 @@
         "2026-08": 0,
         "2026-09": 1,
         "2026-10": 0,
-        "2026-11": 1
+        "2026-11": 5
       },
-      "recent_3m": 2,
+      "recent_3m": 6,
       "last_used_month": "2026-11",
-      "status": "low"
+      "status": "active"
     },
     "narrative-truth-audit": {
       "monthly": {
@@ -314,9 +314,9 @@
         "2026-08": 66,
         "2026-09": 65,
         "2026-10": 56,
-        "2026-11": 60
+        "2026-11": 64
       },
-      "recent_3m": 181,
+      "recent_3m": 185,
       "last_used_month": "2026-11",
       "status": "active"
     },

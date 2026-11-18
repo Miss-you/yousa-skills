@@ -15,9 +15,9 @@ A curated collection of [Claude Code](https://docs.anthropic.com/en/docs/claude-
 | [two-mirror-examples](skills/two-mirror-examples/) | Find persuasive examples for a thesis using distant and near mirrors that share the same underlying mechanism. | 3 in 3 mo / 🟡 low |
 | [cdp-page-to-md](skills/cdp-page-to-md/) | Fetch authenticated or JavaScript-rendered web pages via Chrome CDP and convert them into clean Markdown. | 1 in 3 mo / 🟡 low |
 | [zh-proofreading](skills/zh-proofreading/) | Scan Chinese prose for typos, grammar issues, punctuation problems, and mixed Chinese-Latin formatting issues. | 0 in 3 mo / ⚪ inactive |
-| [secret-scan](skills/secret-scan/) | Scan staged or changed files for leaked secrets before commit, push, or PR creation. | 181 in 3 mo / 🟢 active |
+| [secret-scan](skills/secret-scan/) | Scan staged or changed files for leaked secrets before commit, push, or PR creation. | 185 in 3 mo / 🟢 active |
 | [pr-review-autofix](skills/pr-review-autofix/) | Watch open PRs for AI code review comments and auto-fix them from local cron. | 1 in 3 mo / 🟡 low |
-| [monitoring-pr-ai-reviews](skills/monitoring-pr-ai-reviews/) | Use when implementation is already complete, a GitHub PR exists or must be opened, and follow-up work is still needed because Copilot or other AI review comments may arrive after the initial push. | 2 in 3 mo / 🟡 low |
+| [monitoring-pr-ai-reviews](skills/monitoring-pr-ai-reviews/) | Use when implementation is already complete, a GitHub PR exists or must be opened, and follow-up work is still needed because Copilot or other AI review comments may arrive after the initial push. | 6 in 3 mo / 🟢 active |
 | [writing-commit](skills/writing-commit/) | Create local git commits by deriving scope and message from repository evidence, with secret scanning and verification gates. | 10 in 3 mo / 🟢 active |
 | [writing-contextual-todos](skills/writing-contextual-todos/) | Write TODO docs as handoff artifacts with full context, acceptance criteria, and source attribution so future readers understand without chat history. | 15 in 3 mo / 🟢 active |
 | [creating-sourcecode-learning-sops](skills/creating-sourcecode-learning-sops/) | Create verified, multi-phase Study Operating Procedures for systematically learning a codebase feature, combining learning science with hands-on code verification. | 0 in 3 mo / ⚪ inactive |

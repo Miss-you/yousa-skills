@@ -568,6 +568,8 @@ def _resolve(tok: str, cwd: str) -> str:
 
 
 def _skills_from_tokens(sess: _Session, toks, stats) -> list:
+    if sess.is_guardian:  # approval-review sessions are automated, never a use
+        return []
     names = []
     for tok in toks:
         path = _resolve(tok, sess.cwd)
@@ -750,7 +752,7 @@ def _scan_file(path, archived, since, until, stats, disk_names, emitted, seen_id
         has_skill = "SKILL.md" in line or "<skill>" in line
         is_meta = '"session_meta"' in head or (lineno == 1 and head.startswith('{"id"'))
         is_turn = '"type":"turn_context"' in head or '"type":"task_started"' in head
-        is_user = '"role":"user"' in head and ("$" in line or "<skill>" in line)
+        is_user = '"role":"user"' in head  # every user message advances synthetic turns
         if not (has_skill or is_meta or is_turn or is_user or "(file: " in line):
             # still track timestamps cheaply
             tm = re.search(r'"timestamp":"([^"]+)"', head)
