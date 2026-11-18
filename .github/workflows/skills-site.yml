@@ -1,0 +1,21 @@
+name: Check skills catalog
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  catalog:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.x"
+      - run: python3 scripts/render_readmes.py --check
+      - run: python3 -m unittest discover -s tests
+      - run: python3 scripts/build_skill_site.py --output "$RUNNER_TEMP/skills-site"
