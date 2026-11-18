@@ -8,6 +8,19 @@
   "status_rule": "recent_3m >= 5: active; 1-4: low; 0: inactive",
   "coverage_note": "Counts come from the maintainer's local Claude Code and Codex session logs, so they reflect one person's usage, not installs. Claude Code transcripts exist only from 2026-08 and most older Codex logs were pruned, so months before the recent_3m window are undercounted. Reading a SKILL.md with Claude's Read tool, or a skill typed but never loaded, is not counted. A skill used several times in one turn counts once. 0 means no recorded use, not proof of no use.",
   "skills": {
+    "auditing-change-scope": {
+      "monthly": {
+        "2026-06": 0,
+        "2026-07": 0,
+        "2026-08": 0,
+        "2026-09": 0,
+        "2026-10": 57,
+        "2026-11": 28
+      },
+      "recent_3m": 85,
+      "last_used_month": "2026-11",
+      "status": "active"
+    },
     "auditing-dead-code": {
       "monthly": {
         "2026-06": 0,
@@ -86,6 +99,19 @@
       "last_used_month": "2026-11",
       "status": "active"
     },
+    "deriving-solution-scope": {
+      "monthly": {
+        "2026-06": 0,
+        "2026-07": 0,
+        "2026-08": 3,
+        "2026-09": 9,
+        "2026-10": 3,
+        "2026-11": 6
+      },
+      "recent_3m": 18,
+      "last_used_month": "2026-11",
+      "status": "active"
+    },
     "designing-state-machines": {
       "monthly": {
         "2026-06": 0,
@@ -136,6 +162,19 @@
       },
       "recent_3m": 109,
       "last_used_month": "2026-11",
+      "status": "active"
+    },
+    "go-service-risk-review": {
+      "monthly": {
+        "2026-06": 2,
+        "2026-07": 0,
+        "2026-08": 14,
+        "2026-09": 35,
+        "2026-10": 5,
+        "2026-11": 0
+      },
+      "recent_3m": 40,
+      "last_used_month": "2026-10",
       "status": "active"
     },
     "improving-english-prompts": {
@@ -223,9 +262,22 @@
         "2026-08": 0,
         "2026-09": 1,
         "2026-10": 0,
-        "2026-11": 5
+        "2026-11": 6
       },
-      "recent_3m": 6,
+      "recent_3m": 7,
+      "last_used_month": "2026-11",
+      "status": "active"
+    },
+    "multi-agent-staged-acceptance": {
+      "monthly": {
+        "2026-06": 3,
+        "2026-07": 0,
+        "2026-08": 0,
+        "2026-09": 11,
+        "2026-10": 33,
+        "2026-11": 9
+      },
+      "recent_3m": 53,
       "last_used_month": "2026-11",
       "status": "active"
     },
@@ -240,6 +292,19 @@
       },
       "recent_3m": 10,
       "last_used_month": "2026-10",
+      "status": "active"
+    },
+    "overengineering-audit": {
+      "monthly": {
+        "2026-06": 0,
+        "2026-07": 0,
+        "2026-08": 68,
+        "2026-09": 65,
+        "2026-10": 43,
+        "2026-11": 18
+      },
+      "recent_3m": 126,
+      "last_used_month": "2026-11",
       "status": "active"
     },
     "pr-review-autofix": {
@@ -306,6 +371,19 @@
       "recent_3m": 0,
       "last_used_month": null,
       "status": "inactive"
+    },
+    "safe-rebase-push": {
+      "monthly": {
+        "2026-06": 0,
+        "2026-07": 0,
+        "2026-08": 67,
+        "2026-09": 54,
+        "2026-10": 59,
+        "2026-11": 51
+      },
+      "recent_3m": 164,
+      "last_used_month": "2026-11",
+      "status": "active"
     },
     "secret-scan": {
       "monthly": {
@@ -408,6 +486,19 @@
         "2026-11": 3
       },
       "recent_3m": 10,
+      "last_used_month": "2026-11",
+      "status": "active"
+    },
+    "writing-conclusion-first-briefs": {
+      "monthly": {
+        "2026-06": 0,
+        "2026-07": 0,
+        "2026-08": 1,
+        "2026-09": 3,
+        "2026-10": 3,
+        "2026-11": 9
+      },
+      "recent_3m": 15,
       "last_used_month": "2026-11",
       "status": "active"
     },
