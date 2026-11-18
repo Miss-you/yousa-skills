@@ -22,6 +22,19 @@ def output_path(root: Path, language: str) -> Path:
     return root / ("README.md" if language == "en" else "README.zh-CN.md")
 
 
+def usage_path(root: Path) -> Path:
+    return root / "docs" / "readme" / "usage.json"
+
+
+def load_usage(repo_root: Path | None = None) -> dict:
+    """Usage stats from scripts/skill_usage_stats.py; empty when not generated yet."""
+    path = usage_path(repo_root or Path.cwd())
+    if not path.is_file():
+        return {}
+    with path.open("r", encoding="utf-8") as handle:
+        return json.load(handle)
+
+
 def load_manifest(repo_root: Path | None = None) -> list[dict]:
     root = repo_root or Path.cwd()
     with manifest_path(root).open("r", encoding="utf-8") as handle:
@@ -92,20 +105,64 @@ def _skill_source_path(entry: dict) -> str:
     return entry["path"].rstrip("/")
 
 
-def _format_skill_rows(language: str, manifest: list[dict]) -> str:
+_STATUS_LABELS = {
+    "en": {"active": "🟢 active", "low": "🟡 low", "inactive": "⚪ inactive"},
+    "zh-CN": {"active": "🟢 活跃", "low": "🟡 低频", "inactive": "⚪ 未使用"},
+}
+
+
+def _format_activity(language: str, stats: dict | None) -> str:
+    if not stats:
+        return "—"
+    count = stats["recent_3m"]
+    label = _STATUS_LABELS[language].get(stats["status"], stats["status"])
+    if language == "en":
+        return f"{count} in 3 mo / {label}"
+    return f"近3月 {count} 次 / {label}"
+
+
+def _format_usage_note(language: str, usage: dict) -> str:
+    window = usage.get("window", {}).get("recent_3m")
+    if not window:
+        if language == "en":
+            return "Activity has not been generated yet; see `scripts/skill_usage_stats.py`."
+        return "活跃度数据尚未生成，见 `scripts/skill_usage_stats.py`。"
+    as_of = usage.get("generated_at", "")
+    if language == "en":
+        return (
+            f"Activity counts the maintainer's own uses in local Claude Code and Codex sessions, "
+            f"{window} (as of {as_of}): 5+ uses is active, 1–4 is low, 0 is inactive, "
+            "and — means no data yet. Older logs are incomplete, so 0 means no recorded use, "
+            "not proof of no use. Refresh monthly with `scripts/skill_usage_stats.py`."
+        )
+    return (
+        f"活跃度统计的是维护者本人在本地 Claude Code 和 Codex 会话里的使用次数，"
+        f"区间 {window.replace(' to ', ' 至 ')}（截至 {as_of}）：≥5 次为活跃，1–4 次为低频，0 次为未使用，— 表示暂无数据。"
+        "更早的日志不完整，0 次只说明没有留下记录，不代表从未用过。每月用 `scripts/skill_usage_stats.py` 刷新一次。"
+    )
+
+
+def _format_skill_rows(language: str, manifest: list[dict], usage: dict | None = None) -> str:
     lines = []
     desc_key = "description_en" if language == "en" else "description_zh"
+    usage_skills = (usage or {}).get("skills", {})
     for entry in manifest:
-        lines.append(f"| [{entry['name']}]({_skill_source_path(entry)}/) | {entry[desc_key]} |")
+        skill_dir = _skill_source_path(entry).rsplit("/", 1)[-1]
+        activity = _format_activity(language, usage_skills.get(skill_dir))
+        lines.append(f"| [{entry['name']}]({_skill_source_path(entry)}/) | {entry[desc_key]} | {activity} |")
     return "\n".join(lines)
 
 
-def render_readme(language: str, manifest: list[dict], repo_root: Path | None = None) -> str:
+def render_readme(
+    language: str, manifest: list[dict], repo_root: Path | None = None, usage: dict | None = None
+) -> str:
     root = repo_root or Path.cwd()
+    usage_data = usage if usage is not None else load_usage(root)
     template = template_path(root, language).read_text(encoding="utf-8")
     rendered = template
     rendered = rendered.replace("{{language_switcher}}", _language_switcher(language))
-    rendered = rendered.replace("{{skills_table}}", _format_skill_rows(language, manifest))
+    rendered = rendered.replace("{{skills_table}}", _format_skill_rows(language, manifest, usage_data))
+    rendered = rendered.replace("{{usage_note}}", _format_usage_note(language, usage_data))
     return rendered.rstrip() + "\n"
 
 

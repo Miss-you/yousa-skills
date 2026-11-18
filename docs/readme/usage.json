@@ -1,0 +1,467 @@
+{
+  "generated_at": "2026-11-18",
+  "window": {
+    "monthly": "2026-06 to 2026-11",
+    "recent_3m": "2026-09 to 2026-11",
+    "note": "Calendar months in UTC+8; 2026-11 is partial, up to 2026-11-18."
+  },
+  "status_rule": "recent_3m >= 5: active; 1-4: low; 0: inactive",
+  "coverage_note": "Counts come from the maintainer's local Claude Code and Codex session logs, so they reflect one person's usage, not installs. Claude Code transcripts exist only from 2026-08 and most older Codex logs were pruned, so months before the recent_3m window are undercounted. Reading a SKILL.md with Claude's Read tool, or a skill typed but never loaded, is not counted. A skill used several times in one turn counts once. 0 means no recorded use, not proof of no use.",
+  "skills": {
+    "auditing-dead-code": {
+      "monthly": {
+        "2026-06": 0,
+        "2026-07": 0,
+        "2026-08": 5,
+        "2026-09": 28,
+        "2026-10": 32,
+        "2026-11": 16
+      },
+      "recent_3m": 76,
+      "last_used_month": "2026-11",
+      "status": "active"
+    },
+    "cdp-page-to-md": {
+      "monthly": {
+        "2026-06": 0,
+        "2026-07": 0,
+        "2026-08": 0,
+        "2026-09": 1,
+        "2026-10": 0,
+        "2026-11": 0
+      },
+      "recent_3m": 1,
+      "last_used_month": "2026-09",
+      "status": "low"
+    },
+    "checking-upstream-before-work": {
+      "monthly": {
+        "2026-06": 0,
+        "2026-07": 0,
+        "2026-08": 6,
+        "2026-09": 54,
+        "2026-10": 39,
+        "2026-11": 29
+      },
+      "recent_3m": 122,
+      "last_used_month": "2026-11",
+      "status": "active"
+    },
+    "claim-verification": {
+      "monthly": {
+        "2026-06": 0,
+        "2026-07": 0,
+        "2026-08": 0,
+        "2026-09": 10,
+        "2026-10": 8,
+        "2026-11": 5
+      },
+      "recent_3m": 23,
+      "last_used_month": "2026-11",
+      "status": "active"
+    },
+    "creating-sourcecode-learning-sops": {
+      "monthly": {
+        "2026-06": 0,
+        "2026-07": 0,
+        "2026-08": 3,
+        "2026-09": 0,
+        "2026-10": 0,
+        "2026-11": 0
+      },
+      "recent_3m": 0,
+      "last_used_month": "2026-08",
+      "status": "inactive"
+    },
+    "deep-research-verifier": {
+      "monthly": {
+        "2026-06": 0,
+        "2026-07": 0,
+        "2026-08": 0,
+        "2026-09": 9,
+        "2026-10": 14,
+        "2026-11": 3
+      },
+      "recent_3m": 26,
+      "last_used_month": "2026-11",
+      "status": "active"
+    },
+    "designing-state-machines": {
+      "monthly": {
+        "2026-06": 0,
+        "2026-07": 0,
+        "2026-08": 2,
+        "2026-09": 0,
+        "2026-10": 0,
+        "2026-11": 0
+      },
+      "recent_3m": 0,
+      "last_used_month": "2026-08",
+      "status": "inactive"
+    },
+    "eacc-chat-daily-distill": {
+      "monthly": {
+        "2026-06": 0,
+        "2026-07": 0,
+        "2026-08": 2,
+        "2026-09": 73,
+        "2026-10": 83,
+        "2026-11": 62
+      },
+      "recent_3m": 218,
+      "last_used_month": "2026-11",
+      "status": "active"
+    },
+    "explaining-completed-work": {
+      "monthly": {
+        "2026-06": 0,
+        "2026-07": 0,
+        "2026-08": 1,
+        "2026-09": 4,
+        "2026-10": 6,
+        "2026-11": 0
+      },
+      "recent_3m": 10,
+      "last_used_month": "2026-10",
+      "status": "active"
+    },
+    "go-3am-debuggable": {
+      "monthly": {
+        "2026-06": 5,
+        "2026-07": 1,
+        "2026-08": 59,
+        "2026-09": 49,
+        "2026-10": 46,
+        "2026-11": 14
+      },
+      "recent_3m": 109,
+      "last_used_month": "2026-11",
+      "status": "active"
+    },
+    "improving-english-prompts": {
+      "monthly": {
+        "2026-06": 0,
+        "2026-07": 10,
+        "2026-08": 0,
+        "2026-09": 0,
+        "2026-10": 0,
+        "2026-11": 0
+      },
+      "recent_3m": 0,
+      "last_used_month": "2026-07",
+      "status": "inactive"
+    },
+    "judging-compounding-value": {
+      "monthly": {
+        "2026-06": 0,
+        "2026-07": 0,
+        "2026-08": 0,
+        "2026-09": 0,
+        "2026-10": 1,
+        "2026-11": 3
+      },
+      "recent_3m": 4,
+      "last_used_month": "2026-11",
+      "status": "low"
+    },
+    "kospi-desktop-dashboard-design": {
+      "monthly": {
+        "2026-06": 0,
+        "2026-07": 0,
+        "2026-08": 0,
+        "2026-09": 0,
+        "2026-10": 0,
+        "2026-11": 0
+      },
+      "recent_3m": 0,
+      "last_used_month": null,
+      "status": "inactive"
+    },
+    "kospi-mobile-web-design": {
+      "monthly": {
+        "2026-06": 0,
+        "2026-07": 0,
+        "2026-08": 0,
+        "2026-09": 0,
+        "2026-10": 0,
+        "2026-11": 0
+      },
+      "recent_3m": 0,
+      "last_used_month": null,
+      "status": "inactive"
+    },
+    "minutes-quality-eval": {
+      "monthly": {
+        "2026-06": 0,
+        "2026-07": 0,
+        "2026-08": 0,
+        "2026-09": 0,
+        "2026-10": 7,
+        "2026-11": 0
+      },
+      "recent_3m": 7,
+      "last_used_month": "2026-10",
+      "status": "active"
+    },
+    "minutes-sensitive-scan": {
+      "monthly": {
+        "2026-06": 0,
+        "2026-07": 0,
+        "2026-08": 0,
+        "2026-09": 1,
+        "2026-10": 10,
+        "2026-11": 2
+      },
+      "recent_3m": 13,
+      "last_used_month": "2026-11",
+      "status": "active"
+    },
+    "monitoring-pr-ai-reviews": {
+      "monthly": {
+        "2026-06": 0,
+        "2026-07": 0,
+        "2026-08": 0,
+        "2026-09": 1,
+        "2026-10": 0,
+        "2026-11": 1
+      },
+      "recent_3m": 2,
+      "last_used_month": "2026-11",
+      "status": "low"
+    },
+    "narrative-truth-audit": {
+      "monthly": {
+        "2026-06": 0,
+        "2026-07": 0,
+        "2026-08": 0,
+        "2026-09": 4,
+        "2026-10": 6,
+        "2026-11": 0
+      },
+      "recent_3m": 10,
+      "last_used_month": "2026-10",
+      "status": "active"
+    },
+    "pr-review-autofix": {
+      "monthly": {
+        "2026-06": 0,
+        "2026-07": 0,
+        "2026-08": 0,
+        "2026-09": 1,
+        "2026-10": 0,
+        "2026-11": 0
+      },
+      "recent_3m": 1,
+      "last_used_month": "2026-09",
+      "status": "low"
+    },
+    "prepare-audio-library": {
+      "monthly": {
+        "2026-06": 0,
+        "2026-07": 0,
+        "2026-08": 0,
+        "2026-09": 1,
+        "2026-10": 0,
+        "2026-11": 4
+      },
+      "recent_3m": 5,
+      "last_used_month": "2026-11",
+      "status": "active"
+    },
+    "python-3am-debuggable": {
+      "monthly": {
+        "2026-06": 0,
+        "2026-07": 0,
+        "2026-08": 2,
+        "2026-09": 0,
+        "2026-10": 0,
+        "2026-11": 0
+      },
+      "recent_3m": 0,
+      "last_used_month": "2026-08",
+      "status": "inactive"
+    },
+    "research-question-framing": {
+      "monthly": {
+        "2026-06": 0,
+        "2026-07": 0,
+        "2026-08": 0,
+        "2026-09": 2,
+        "2026-10": 4,
+        "2026-11": 2
+      },
+      "recent_3m": 8,
+      "last_used_month": "2026-11",
+      "status": "active"
+    },
+    "research-to-knowledge-note": {
+      "monthly": {
+        "2026-06": 0,
+        "2026-07": 0,
+        "2026-08": 0,
+        "2026-09": 0,
+        "2026-10": 0,
+        "2026-11": 0
+      },
+      "recent_3m": 0,
+      "last_used_month": null,
+      "status": "inactive"
+    },
+    "secret-scan": {
+      "monthly": {
+        "2026-06": 0,
+        "2026-07": 0,
+        "2026-08": 66,
+        "2026-09": 65,
+        "2026-10": 56,
+        "2026-11": 60
+      },
+      "recent_3m": 181,
+      "last_used_month": "2026-11",
+      "status": "active"
+    },
+    "social-strategist": {
+      "monthly": {
+        "2026-06": 0,
+        "2026-07": 0,
+        "2026-08": 0,
+        "2026-09": 3,
+        "2026-10": 4,
+        "2026-11": 3
+      },
+      "recent_3m": 10,
+      "last_used_month": "2026-11",
+      "status": "active"
+    },
+    "structural-integrity-scan": {
+      "monthly": {
+        "2026-06": 0,
+        "2026-07": 0,
+        "2026-08": 1,
+        "2026-09": 4,
+        "2026-10": 2,
+        "2026-11": 0
+      },
+      "recent_3m": 6,
+      "last_used_month": "2026-10",
+      "status": "active"
+    },
+    "tmux-dispatch": {
+      "monthly": {
+        "2026-06": 0,
+        "2026-07": 0,
+        "2026-08": 0,
+        "2026-09": 0,
+        "2026-10": 0,
+        "2026-11": 0
+      },
+      "recent_3m": 0,
+      "last_used_month": null,
+      "status": "inactive"
+    },
+    "transcript-to-deep-minutes": {
+      "monthly": {
+        "2026-06": 0,
+        "2026-07": 0,
+        "2026-08": 0,
+        "2026-09": 0,
+        "2026-10": 4,
+        "2026-11": 1
+      },
+      "recent_3m": 5,
+      "last_used_month": "2026-11",
+      "status": "active"
+    },
+    "triaging-github-ai-reviews": {
+      "monthly": {
+        "2026-06": 0,
+        "2026-07": 0,
+        "2026-08": 0,
+        "2026-09": 0,
+        "2026-10": 0,
+        "2026-11": 0
+      },
+      "recent_3m": 0,
+      "last_used_month": null,
+      "status": "inactive"
+    },
+    "two-mirror-examples": {
+      "monthly": {
+        "2026-06": 0,
+        "2026-07": 0,
+        "2026-08": 0,
+        "2026-09": 2,
+        "2026-10": 1,
+        "2026-11": 0
+      },
+      "recent_3m": 3,
+      "last_used_month": "2026-10",
+      "status": "low"
+    },
+    "writing-commit": {
+      "monthly": {
+        "2026-06": 0,
+        "2026-07": 0,
+        "2026-08": 0,
+        "2026-09": 2,
+        "2026-10": 5,
+        "2026-11": 3
+      },
+      "recent_3m": 10,
+      "last_used_month": "2026-11",
+      "status": "active"
+    },
+    "writing-contextual-todos": {
+      "monthly": {
+        "2026-06": 0,
+        "2026-07": 0,
+        "2026-08": 0,
+        "2026-09": 1,
+        "2026-10": 8,
+        "2026-11": 6
+      },
+      "recent_3m": 15,
+      "last_used_month": "2026-11",
+      "status": "active"
+    },
+    "writing-open-source-prs": {
+      "monthly": {
+        "2026-06": 0,
+        "2026-07": 0,
+        "2026-08": 0,
+        "2026-09": 2,
+        "2026-10": 0,
+        "2026-11": 0
+      },
+      "recent_3m": 2,
+      "last_used_month": "2026-09",
+      "status": "low"
+    },
+    "youtube-video-analysis": {
+      "monthly": {
+        "2026-06": 0,
+        "2026-07": 0,
+        "2026-08": 0,
+        "2026-09": 2,
+        "2026-10": 1,
+        "2026-11": 0
+      },
+      "recent_3m": 3,
+      "last_used_month": "2026-10",
+      "status": "low"
+    },
+    "zh-proofreading": {
+      "monthly": {
+        "2026-06": 0,
+        "2026-07": 0,
+        "2026-08": 1,
+        "2026-09": 0,
+        "2026-10": 0,
+        "2026-11": 0
+      },
+      "recent_3m": 0,
+      "last_used_month": "2026-08",
+      "status": "inactive"
+    }
+  }
+}

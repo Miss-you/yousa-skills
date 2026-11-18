@@ -6,9 +6,11 @@ A curated collection of [Claude Code](https://docs.anthropic.com/en/docs/claude-
 
 ## Skills
 
-| Skill | Description |
-|-------|-------------|
+| Skill | Description | Activity |
+|-------|-------------|----------|
 {{skills_table}}
+
+{{usage_note}}
 
 ## Installation
 
@@ -48,4 +50,4 @@ Override target directories with `CLAUDE_SKILLS_DIR`, `CODEX_SKILLS_DIR`, or `TR
 
 ## Maintenance
 
-To update these pages, edit `docs/readme/skills.json` for skill metadata or the templates in `docs/readme/templates/`, then rerun `python3 scripts/render_readmes.py`.
+To update these pages, edit `docs/readme/skills.json` for skill metadata or the templates in `docs/readme/templates/`, then rerun `python3 scripts/render_readmes.py`. To refresh the Activity column, first run `python3 scripts/skill_usage_stats.py --emit-repo-usage docs/readme/usage.json` (monthly is enough).
