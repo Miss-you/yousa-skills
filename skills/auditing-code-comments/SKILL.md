@@ -36,9 +36,11 @@ description: 对一次已完成的改动做「注释减法审查」——只看�
 
 ### 1. 跑脚本拿线索
 
+在被审仓库的根目录下运行，脚本路径指向本 skill 的安装位置（下面以 `~/.claude/skills/` 为例）：
+
 ```bash
-python3 scripts/comment_audit.py          # 自动取 git diff + 未跟踪文件
-python3 scripts/comment_audit.py FILE...  # 或指定文件
+python3 ~/.claude/skills/auditing-code-comments/scripts/comment_audit.py          # 自动取 git diff + 未跟踪文件
+python3 ~/.claude/skills/auditing-code-comments/scripts/comment_audit.py FILE...  # 或指定文件
 ```
 
 输出三块，都是**线索不是判决**：

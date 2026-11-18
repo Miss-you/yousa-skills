@@ -23,15 +23,21 @@ LINE_COMMENT = {
 LONG_BLOCK = 4
 
 
-def sh(*args):
-    return subprocess.run(args, capture_output=True, text=True).stdout.split()
+def git_paths(*args):
+    """跑 git 子命令（需带 -z），按 NUL 切分路径，保住含空格或非 ASCII 的文件名。"""
+    out = subprocess.run(("git",) + args, capture_output=True, text=True).stdout
+    return [p for p in out.split("\0") if p]
+
+
+def auditable(path):
+    return os.path.splitext(path)[1] in LINE_COMMENT and os.path.isfile(path)
 
 
 def changed_files():
-    out = set(sh("git", "diff", "--name-only"))
-    out |= set(sh("git", "diff", "--cached", "--name-only"))
-    out |= set(sh("git", "ls-files", "-o", "--exclude-standard"))
-    return sorted(f for f in out if os.path.splitext(f)[1] in LINE_COMMENT and os.path.exists(f))
+    out = set(git_paths("diff", "--name-only", "-z"))
+    out |= set(git_paths("diff", "--cached", "--name-only", "-z"))
+    out |= set(git_paths("ls-files", "-o", "--exclude-standard", "-z"))
+    return sorted(f for f in out if auditable(f))
 
 
 def scan(path):
@@ -74,7 +80,7 @@ def baseline(exts, exclude):
     拿测试去比非测试基线会得出「哪都超标」的假结论。
     """
     per = defaultdict(lambda: [0, 0])
-    for f in sh("git", "ls-files"):
+    for f in git_paths("ls-files", "-z"):
         ext = os.path.splitext(f)[1]
         if ext not in exts or f in exclude or not os.path.exists(f):
             continue
@@ -108,10 +114,11 @@ def stale_refs(paths):
                 found[w].add(f"{p}:{i}")
     stale = {}
     for w, locs in found.items():
-        hits = subprocess.run(["git", "grep", "-lw", w], capture_output=True, text=True).stdout.split()
+        hits = git_paths("grep", "-lwz", w)
         cited_in = {l.rsplit(":", 1)[0] for l in locs}
-        if any(h not in cited_in for h in hits):
-            continue  # 别处代码里有，不算失效
+        # 别的文件只在注释或文档里提到不算数，得出现在代码行里才说明符号还活着
+        if any(h not in cited_in and auditable(h) and _in_code(w, h) for h in hits):
+            continue
         if any(_in_code(w, f) for f in cited_in):
             continue  # 就在本文件的代码里
         stale[w] = sorted(locs)
@@ -130,7 +137,7 @@ def _in_code(word, path):
 
 
 def main():
-    files = [f for f in (sys.argv[1:] or changed_files()) if os.path.exists(f)]
+    files = [f for f in sys.argv[1:] if auditable(f)] if sys.argv[1:] else changed_files()
     if not files:
         print("没有可审的文件")
         return

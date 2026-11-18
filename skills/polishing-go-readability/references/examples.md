@@ -26,12 +26,15 @@ if _, err = fmt.Sscanf(val, "%d,%d", &up, &down); err == nil && up+down > 0 {  /
 return fallbackItemVoteCnt(itemID, int32(len(voters)))
 ```
 
-**After**：三步直线；解析收进一个返回 `(up, down, ok)` 的 helper，调用方不知道值的格式和 0,0 约定。
+**After**：三步直线；解析收进一个返回 `(up, down, ok)` 的 helper，调用方不知道值的格式和 0,0 约定。行为和 Before 完全一致：GET 失败才现算并回写；GET 成功但值无效（格式不对或 0,0）直接给保底，不现算、不回写。
 
 ```go
-// 1. 读缓存
-if up, down, ok := loadItemVoteCache(ctx, key); ok {
-    return up, down
+// 1. 读缓存：命中但值无效时直接给保底，和现算失败的保底不是一回事（见 E3）
+if val, err := rdb.Get(ctx, key).Result(); err == nil {
+    if up, down, ok := parseItemVoteCnt(val); ok {
+        return up, down
+    }
+    return fallbackItemVoteCnt(itemID, int32(len(voters)))
 }
 // 2. 现算；查不到就给保底值
 up, down, err := countItemVotes(ctx, voters)
@@ -47,9 +50,11 @@ return up, down
 ```
 
 ```go
-// loadItemVoteCache 读缓存，值格式 "赞数,踩数"；未命中、格式不对、或 0,0 都按未命中处理
-func loadItemVoteCache(ctx context.Context, key string) (up, down int32, ok bool)
+// parseItemVoteCnt 解析缓存值 "赞数,踩数"；格式不对或 0,0 返回 ok=false
+func parseItemVoteCnt(val string) (up, down int32, ok bool)
 ```
+
+拆路径时最容易顺手把「命中但无效」并进「未命中」，读起来更整齐，却多了一次现算和回写。这就是行为改动，可读性 pass 里不能做。
 
 汇报口径：「读者原来要分别推两条路径的 `val` 来源 → 现在主函数只有三步，格式细节在 helper 里」。
 
