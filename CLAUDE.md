@@ -36,6 +36,8 @@ When adding or updating a skill:
 3. Run `python3 scripts/render_readmes.py`
 4. Verify both `README.md` and `README.zh-CN.md` were regenerated cleanly
 
+The README "Activity" column comes from `docs/readme/usage.json`. Refresh it about once a month, and after new skills land, by running `python3 scripts/skill_usage_stats.py --emit-repo-usage docs/readme/usage.json` and then `python3 scripts/render_readmes.py`. It reads the maintainer's local Claude Code and Codex logs; see `docs/skill-usage-stats.md`.
+
 ### Git Workflow
 
 - Use feature branches: `feat/add-<skill-name>`

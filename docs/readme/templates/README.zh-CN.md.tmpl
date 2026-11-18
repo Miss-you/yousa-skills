@@ -6,9 +6,11 @@
 
 ## 技能
 
-| 技能 | 说明 |
-|------|------|
+| 技能 | 说明 | 活跃度 |
+|------|------|--------|
 {{skills_table}}
+
+{{usage_note}}
 
 ## 安装
 
@@ -48,4 +50,4 @@ cd yousa-skills
 
 ## 维护
 
-更新这些页面时，技能元数据请修改 `docs/readme/skills.json`，页面文案或结构请修改 `docs/readme/templates/` 下的模板，然后重新运行 `python3 scripts/render_readmes.py`。
+更新这些页面时，技能元数据请修改 `docs/readme/skills.json`，页面文案或结构请修改 `docs/readme/templates/` 下的模板，然后重新运行 `python3 scripts/render_readmes.py`。刷新「活跃度」列时，先运行 `python3 scripts/skill_usage_stats.py --emit-repo-usage docs/readme/usage.json`（每月一次即可）。

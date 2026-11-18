@@ -148,6 +148,26 @@ class RenderReadmesTest(unittest.TestCase):
         self.assertNotIn("cp -r yousa-skills/", english)
         self.assertIn("./install.sh", english)
 
+    def test_render_readme_shows_activity_and_dash_for_missing_usage(self):
+        manifest = [
+            {"name": "alpha", "path": "skills/alpha", "description_en": "A.", "description_zh": "甲。"},
+            {"name": "beta", "path": "skills/beta", "description_en": "B.", "description_zh": "乙。"},
+        ]
+        usage = {
+            "generated_at": "2026-11-18",
+            "window": {"recent_3m": "2026-09 to 2026-11"},
+            "skills": {"alpha": {"recent_3m": 3, "status": "low"}},
+        }
+
+        english = render_readme("en", manifest, repo_root=Path("."), usage=usage)
+        chinese = render_readme("zh-CN", manifest, repo_root=Path("."), usage=usage)
+
+        self.assertIn("| A. | 3 in 3 mo / 🟡 low |", english)
+        self.assertIn("| B. | — |", english)
+        self.assertIn("| 甲。 | 近3月 3 次 / 🟡 低频 |", chinese)
+        self.assertIn("| 乙。 | — |", chinese)
+        self.assertIn("2026-09 至 2026-11", chinese)
+
     def test_render_readmes_includes_every_manifest_skill(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             repo_root = Path(tmpdir)
