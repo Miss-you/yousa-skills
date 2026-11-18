@@ -38,13 +38,13 @@ def collect_diff(root):
     top = run(["git", "rev-parse", "--show-toplevel"], root).strip()
     if not top:
         sys.exit("不是 git / svn 工作区，请用 --diff-file 传入补丁")
-    untracked = run(["git", "ls-files", "--others", "--exclude-standard"], root).split()
-    return run(["git", "diff", "HEAD"], root), untracked, "git"
+    untracked = [p for p in run(["git", "ls-files", "-z", "--others", "--exclude-standard"], root).split("\0") if p]
+    return run(["git", "-c", "core.quotePath=false", "diff", "HEAD"], root), untracked, "git"
 
 
 def strip_prefix(path):
     """去掉 a/ b/ 以及 diff -ruN 的顶层目录（before/ after/）。"""
-    path = path.split("\t")[0].strip()
+    path = path.split("\t")[0].strip().strip('"')
     if path in ("/dev/null", ""):
         return None
     if path[:2] in ("a/", "b/"):
@@ -52,29 +52,92 @@ def strip_prefix(path):
     return path
 
 
+def git_header_paths(rest):
+    """解析 `diff --git a/X b/Y` 的 X、Y；路径含空格且两侧相同时按对半切。"""
+    half = (len(rest) - 1) // 2
+    if rest[half:half + 1] == " " and rest[2:half] == rest[half + 3:]:
+        return strip_prefix(rest[:half]), strip_prefix(rest[half + 1:])
+    m = re.match(r'("?a/.+?"?) ("?b/.+"?)$', rest)
+    return (strip_prefix(m.group(1)), strip_prefix(m.group(2))) if m else (None, None)
+
+
+def new_entry(old, new, git_header=False):
+    return {"old": old, "new": new, "add": [], "del": [], "sides": [], "hunks": 0, "mod_hunks": 0,
+            "git_header": git_header, "headers_done": False}
+
+
 def parse(diff_text, strip_levels):
+    """按 hunk 头声明的行数消费 hunk 内容，避免把 `--- xxx` 这样的删除行当成文件头。
+
+    git 格式的 `diff --git` 头单独建条目，所以二进制、仅权限、纯重命名这类没有 ---/+++ 的改动也会被清点。
+    """
     files, cur = [], None
+    old_rem = new_rem = 0
     for line in diff_text.splitlines():
-        if line.startswith("--- "):
-            cur = {"old": strip_prefix(line[4:]), "new": None, "add": [], "del": [], "hunks": 0, "mod_hunks": 0}
-            files.append(cur)
-        elif line.startswith("+++ ") and cur is not None and cur["new"] is None:
-            cur["new"] = strip_prefix(line[4:])
-        elif line.startswith("@@") and cur is not None:
-            m = HUNK_RE.match(line)
-            if m and cur["hunks"] == 0:
-                cur["old_empty"] = m.group(1) == "0" and m.group(2) == "0"
-                cur["new_empty"] = m.group(3) == "0" and m.group(4) == "0"
-            cur["hunks"] += 1
-            cur["_hunk_has_del"] = False
-        elif cur is not None and cur["new"] is not None:
-            if line.startswith("+"):
-                cur["add"].append(line[1:])
-            elif line.startswith("-"):
-                cur["del"].append(line[1:])
-                if not cur.get("_hunk_has_del"):
+        if old_rem > 0 or new_rem > 0:
+            if line.startswith("\\"):
+                continue
+            tag, body = line[:1], line[1:]
+            old_side, new_side = cur["sides"][-1]
+            if tag == "+":
+                cur["add"].append(body)
+                new_side.append(body)
+                new_rem -= 1
+            elif tag == "-":
+                cur["del"].append(body)
+                old_side.append(body)
+                old_rem -= 1
+                if not cur["_hunk_has_del"]:
                     cur["mod_hunks"] += 1
                     cur["_hunk_has_del"] = True
+            else:
+                old_side.append(body)
+                new_side.append(body)
+                old_rem -= 1
+                new_rem -= 1
+            continue
+        if line.startswith("diff --git "):
+            old, new = git_header_paths(line[len("diff --git "):])
+            cur = new_entry(old, new, git_header=True)
+            files.append(cur)
+        elif cur is not None and cur["git_header"] and cur["hunks"] == 0 and not cur["headers_done"] \
+                and line.startswith(("new file mode", "deleted file mode", "rename from ", "rename to ",
+                                     "old mode", "new mode", "Binary files", "GIT binary patch")):
+            if line.startswith("new file mode"):
+                cur["old"] = None
+            elif line.startswith("deleted file mode"):
+                cur["new"] = None
+            elif line.startswith("rename from "):
+                cur["old"], cur["renamed"] = line[len("rename from "):], True
+            elif line.startswith("rename to "):
+                cur["new"], cur["renamed"] = line[len("rename to "):], True
+            elif line.startswith(("Binary files", "GIT binary patch")):
+                cur["binary"] = True
+            else:
+                cur["mode"] = True
+        elif line.startswith("--- "):
+            old = strip_prefix(line[4:])
+            if cur is not None and cur["git_header"] and cur["hunks"] == 0 and not cur["headers_done"]:
+                cur["old"] = old
+            else:
+                cur = new_entry(old, None)
+                files.append(cur)
+        elif line.startswith("+++ ") and cur is not None and not cur["headers_done"]:
+            cur["new"] = strip_prefix(line[4:])
+            cur["headers_done"] = True
+        elif line.startswith("@@") and cur is not None:
+            m = HUNK_RE.match(line)
+            if not m:
+                continue
+            if cur["hunks"] == 0:
+                cur["old_empty"] = m.group(1) == "0" and m.group(2) == "0"
+                cur["new_empty"] = m.group(3) == "0" and m.group(4) == "0"
+            old_rem = int(m.group(2)) if m.group(2) is not None else 1
+            new_rem = int(m.group(4)) if m.group(4) is not None else 1
+            cur["hunks"] += 1
+            cur["sides"].append(([], []))
+            cur["headers_done"] = True
+            cur["_hunk_has_del"] = False
     for f in files:
         for key in ("old", "new"):
             if f[key] and strip_levels:
@@ -97,6 +160,42 @@ def owners_for(root, rel_path):
         if os.path.abspath(d) == root or os.path.dirname(d) == d:
             return None, ""
         d = os.path.dirname(d)
+
+
+def codeowners_regex(pattern):
+    """把一条 CODEOWNERS 模式（gitignore 语法子集）转成匹配仓库相对路径的正则。"""
+    dir_only = pattern.endswith("/")
+    anchored = pattern.startswith("/") or "/" in pattern.rstrip("/")
+    p = pattern.strip("/")
+    out, i = [], 0
+    while i < len(p):
+        if p.startswith("**/", i):
+            out.append("(?:.*/)?"); i += 3
+        elif p.startswith("**", i):
+            out.append(".*"); i += 2
+        elif p[i] == "*":
+            out.append("[^/]*"); i += 1
+        elif p[i] == "?":
+            out.append("[^/]"); i += 1
+        else:
+            out.append(re.escape(p[i])); i += 1
+    body = "".join(out)
+    return re.compile(("^" if anchored else "^(?:.*/)?") + body + ("/.*$" if dir_only else "(?:/.*)?$"))
+
+
+def owners_of(owner_file, owner_text, rel_path):
+    """返回适用于 rel_path 的归属文本；CODEOWNERS 取最后一条匹配规则，无匹配返回 None。
+
+    OWNERS / MAINTAINERS 是按目录生效的，整份文件就是该目录的归属。
+    """
+    if os.path.basename(owner_file) != "CODEOWNERS":
+        return owner_text
+    owners = None
+    for raw in owner_text.splitlines():
+        parts = raw.split("#", 1)[0].split()
+        if parts and codeowners_regex(parts[0]).match(rel_path):
+            owners = " ".join(parts[1:])
+    return owners
 
 
 def main():
@@ -130,11 +229,18 @@ def main():
             kind = "删除文件"
         elif f["old"] is None or f.get("old_empty"):
             kind = "新增文件"
+        elif f["hunks"] == 0:
+            what = [w for k, w in (("renamed", "重命名"), ("mode", "权限"), ("binary", "二进制")) if f.get(k)]
+            kind = f"修改·无文本差异（{'/'.join(what) or '元数据'}）"
         elif f["mod_hunks"] == 0:
             kind = "修改·纯追加"
         else:
-            squash = lambda ls: sorted(re.sub(r"\s+", "", x) for x in ls if x.strip())
-            kind = "修改·仅格式" if squash(f["add"]) == squash(f["del"]) else "修改·改了既有行"
+            # 逐块比较含上下文的新旧两侧，只忽略首尾空白和空行、保留行序；换行重排等情况保守地算作改了既有行
+            norm = lambda ls: [x.strip() for x in ls if x.strip()]
+            same = all(norm(old) == norm(new) for old, new in f["sides"])
+            kind = "修改·仅格式" if same else "修改·改了既有行"
+            if f.get("renamed"):
+                kind += "+重命名"
         rows.append((path, kind, len(f["add"]), len(f["del"]), f["mod_hunks"], f["hunks"]))
     for p in untracked:
         rows.append((p, "新增文件(未跟踪)", 0, 0, 0, 0))
@@ -150,15 +256,19 @@ def main():
             flags.append("配置文件")
         owner_file, owner_text = owners_for(root, path)
         if owner_file:
-            mine = any(m and re.search(r"\b" + re.escape(m) + r"\b", owner_text) for m in me)
-            flags.append(f"归属 {owner_file}: {'含当前用户' if mine else '不含当前用户'}")
+            owners = owners_of(owner_file, owner_text, path)
+            if owners is None:
+                flags.append(f"归属 {owner_file}: 无匹配规则")
+            else:
+                mine = any(m and re.search(r"\b" + re.escape(m) + r"\b", owners) for m in me)
+                flags.append(f"归属 {owner_file}: {'含当前用户' if mine else '不含当前用户'}")
         else:
             flags.append("未找到 OWNERS")
         detail = f"+{add}/-{dele}" + (f"，{mod_h}/{hunks} 个块动了既有行" if mod_h else "")
         print(f"- [{kind}] {path}  ({detail})  {'；'.join(flags)}")
 
-    touched = [r for r in rows if "改了既有行" in r[1] or r[1] in ("删除文件", "修改·仅格式")]
-    print(f"\n需要逐块说明授权来源的文件: {len(touched)} 个（动了既有行 / 删除 / 仅格式）")
+    touched = [r for r in rows if "改了既有行" in r[1] or "无文本差异" in r[1] or r[1] in ("删除文件", "修改·仅格式")]
+    print(f"\n需要逐块说明授权来源的文件: {len(touched)} 个（动了既有行 / 删除 / 仅格式 / 无文本差异）")
     print("纯新增与纯追加也要能指到用户原话，但不改变既有行为。")
 
 
