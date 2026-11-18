@@ -274,5 +274,35 @@
     "path": "skills/writing-tech-doc",
     "description_en": "Write Chinese backend technical docs in three passes: content draft, structure assets checked by a bundled lint script, then a style pass that removes AI-sounding prose.",
     "description_zh": "三轮写中文后台技术文档：先写内容，再补结构资产并用自带 lint 脚本检查，最后去 AI 味。"
+  },
+  {
+    "name": "auditing-code-comments",
+    "path": "skills/auditing-code-comments",
+    "description_en": "Run a subtraction-only review of comments on a finished change: delete or shrink comments that restate code, replay design debates, duplicate tests, or reference missing symbols, keeping only the ones that prevent intuitive-but-wrong edits.",
+    "description_zh": "对已完成的改动做「注释减法审查」：删掉或压缩复述代码、记录设计论证、重复测试、引用不存在符号的注释，只保留能防止「照直觉改会出事」的那几处。"
+  },
+  {
+    "name": "polishing-go-readability",
+    "path": "skills/polishing-go-readability",
+    "description_en": "Lower the reading cost of a finished, reviewed Go diff right before commit with a few behavior-preserving readability edits, deferring bugs and performance to a separate list.",
+    "description_zh": "在 Go 改动功能完成、review 通过、提交前，用少量不改行为的可读性调整降低 diff 的阅读成本；bug 和性能问题转到另行处理。"
+  },
+  {
+    "name": "aligning-new-interface-fields",
+    "path": "skills/aligning-new-interface-fields",
+    "description_en": "Before implementing a new or changed interface, reconcile RPC names, route aliases, req/rsp messages, and field names/types against existing protos so new fields follow the conventions already in use.",
+    "description_zh": "新增或变更接口、实现前，先对照既有 proto 核对 RPC 名、路由别名、请求/响应消息和字段名与类型，让新字段沿用已有约定。"
+  },
+  {
+    "name": "constraint-first-proposal",
+    "path": "skills/constraint-first-proposal",
+    "description_en": "Before proposing a technical approach, pin down four decisive constraints (reversibility, project phase, blast radius, which hat) so the proposal isn't reworked round after round.",
+    "description_zh": "出技术方案前先确认四个决定性约束（可逆性、项目阶段、影响半径、站在哪个角色），避免方案因权重没说清而反复返工。"
+  },
+  {
+    "name": "config-switch-review",
+    "path": "skills/config-switch-review",
+    "description_en": "Review new runtime config and feature switches from the operator's point of view: build the realistic switch-combination table, predict behavior from key names alone, then diff against the code to catch hidden mutual exclusion, fully-on defaults, misleading names, and unrollbackable switches.",
+    "description_zh": "从运维视角审查新增的运行时配置和功能开关：列出真实会出现的开关组合，先只凭 key 名预期行为，再和代码对比，找出隐性互斥、缺省即全开、名不副实和无法回滚的开关。"
   }
 ]
