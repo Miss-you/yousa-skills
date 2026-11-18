@@ -50,15 +50,15 @@
 | [deriving-solution-scope](skills/deriving-solution-scope/) | 把问题、目标、事故或模糊方向推导成候选工作项、取舍原则，并经二次评估给出推荐范围。 | 近3月 18 次 / 🟢 活跃 |
 | [writing-conclusion-first-briefs](skills/writing-conclusion-first-briefs/) | 撰写结论先行的 Markdown 调研简报、复盘或决策备忘，先给答案，再给证据、局限和后续验证。 | 近3月 15 次 / 🟢 活跃 |
 | [go-service-risk-review](skills/go-service-risk-review/) | 对已完成的 Go 后端服务改动做轻量上线风险审查，覆盖可观测性、兼容性、性能、隔离和并发。 | 近3月 40 次 / 🟢 活跃 |
-| [smart-commit](skills/smart-commit/) | 基于暂存区改动和可选设计文档生成结构化 commit message，可按仓库约定附带需求单号，确认后提交。 | — |
-| [spec-to-techdoc](skills/spec-to-techdoc/) | 从变更规格（如 OpenSpec）和实际代码生成技术方案文档，同时服务客户端（接口文档）和后台（技术决策、测试清单、配置依赖、待办）。 | — |
-| [tech-validation-doc](skills/tech-validation-doc/) | 把调研笔记、验证结果和核对结论整理成可长期维护的技术方案验证文档，聚焦关键决策、存量约束和分阶段待办。 | — |
-| [writing-tech-doc](skills/writing-tech-doc/) | 三轮写中文后台技术文档：先写内容，再补结构资产并用自带 lint 脚本检查，最后去 AI 味。 | — |
-| [auditing-code-comments](skills/auditing-code-comments/) | 对已完成的改动做「注释减法审查」：删掉或压缩复述代码、记录设计论证、重复测试、引用不存在符号的注释，只保留能防止「照直觉改会出事」的那几处。 | — |
-| [polishing-go-readability](skills/polishing-go-readability/) | 在 Go 改动功能完成、review 通过、提交前，用少量不改行为的可读性调整降低 diff 的阅读成本；bug 和性能问题转到另行处理。 | — |
-| [aligning-new-interface-fields](skills/aligning-new-interface-fields/) | 新增或变更接口、实现前，先对照既有 proto 核对 RPC 名、路由别名、请求/响应消息和字段名与类型，让新字段沿用已有约定。 | — |
-| [constraint-first-proposal](skills/constraint-first-proposal/) | 出技术方案前先确认四个决定性约束（可逆性、项目阶段、影响半径、站在哪个角色），避免方案因权重没说清而反复返工。 | — |
-| [config-switch-review](skills/config-switch-review/) | 从运维视角审查新增的运行时配置和功能开关：列出真实会出现的开关组合，先只凭 key 名预期行为，再和代码对比，找出隐性互斥、缺省即全开、名不副实和无法回滚的开关。 | — |
+| [smart-commit](skills/smart-commit/) | 基于暂存区改动和可选设计文档生成结构化 commit message，可按仓库约定附带需求单号，确认后提交。 | 近3月 237 次 / 🟢 活跃 |
+| [spec-to-techdoc](skills/spec-to-techdoc/) | 从变更规格（如 OpenSpec）和实际代码生成技术方案文档，同时服务客户端（接口文档）和后台（技术决策、测试清单、配置依赖、待办）。 | 近3月 16 次 / 🟢 活跃 |
+| [tech-validation-doc](skills/tech-validation-doc/) | 把调研笔记、验证结果和核对结论整理成可长期维护的技术方案验证文档，聚焦关键决策、存量约束和分阶段待办。 | 近3月 50 次 / 🟢 活跃 |
+| [writing-tech-doc](skills/writing-tech-doc/) | 三轮写中文后台技术文档：先写内容，再补结构资产并用自带 lint 脚本检查，最后去 AI 味。 | 近3月 15 次 / 🟢 活跃 |
+| [auditing-code-comments](skills/auditing-code-comments/) | 对已完成的改动做「注释减法审查」：删掉或压缩复述代码、记录设计论证、重复测试、引用不存在符号的注释，只保留能防止「照直觉改会出事」的那几处。 | 近3月 86 次 / 🟢 活跃 |
+| [polishing-go-readability](skills/polishing-go-readability/) | 在 Go 改动功能完成、review 通过、提交前，用少量不改行为的可读性调整降低 diff 的阅读成本；bug 和性能问题转到另行处理。 | 近3月 53 次 / 🟢 活跃 |
+| [aligning-new-interface-fields](skills/aligning-new-interface-fields/) | 新增或变更接口、实现前，先对照既有 proto 核对 RPC 名、路由别名、请求/响应消息和字段名与类型，让新字段沿用已有约定。 | 近3月 26 次 / 🟢 活跃 |
+| [constraint-first-proposal](skills/constraint-first-proposal/) | 出技术方案前先确认四个决定性约束（可逆性、项目阶段、影响半径、站在哪个角色），避免方案因权重没说清而反复返工。 | 近3月 23 次 / 🟢 活跃 |
+| [config-switch-review](skills/config-switch-review/) | 从运维视角审查新增的运行时配置和功能开关：列出真实会出现的开关组合，先只凭 key 名预期行为，再和代码对比，找出隐性互斥、缺省即全开、名不副实和无法回滚的开关。 | 近3月 19 次 / 🟢 活跃 |
 
 活跃度统计的是维护者本人在本地 Claude Code 和 Codex 会话里的使用次数，区间 2026-09 至 2026-11（截至 2026-11-18）：≥5 次为活跃，1–4 次为低频，0 次为未使用，— 表示暂无数据。更早的日志不完整，0 次只说明没有留下记录，不代表从未用过。每月用 `scripts/skill_usage_stats.py` 刷新一次。
 
