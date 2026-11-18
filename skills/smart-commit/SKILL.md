@@ -1,6 +1,7 @@
 ---
 name: smart-commit
-description: Use when the user wants to commit code in any git repository and get a well-structured commit message generated from the staged/working-tree diff, optionally with a ticket reference (e.g. `[ABC-123]` or a `Refs: #123` footer) and an optional design doc whose technical approach should be summarized. Analyzes the changes, drafts the message, asks for confirmation, then runs git commit. 触发词：commit、提交、git commit、生成 commit log、代码提交、写提交信息。For the codetok repository, use writing-commit instead.
+description: >-
+  Use when the user wants to commit code in any git repository and get a well-structured commit message generated from the staged/working-tree diff, optionally with a ticket reference (e.g. `[ABC-123]` or a `Refs: #123` footer) and an optional design doc whose technical approach should be summarized. Analyzes the changes, drafts the message, asks for confirmation, then runs git commit. 触发词：commit、提交、git commit、生成 commit log、代码提交、写提交信息。For the codetok repository, use writing-commit instead.
 ---
 
 # Smart Commit
@@ -115,7 +116,7 @@ git diff --cached        # 暂存区为空时改看 git diff
 
 ### Step 6: 确认
 
-展示生成的 commit message 和将要提交的文件列表（`git diff --cached --name-only`），然后用 `AskUserQuestion` 询问（用户指定 `--yes` / `--no-confirm` 时跳过）：
+展示生成的 commit message 和**完整的待提交文件列表**：已暂存的文件（`git diff --cached --name-only`）加上 Step 7 将要 `git add` 的文件，分两组标明。然后用 `AskUserQuestion` 询问（用户指定 `--yes` / `--no-confirm` 时跳过）：
 
 - 确认提交
 - 修改 commit message
@@ -124,6 +125,7 @@ git diff --cached        # 暂存区为空时改看 git diff
 ### Step 7: 提交
 
 1. 如需暂存，只 `git add <明确的文件路径>`，不要 `git add .` / `git add -A`
+   暂存后核对 `git diff --cached --name-only` 与 Step 6 用户确认的列表一致；不一致就回到 Step 6 重新确认
 2. 运行 `secret-scan` skill 检查待提交内容；有发现就停下，先处理敏感信息
 3. 用带单引号的 heredoc 提交，避免 shell 变量替换和特殊字符问题：
 
