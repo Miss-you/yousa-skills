@@ -30,11 +30,13 @@ which yt-dlp || brew install yt-dlp        # 字幕抓取
 python3 --version                          # 内置 re/pathlib 即可
 ```
 
-可选（字幕不存在时的兜底）：
+可选（字幕不存在时的兜底转写）：
 ```bash
-which whisper || pip install -U openai-whisper
+which uv || brew install uv                # 转写脚本用 uv 自带依赖运行，不污染系统 Python
 which ffmpeg || brew install ffmpeg
 ```
+
+**转写默认配置（固定，不要每次重选）**：faster-whisper + `medium` 模型 + `int8` 量化，入口是本 skill 的 `scripts/transcribe.py`（下文 `$SKILL_DIR` 指本 skill 所在目录，即 SKILL.md 的父目录）。推理速度优先；模型首次下载后固定读 `~/.cache/huggingface/hub` 本地缓存。只有用户明确指定时才换模型/精度，**不要退回原版 openai-whisper**（同一台 M1 上 13 分钟音频要跑约 30 分钟）。
 
 ## Directory Convention（MANDATORY）
 
@@ -74,7 +76,7 @@ echo "Workspace ready: $WS"
 
 ### Step 1 — 提取字幕（Extract）
 
-**优先级**：官方/自动字幕 > Whisper 转写
+**优先级**：官方/自动字幕 > faster-whisper 转写
 
 ```bash
 # $WS 来自 Step 0
@@ -116,14 +118,16 @@ out.write_text(text, encoding='utf-8')
 print(f'chars={len(text)} -> {out}')
 ```
 
-**Whisper 兜底**（仅当 yt-dlp 拿不到任何字幕时启用，所有产物落 workspace）：
+**转写兜底**（仅当 yt-dlp 拿不到任何字幕时启用，所有产物落 workspace）：
 ```bash
 yt-dlp -x --audio-format mp3 -o "$WS/raw/%(id)s.%(ext)s" "$URL" \
   2>> "$WS/logs/$VID.dl.log"
-whisper "$WS/raw/$VID.mp3" --language zh --model medium \
-  --output_dir "$WS/transcript" --output_format txt \
-  2> "$WS/logs/$VID.whisper.log"
+# 音频下载报 HTTP 403 时，加 --extractor-args "youtube:player_client=mweb" 重试
+uv run "$SKILL_DIR/scripts/transcribe.py" \
+  "$WS/raw/$VID.mp3" --out-dir "$WS/transcript" \
+  > "$WS/logs/$VID.transcribe.log" 2>&1
 ```
+产物：`$WS/transcript/<videoId>.txt|.srt|.vtt|.json`（json 里带耗时与实时倍率）。转写稿里的专有名词（公司名、术语）常有同音错字，引用前先校对。
 
 ### Step 2 — 结构化总结（Summarize）
 
