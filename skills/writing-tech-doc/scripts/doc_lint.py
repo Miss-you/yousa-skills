@@ -146,11 +146,18 @@ def check_mermaid(lines):
     """mermaid 常见渲染故障。节点标签含括号/冒号/斜杠不加引号会解析失败。"""
     out, i, n = [], 0, len(lines)
     while i < n:
-        m = re.match(r"^(`{3,}|~{3,})\s*mermaid", lines[i].strip())
-        if not m:
+        f = FENCE.match(lines[i].strip())
+        if not f:
             i += 1
             continue
-        opener = m.group(1)
+        opener = f.group(1)
+        if not re.match(r"^(`{3,}|~{3,})\s*mermaid", lines[i].strip()):
+            # 非 mermaid 围栏整块跳过，里面嵌套的 mermaid 示例不算真图
+            i += 1
+            while i < n and not closes_fence(lines[i], opener):
+                i += 1
+            i += 1
+            continue
         start, i, body = i + 1, i + 1, []
         while i < n and not closes_fence(lines[i], opener):
             body.append((i + 1, lines[i]))
